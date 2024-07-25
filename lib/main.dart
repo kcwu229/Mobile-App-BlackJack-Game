@@ -61,7 +61,13 @@ class _MyHomePageState extends State<MyHomePage> {
                           foregroundColor: Colors.white,
                           backgroundColor: Color.fromRGBO(83, 102, 94, 50),
                           minimumSize: const Size.fromHeight(50)),
-                      onPressed: () {},
+                      onPressed: () {
+                        // Navigate to the new page
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => MainPage()),
+                        );
+                      },
                       child: Text(
                         'Start Game',
                         style: TextStyle(fontSize: 25),
