@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_blackjack/pages/mainPage.dart';
 
 void main() {
@@ -11,6 +12,12 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    // 强制横屏
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.landscapeLeft,
+      DeviceOrientation.landscapeRight,
+    ]);
+
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
@@ -64,7 +71,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       onPressed: () {},
                       child: Text(
                         '開始遊戲',
-                        style: TextStyle(fontSize: 25),
+                        style: TextStyle(fontSize: 45),
                       )),
                 )),
 
