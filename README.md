@@ -26,6 +26,6 @@ For this project, I am trying to make some enhancement on the previous experienc
 
 Everything is still in developing....  (I will try my best to do it !!!!)
 
-We are looking forward to your paticipation :)
-![00083-701609891 1](https://github.com/user-attachments/assets/74185447-36e1-4f6b-8c10-6a86b1a70492)
 
+![00083-701609891 1](https://github.com/user-attachments/assets/74185447-36e1-4f6b-8c10-6a86b1a70492)
+<p>We are looking forward to your paticipation :)</p>
