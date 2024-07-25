@@ -69,7 +69,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         );
                       },
                       child: Text(
-                        'Start Game',
+                        '開始遊戲',
                         style: TextStyle(fontSize: 25),
                       )),
                 )),
