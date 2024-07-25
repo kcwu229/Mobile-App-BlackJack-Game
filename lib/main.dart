@@ -46,32 +46,17 @@ class _MyHomePageState extends State<MyHomePage> {
           image: AssetImage("assets/img/loginPage/login_1.jpg"),
           fit: BoxFit.cover,
         )),
-
-        child: Column(
-          children: <Widget>[
-            // row 1, takes height 70%
-            Expanded(flex: 7, child: Container()),
-
-            // row 2, takes height 20%
-            Expanded(
-                flex: 2,
-                child: Container(
-                  child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                          foregroundColor: Colors.white,
-                          backgroundColor: Color.fromRGBO(83, 102, 94, 50),
-                          minimumSize: const Size.fromHeight(50)),
-                      onPressed: () {},
-                      child: Text(
-                        'Start Game',
-                        style: TextStyle(fontSize: 25),
-                      )),
-                )),
-
-            // row 3, takes height 10%
-            Expanded(flex: 1, child: Container())
-          ],
-        ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          // Navigate to the new page
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => MainPage()),
+          );
+        },
+        tooltip: 'Set the flag to enter the main page',
+        child: const Icon(Icons.add),
       ),
     );
   }
