@@ -25,3 +25,7 @@ For this project, I am trying to make some enhancement on the previous experienc
 <p>We provide the quick game for black jack and other functions, like changing clothes of the characters / changing another characters (I would try to provide characters CV part, if the status of progress is under expectation)  Coming soon !!!!</p>
 
 Everything is still in developing....  (I will try my best to do it !!!!)
+
+We are looking forward to your paticipation :)
+![00083-701609891 1](https://github.com/user-attachments/assets/74185447-36e1-4f6b-8c10-6a86b1a70492)
+
