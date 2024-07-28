@@ -14,13 +14,11 @@ For this project, I am trying to make some enhancement on the previous experienc
 
 
 <p>Here would be the preview of the mobile (still in processing ...)</p>
-
-![Game Title Screen 1](https://github.com/user-attachments/assets/2d85f4a3-1f46-40ee-b5a5-047dbe1f518f)
+<img width="1683" alt="image" src="https://github.com/user-attachments/assets/5d5e798f-6644-4830-8483-044c1bae40a1">
 
 <p>Welcome to the game</p>
+<img width="1684" alt="image" src="https://github.com/user-attachments/assets/3dee884c-7520-4d7b-96a4-25b578d00076">
 
-
-![Simulator Screenshot - iPhone 15 Pro Max - 2024-07-26 at 01 30 04](https://github.com/user-attachments/assets/05cc9f11-bec1-4d7f-93c6-82d0a579ffb5)
 
 <p>We provide the quick game for black jack and other functions, like changing clothes of the characters / changing another characters (I would try to provide characters CV part, if the status of progress is under expectation)  Coming soon !!!!</p>
 
