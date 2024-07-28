@@ -38,13 +38,31 @@ class MainPage extends StatelessWidget {
                             Navigator.of(context).push(MaterialPageRoute(
                                 builder: (context) => QuickGamePage()));
                           },
-                          child: Container(
-                            decoration: const BoxDecoration(
-                                image: DecorationImage(
-                                    image: AssetImage(
-                                        "assets/img/mainPage/startGame.jpg"),
-                                    fit: BoxFit.cover)),
-                          ),
+                          child: Stack(children: [
+                            Container(
+                              decoration: const BoxDecoration(
+                                  image: DecorationImage(
+                                      image: AssetImage(
+                                          "assets/img/mainPage/quickGame.jpg"),
+                                      fit: BoxFit.cover)),
+                            ),
+                            Positioned(
+                                top: 15,
+                                left: 13,
+                                child: Text('快速遊戲',
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 30,
+                                        fontWeight: FontWeight.bold,
+                                        letterSpacing: 5,
+                                        shadows: [
+                                          Shadow(
+                                            offset: Offset(1.3, 1.3),
+                                            blurRadius: 1.0,
+                                            color: Colors.black,
+                                          ),
+                                        ])))
+                          ]),
                         )),
                     Expanded(
                         flex: 2,
@@ -59,13 +77,33 @@ class MainPage extends StatelessWidget {
                                             builder: (context) =>
                                                 SettingPage()));
                                   },
-                                  child: Container(
-                                    decoration: const BoxDecoration(
-                                        image: DecorationImage(
-                                            image: AssetImage(
-                                                'assets/img/mainPage/setting.jpg'),
-                                            fit: BoxFit.cover)),
-                                  ),
+                                  child: Stack(children: [
+                                    Container(
+                                      decoration: const BoxDecoration(
+                                          image: DecorationImage(
+                                              image: AssetImage(
+                                                  'assets/img/mainPage/setting.jpg'),
+                                              fit: BoxFit.cover)),
+                                    ),
+                                    Positioned(
+                                        top: 15,
+                                        left: 13,
+                                        child: Text(
+                                          '設定',
+                                          style: TextStyle(
+                                              fontSize: 25,
+                                              fontWeight: FontWeight.bold,
+                                              letterSpacing: 5,
+                                              color: Colors.white,
+                                              shadows: [
+                                                Shadow(
+                                                  offset: Offset(1.3, 1.3),
+                                                  blurRadius: 1.0,
+                                                  color: Colors.black,
+                                                ),
+                                              ]),
+                                        ))
+                                  ]),
                                 )),
                             Expanded(
                                 flex: 5,
@@ -76,13 +114,33 @@ class MainPage extends StatelessWidget {
                                             builder: (context) =>
                                                 SettingPage()));
                                   },
-                                  child: Container(
-                                    decoration: const BoxDecoration(
-                                        image: DecorationImage(
-                                            image: AssetImage(
-                                                'assets/img/mainPage/change_1.jpg'),
-                                            fit: BoxFit.cover)),
-                                  ),
+                                  child: Stack(children: [
+                                    Container(
+                                      decoration: const BoxDecoration(
+                                          image: DecorationImage(
+                                              image: AssetImage(
+                                                  'assets/img/mainPage/change.jpg'),
+                                              fit: BoxFit.cover)),
+                                    ),
+                                    Positioned(
+                                        top: 15,
+                                        left: 13,
+                                        child: Text(
+                                          '換裝',
+                                          style: TextStyle(
+                                              fontSize: 25,
+                                              fontWeight: FontWeight.bold,
+                                              letterSpacing: 5,
+                                              color: Colors.white,
+                                              shadows: [
+                                                Shadow(
+                                                  offset: Offset(1.3, 1.3),
+                                                  blurRadius: 1.0,
+                                                  color: Colors.black,
+                                                ),
+                                              ]),
+                                        ))
+                                  ]),
                                 ))
                           ],
                         )),
