@@ -1,3 +1,4 @@
+import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_blackjack/pages/mainPage.dart';
@@ -63,6 +64,27 @@ class _MyHomePageState extends State<MyHomePage> {
             Expanded(
                 flex: 2,
                 child: Container(
+                    child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    foregroundColor: Colors.white,
+                    backgroundColor: Color.fromRGBO(83, 102, 94, 50),
+                    minimumSize: const Size.fromHeight(50),
+                  ),
+                  onPressed: () {
+                    // Navigate to the new page
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => MainPage()),
+                    );
+                  },
+                  child: DefaultTextStyle(
+                      style: TextStyle(
+                        fontSize: 40,
+                        fontWeight: FontWeight.bold,
+                      ),
+                      child: AnimatedTextKit(
+                        animatedTexts: [FadeAnimatedText('開始遊戲')],
+                        repeatForever: true,
                   child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
                           foregroundColor: Colors.white,
@@ -73,8 +95,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         '開始遊戲',
                         style: TextStyle(fontSize: 45),
                       )),
-                )),
-
+                ))),
             // row 3, takes height 10%
             Expanded(flex: 1, child: Container())
           ],
