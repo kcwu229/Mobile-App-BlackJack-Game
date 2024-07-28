@@ -1,6 +1,8 @@
 # Mobile-App---Black-Jack-Game (still on progress)
 
-Recently, I am now trying to update my previous projects with newy learnt techniques. At the same time, I am interested in developing an mobile application. Hence, I try to combine them together, and create this project.
+
+![00083-701609891 1](https://github.com/user-attachments/assets/74185447-36e1-4f6b-8c10-6a86b1a70492)
+<p>Recently, I am now trying to update my previous projects with newy learnt techniques. At the same time, I am interested in developing an mobile application. Hence, I try to combine them together, and create this project.</p>
 
 For this project, I am trying to make some enhancement on the previous experience I learnt from blackjack_telegram-bot (https://github.com/kcwu229/blackjack_telegram-bot), and trying to optimate the interaction on user and the program, and also the visualization as well.
 
@@ -25,5 +27,4 @@ For this project, I am trying to make some enhancement on the previous experienc
 Everything is still in developing....  (I will try my best to do it !!!!)
 
 
-![00083-701609891 1](https://github.com/user-attachments/assets/74185447-36e1-4f6b-8c10-6a86b1a70492)
 <p>We are looking forward to your paticipation :)</p>
