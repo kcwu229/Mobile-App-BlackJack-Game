@@ -85,15 +85,6 @@ class _MyHomePageState extends State<MyHomePage> {
                       child: AnimatedTextKit(
                         animatedTexts: [FadeAnimatedText('開始遊戲')],
                         repeatForever: true,
-                  child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                          foregroundColor: Colors.white,
-                          backgroundColor: Color.fromRGBO(83, 102, 94, 50),
-                          minimumSize: const Size.fromHeight(50)),
-                      onPressed: () {},
-                      child: Text(
-                        '開始遊戲',
-                        style: TextStyle(fontSize: 45),
                       )),
                 ))),
             // row 3, takes height 10%
