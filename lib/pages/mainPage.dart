@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_blackjack/pages/quickPage.dart';
+import 'package:flutter_blackjack/pages/quickGamePage.dart';
 import 'package:flutter_blackjack/pages/settingPage.dart';
 import 'package:flutter_blackjack/pages/dressingPage.dart';
 
