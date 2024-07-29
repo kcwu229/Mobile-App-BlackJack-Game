@@ -6,13 +6,14 @@ class CardBack extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ClipRRect(
-      borderRadius: BorderRadius.circular(12),
+      borderRadius: BorderRadius.circular(0),
       child: Container(
         color: Colors.white,
-        height: 90,
-        width: 60,
+        height: 95,
+        width: 65,
         child: Image.asset(
           'assets/img/pokerCard/deck.jpg',
+          fit: BoxFit.cover,
         ),
       ),
     );

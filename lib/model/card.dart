@@ -1,7 +1,10 @@
+// ignore_for_file: prefer_typing_uninitialized_variables, unused_import
+
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_blackjack/pages/suit.dart';
+import 'package:flutter_blackjack/model/cardBack.dart';
+import 'package:flutter_blackjack/model/suit.dart';
 import 'package:flutter_blackjack/pages/number.dart';
 
 class MyCard extends StatelessWidget {
@@ -9,32 +12,31 @@ class MyCard extends StatelessWidget {
   final suit;
   final color;
   final number;
+  final showBack;
 
-  MyCard({this.suit, this.color, this.number});
+  MyCard({this.suit, this.color, this.number, this.showBack}) {}
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-        padding: EdgeInsets.all(3),
+        padding: const EdgeInsets.all(3),
         child: ClipRRect(
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(0),
           child: Container(
-              padding: EdgeInsets.all(5),
+              padding: const EdgeInsets.all(5),
               color: Colors.white,
               height: 90,
               width: 60,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Row(
-                    children: number,
-                  ),
+                  Row(children: [Text('$number')]),
                   suit,
                   Transform.rotate(
                       angle: pi,
-                      child: Row(
-                        children: number,
-                      ))
+                      child: Row(children: [
+                        Text('$number'),
+                      ]))
                 ],
               )),
         ));
