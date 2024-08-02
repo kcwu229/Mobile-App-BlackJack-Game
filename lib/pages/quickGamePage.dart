@@ -8,7 +8,12 @@ import 'package:flutter_blackjack/model/suit.dart';
 
 // one of the function on mainPage
 // ignore: must_be_immutable
-class QuickGamePage extends StatelessWidget {
+class QuickGamePage extends StatefulWidget {
+  @override
+  _QuickGamePageState createState() => _QuickGamePageState();
+}
+
+class _QuickGamePageState extends State<QuickGamePage> {
   // create the instance
   InitalGameState gs = InitalGameState();
   late Player dealer = gs.getPlayer('dealer');
@@ -16,7 +21,20 @@ class QuickGamePage extends StatelessWidget {
   late Player cpu2 = gs.getPlayer('cpu2');
   late Player player = gs.getPlayer('player');
 
-  // stopped at here
+  void _drawCardFromDeck() {
+    print('button pressed');
+    gs.drawCard(player.inHand, gs.deck);
+    print(player.inHand.length);
+    setState(() {
+      // Update the UI to reflect the new card in the player's hand
+    });
+  }
+
+  List<Widget> dealerHandWidgets(Player player) {
+    return player.inHand
+        .map((card) => MyCard(suit: card.suit, rank: card.rank))
+        .toList();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -46,6 +64,10 @@ class QuickGamePage extends StatelessWidget {
                   )
                 ],
               ),
+              Visibility(
+                  visible: !player.actionEnded,
+                  child: ElevatedButton(
+                      onPressed: _drawCardFromDeck, child: Text('Hit'))),
               // Player's card in hand
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
