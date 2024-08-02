@@ -1,13 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_blackjack/model/card.dart';
 import 'package:flutter_blackjack/model/cardBack.dart';
+import 'package:flutter_blackjack/model/deck.dart';
 import 'package:flutter_blackjack/model/gameLogic.dart';
+import 'package:flutter_blackjack/model/player.dart';
 import 'package:flutter_blackjack/model/suit.dart';
-import 'package:flutter_blackjack/pages/number.dart';
 
 // one of the function on mainPage
+// ignore: must_be_immutable
 class QuickGamePage extends StatelessWidget {
-  GameState gs = GameState();
+  // create the instance
+  InitalGameState gs = InitalGameState();
+  late Player dealer = gs.getPlayer('dealer');
+  late Player cpu1 = gs.getPlayer('cpu1');
+  late Player cpu2 = gs.getPlayer('cpu2');
+  late Player player = gs.getPlayer('player');
 
   // stopped at here
 
@@ -27,15 +34,15 @@ class QuickGamePage extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  MyCard(
-                    suit: diamond(),
-                    number: 20,
-                    showBack: false,
-                  ),
-                  MyCard(
-                    suit: club(),
-                    number: 20,
-                    showBack: false,
+                  for (var card in dealer.inHand)
+                    Container(
+                      child: card,
+                    ),
+                  Offstage(
+                    child: Container(
+                      child: Text('${dealer.score}'),
+                    ),
+                    offstage: !dealer.showScore,
                   )
                 ],
               ),
@@ -44,41 +51,35 @@ class QuickGamePage extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   Row(children: [
-                    MyCard(
-                      suit: heart(),
-                      number: 20,
-                      showBack: false,
-                    ),
-                    MyCard(
-                      suit: heart(),
-                      number: 20,
-                      showBack: true,
-                    ),
+                    for (var card in gs.getPlayer('cpu1').inHand)
+                      Container(child: card)
                   ]),
+                  Offstage(
+                    child: Container(
+                      child: Text('${cpu1.score}'),
+                    ),
+                    offstage: !cpu1.showScore,
+                  ),
                   Row(children: [
-                    MyCard(
-                      suit: heart(),
-                      number: 20,
-                      showBack: true,
-                    ),
-                    MyCard(
-                      suit: heart(),
-                      number: 20,
-                      showBack: true,
-                    ),
+                    for (var card in gs.getPlayer('player').inHand)
+                      Container(child: card)
                   ]),
+                  Offstage(
+                    child: Container(
+                      child: Text('${player.score}'),
+                    ),
+                    offstage: !player.showScore,
+                  ),
                   Row(children: [
-                    MyCard(
-                      suit: heart(),
-                      number: 20,
-                      showBack: true,
-                    ),
-                    MyCard(
-                      suit: heart(),
-                      number: 20,
-                      showBack: true,
-                    )
+                    for (var card in gs.getPlayer('cpu2').inHand)
+                      Container(child: card)
                   ]),
+                  Offstage(
+                    child: Container(
+                      child: Text('${cpu2.score}'),
+                    ),
+                    offstage: !cpu2.showScore,
+                  ),
                 ],
               ),
             ],
