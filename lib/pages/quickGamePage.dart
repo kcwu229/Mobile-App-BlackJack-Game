@@ -22,9 +22,8 @@ class _QuickGamePageState extends State<QuickGamePage> {
   late Player player = gs.getPlayer('player');
 
   void _drawCardFromDeck() {
-    print('button pressed');
-    gs.drawCard(player.inHand, gs.deck);
-    print(player.inHand.length);
+    gs.drawCard(player.inHand, gs.deck, player.score, player);
+    gs.playerEndTurn(player);
     setState(() {
       // Update the UI to reflect the new card in the player's hand
     });
@@ -64,10 +63,18 @@ class _QuickGamePageState extends State<QuickGamePage> {
                   )
                 ],
               ),
-              Visibility(
-                  visible: !player.actionEnded,
-                  child: ElevatedButton(
-                      onPressed: _drawCardFromDeck, child: Text('Hit'))),
+              Row(
+                children: [
+                  Visibility(
+                      visible: !player.actionEnded,
+                      child: ElevatedButton(
+                          onPressed: _drawCardFromDeck, child: Text('Hit'))),
+                  Visibility(
+                      visible: !player.actionEnded,
+                      child: ElevatedButton(
+                          onPressed: _drawCardFromDeck, child: Text('Stand'))),
+                ],
+              ),
               // Player's card in hand
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,

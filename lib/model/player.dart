@@ -4,7 +4,7 @@ import 'package:flutter_blackjack/model/card.dart';
 
 class Player {
   final String name;
-  final bool isHuman;
+  final bool isPlayer;
   List<MyCard> inHand = [];
   int score = 0;
   bool actionEnded = false;
@@ -16,5 +16,5 @@ class Player {
   bool naturalBlackJack = false;
   bool stand = false;
 
-  Player(this.name, this.isHuman);
+  Player(this.name, this.isPlayer);
 }
