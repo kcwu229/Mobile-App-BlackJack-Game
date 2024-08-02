@@ -20,25 +20,58 @@ class InitalGameState {
     players = [
       Player('dealer', false),
       Player('cpu1', false),
-      Player('player', false),
+      Player('player', true),
       Player('cpu2', false)
     ];
 
     // shuffle the card for drawing
     deck.shuffle();
+
+    // Round 1
     for (var player in players) {
       player.inHand.addAll(deck.drawTwoCard());
       player.score = calculation(player.inHand, player.score, player);
     }
+
+    // Round 2 -- not finish yet
+    nextRound() {
+      for (var player in players) {
+        if (player.bust != true || player.stand != true) {
+          player.actionEnded = false;
+        }
+        if (player.isPlayer != true) {
+          if (player.score < 15) {
+            drawCard(player.inHand, deck, player.score, player);
+          } else if (player.isPlayer == true) {
+            Future<void> playerRound(Player player) async {
+              print("Player's turn: ${player.name}");
+              print("Current score: ${player.score}");
+
+              bool? action;
+              do {
+                ///
+              } while (player.actionEnded = false);
+
+              if (action == 'hit') {
+                //
+              } else if (action == 'stand') {
+                //
+              }
+            }
+          }
+        }
+      }
+    }
   }
 
-  void drawCard(List<MyCard> hand, Deck deck) {
+  void drawCard(List<MyCard> cards, Deck deck, int score, Player player) {
     if (deck.length < 1) {
       throw Exception('The deck is empty !');
     }
     // call function from deck instance
     MyCard drawnCard = deck.drawCard();
-    hand.add(drawnCard);
+    cards.add(drawnCard);
+    player.score = calculation(cards, score, player);
   }
 
   Player getPlayer(String name) {
@@ -101,6 +134,10 @@ class InitalGameState {
       }
     }
     return score;
+  }
+
+  playerEndTurn(Player player) {
+    player.actionEnded = true;
   }
 
   //
