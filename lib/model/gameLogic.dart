@@ -32,6 +32,15 @@ class InitalGameState {
     }
   }
 
+  void drawCard(List<MyCard> hand, Deck deck) {
+    if (deck.length < 1) {
+      throw Exception('The deck is empty !');
+    }
+    // call function from deck instance
+    MyCard drawnCard = deck.drawCard();
+    hand.add(drawnCard);
+  }
+
   Player getPlayer(String name) {
     return players.firstWhere((p) => p.name == name,
         orElse: () => throw Exception('No such player !!!'));

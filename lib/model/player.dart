@@ -9,8 +9,10 @@ class Player {
   int score = 0;
   bool actionEnded = false;
   int chip = 500;
-  bool showScore = false;
+
+  bool showScore = true;
   bool bust = false;
+
   bool naturalBlackJack = false;
   bool stand = false;
 

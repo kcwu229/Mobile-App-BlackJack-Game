@@ -45,13 +45,12 @@ class Deck {
   }
 
   // drawing 1 card in later round
-  List<MyCard> drawCard() {
+  MyCard drawCard() {
     if (deck.isEmpty) {
       throw Exception('The deck is empty !');
     }
 
-    List<MyCard> drawnCard = deck.sublist(0, 1);
-    deck.removeRange(0, 1);
+    MyCard drawnCard = deck.removeAt(0);
     return drawnCard;
   }
 }
