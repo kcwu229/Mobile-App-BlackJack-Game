@@ -35,6 +35,7 @@ class MainPage extends StatelessWidget {
                         flex: 3,
                         child: InkWell(
                           onTap: () {
+                            print('fffffffff');
                             Navigator.of(context).push(MaterialPageRoute(
                                 builder: (context) => QuickGamePage()));
                           },

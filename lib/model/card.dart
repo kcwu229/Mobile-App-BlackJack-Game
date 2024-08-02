@@ -10,18 +10,17 @@ import 'package:flutter_blackjack/pages/number.dart';
 class MyCard extends StatelessWidget {
 // Basic setting
   final suit;
-  final color;
   final number;
   final showBack;
 
-  MyCard({this.suit, this.color, this.number, this.showBack}) {}
+  MyCard({this.suit, this.number, this.showBack});
 
   @override
   Widget build(BuildContext context) {
     return Padding(
         padding: const EdgeInsets.all(3),
         child: ClipRRect(
-          borderRadius: BorderRadius.circular(0),
+          borderRadius: BorderRadius.circular(8),
           child: Container(
               padding: const EdgeInsets.all(5),
               color: Colors.white,
@@ -30,7 +29,9 @@ class MyCard extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Row(children: [Text('$number')]),
+                  Row(children: [
+                    Text('$number'),
+                  ]),
                   suit,
                   Transform.rotate(
                       angle: pi,

@@ -1,16 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_blackjack/model/card.dart';
 import 'package:flutter_blackjack/model/cardBack.dart';
+import 'package:flutter_blackjack/model/deck.dart';
 import 'package:flutter_blackjack/model/gameLogic.dart';
 import 'package:flutter_blackjack/model/suit.dart';
 import 'package:flutter_blackjack/pages/number.dart';
 
 // one of the function on mainPage
 class QuickGamePage extends StatelessWidget {
-  GameState gs = GameState();
-
-  // stopped at here
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
