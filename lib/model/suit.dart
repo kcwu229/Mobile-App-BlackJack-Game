@@ -1,29 +1,31 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_blackjack/model/deck.dart';
 
-Widget heart() {
-  return const Text(
-    '❤',
-    style: TextStyle(color: Colors.red, fontSize: 14),
-  );
-}
+dynamic blackColor = Colors.black;
+dynamic redColor = Colors.red;
+double fontSize = 14.0;
 
-Widget club() {
-  return const Text(
-    '♣',
-    style: TextStyle(color: Colors.black, fontSize: 14),
-  );
-}
-
-Widget diamond() {
-  return const Text(
-    '♦',
-    style: TextStyle(color: Colors.red, fontSize: 14),
-  );
-}
-
-Widget spade() {
-  return const Text(
+Map<String, dynamic> suitPattern = {
+  'spade': [
     '♠',
-    style: TextStyle(color: Colors.black, fontSize: 14),
-  );
+    [blackColor, fontSize]
+  ],
+  'heart': [
+    '❤',
+    [redColor, fontSize]
+  ],
+  'club': [
+    '♣',
+    [blackColor, fontSize]
+  ],
+  'diamond': [
+    '♦',
+    [redColor, fontSize]
+  ]
+};
+
+Widget suitMap(suit) {
+  return Text(suitPattern[suit][0],
+      style: TextStyle(
+          color: suitPattern[suit][1][0], fontSize: suitPattern[suit][1][1]));
 }

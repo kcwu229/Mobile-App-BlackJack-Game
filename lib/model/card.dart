@@ -4,16 +4,17 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_blackjack/model/cardBack.dart';
+import 'package:flutter_blackjack/model/deck.dart';
 import 'package:flutter_blackjack/model/suit.dart';
 import 'package:flutter_blackjack/pages/number.dart';
 
 class MyCard extends StatelessWidget {
 // Basic setting
   final suit;
-  final number;
+  final rank;
   final showBack;
 
-  MyCard({this.suit, this.number, this.showBack});
+  MyCard({this.suit, this.rank, this.showBack});
 
   @override
   Widget build(BuildContext context) {
@@ -30,13 +31,13 @@ class MyCard extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Row(children: [
-                    Text('$number'),
+                    Text('$rank'),
                   ]),
-                  suit,
+                  suitMap(suit),
                   Transform.rotate(
                       angle: pi,
                       child: Row(children: [
-                        Text('$number'),
+                        Text('$rank'),
                       ]))
                 ],
               )),
