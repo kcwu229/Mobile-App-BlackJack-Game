@@ -15,6 +15,8 @@ For this project, I am trying to make some enhancement on the previous experienc
 <p>Also, I use the AI generative tool -- stable difussion, to help create the image for the application, to durther speed up the development cycle.</p>
 
 
+![Simulator Screenshot - iPhone 15 Pro Max - 2024-08-06 at 21 55 37](https://github.com/user-attachments/assets/c2b8782e-170e-4eac-a9ca-ca17ee04eeac)
+
 <p>Here would be the preview of the mobile (still in processing ...)</p>
 <img width="1683" alt="image" src="https://github.com/user-attachments/assets/5d5e798f-6644-4830-8483-044c1bae40a1">
 
@@ -23,6 +25,9 @@ For this project, I am trying to make some enhancement on the previous experienc
 
 
 <p>We provide the quick game for black jack and other functions, like changing clothes of the characters / changing another characters (I would try to provide characters CV part, if the status of progress is under expectation)  Coming soon !!!!</p>
+
+![Simulator Screenshot - iPhone 15 Pro Max - 2024-08-06 at 21 56 19](https://github.com/user-attachments/assets/b9114b2a-c817-4721-b3bb-6047fbc394cc)
+
 
 Everything is still in developing....  (I will try my best to do it !!!!)
 
