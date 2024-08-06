@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:ffi';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -7,7 +8,7 @@ import 'package:flutter_blackjack/model/cardBack.dart';
 import 'package:flutter_blackjack/model/deck.dart';
 import 'package:flutter_blackjack/model/gameLogic.dart';
 import 'package:flutter_blackjack/model/player.dart';
-import 'package:flutter_blackjack/model/playerIcon.dart';
+import 'package:flutter_blackjack/model/score.dart';
 import 'package:flutter_blackjack/model/suit.dart';
 
 // one of the function on mainPage
@@ -23,6 +24,7 @@ class _QuickGamePageState extends State<QuickGamePage> {
   bool playerResponsed = false;
   Completer<void> completer = Completer<void>();
   bool playerTurn = false;
+  String status = '';
 
   @override
   void initState() {
@@ -116,119 +118,116 @@ class _QuickGamePageState extends State<QuickGamePage> {
   Widget build(BuildContext context) {
     return Scaffold(
         body: Container(
+      alignment: Alignment.center,
       width: MediaQuery.of(context).size.width,
-      decoration: const BoxDecoration(color: Colors.green),
+      decoration: const BoxDecoration(color: Color.fromARGB(255, 76, 135, 78)),
       child: Center(
-        child: Container(
+        child: SizedBox(
           width: MediaQuery.of(context).size.width,
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               // Dealer's card in hand
+              Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                Column(children: [
+                  Column(children: [
+                    displayStatus(dealer.hasStand, 'Stand'),
+                    displayCard(dealer.inHand),
+                  ]),
+                ])
+              ]),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  for (var card in dealer.inHand)
-                    Container(
-                      child: card,
+                  IgnorePointer(
+                    ignoring: !((playerResponsed == false) &&
+                        (player.hasStand == false) &&
+                        (player.isBust == false) &&
+                        (player.gotNaturalBlackJack == false) &&
+                        (playerTurn == true)),
+                    child: Opacity(
+                      opacity: ((playerResponsed == false) &&
+                              (player.hasStand == false) &&
+                              (player.isBust == false) &&
+                              (player.gotNaturalBlackJack == false) &&
+                              (playerTurn == true))
+                          ? 1.0
+                          : 0.0,
+                      child: Row(
+                        children: [
+                          Positioned(
+                              left: 0,
+                              child: ElevatedButton(
+                                onPressed: () async {
+                                  setState(() {
+                                    playerResponsed = true;
+                                    hit();
+                                    completer.isCompleted;
+                                  });
+                                  await completer.future;
+                                  setState(() {
+                                    playerResponsed = false;
+                                    completer = Completer<void>();
+                                  });
+                                },
+                                child: const Text('Hit'),
+                              )),
+                          Positioned(
+                              left: 0,
+                              child: ElevatedButton(
+                                onPressed: () async {
+                                  setState(() {
+                                    playerResponsed = true;
+                                    stand();
+                                    completer.isCompleted;
+                                  });
+                                  await completer.future;
+                                  setState(() {
+                                    playerResponsed = false;
+                                    completer = Completer<void>();
+                                  });
+                                },
+                                child: const Text('Stand'),
+                              )),
+                        ],
+                      ),
                     ),
-                  Offstage(
-                    child: Container(
-                      child: Text('${dealer.score}'),
-                    ),
-                    offstage: !dealer.showScore,
                   )
                 ],
               ),
-
-              // Player's card in hand
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  Row(children: [
-                    for (var card in gs.getPlayer('cpu1').inHand)
-                      Container(child: card)
-                  ]),
-                  /*Offstage(
-                    child: Container(
-                      child: Text('${cpu1.score}'),
-                    ),
-                    offstage: !cpu1.showScore,
-                  ),*/
-                  Row(children: [
-                    for (var card in gs.getPlayer('player').inHand)
-                      Container(child: card)
-                  ]),
-                  /*Offstage(
-                    child: Container(
-                      child: Text('${player.score}'),
-                    ),
-                    offstage: !player.showScore,
-                  ),*/
-                  Row(children: [
-                    for (var card in gs.getPlayer('cpu2').inHand)
-                      Container(child: card)
-                  ]),
-                  /*
-                  Offstage(
-                    child: Container(
-                      child: Text('${cpu2.score}'),
-                    ),
-                    offstage: !cpu2.showScore,
-                  ),*/
-                ],
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  playerIcon(),
-                  playerIcon(),
-                  playerIcon(),
-                ],
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Visibility(
-                      visible: ((playerResponsed == false) &&
-                          (player.hasStand == false) &&
-                          (player.isBust == false) &&
-                          (player.gotNaturalBlackJack == false) &&
-                          (playerTurn == true)),
-                      child: ElevatedButton(
-                          onPressed: () async {
-                            setState(() {
-                              playerResponsed = true;
-                              hit();
-                              completer.isCompleted;
-                            });
-                            await completer.future;
-                            setState(() {
-                              playerResponsed = false;
-                              completer = Completer<void>();
-                            });
-                          },
-                          child: Text('Hit'))),
-                  Visibility(
-                      visible: ((playerResponsed == false) &&
-                          (player.hasStand == false) &&
-                          (player.isBust == false) &&
-                          (player.gotNaturalBlackJack == false) &&
-                          (playerTurn == true)),
-                      child: ElevatedButton(
-                          onPressed: () async {
-                            setState(() {
-                              playerResponsed = true;
-                              stand();
-                              completer.isCompleted;
-                            });
-                            await completer.future;
-                            setState(() {
-                              playerResponsed = false;
-                              completer = Completer<void>();
-                            });
-                          },
-                          child: Text('Stand'))),
+                  Transform(
+                      transform: Matrix4.identity()..translate(0.0, -35.0, 0.0),
+                      child: Column(children: [
+                        Row(children: [
+                          displayIcon(cpu1.name),
+                          displayStatus(cpu1.hasStand, 'Stand'),
+                        ]),
+                        displayCard(cpu1.inHand),
+                      ])),
+                  showScore(cpu1.score, cpu1.showScore),
+                  Transform(
+                      transform: Matrix4.identity()..translate(0.0, 0.0, 0.0),
+                      child: Column(children: [
+                        Row(children: [
+                          displayIcon(player.name),
+                          displayStatus(player.hasStand, 'Stand'),
+                        ]),
+                        displayCard(player.inHand),
+                      ])),
+                  showScore(player.score, player.showScore),
+                  Transform(
+                      transform: Matrix4.identity()..translate(0.0, -35.0, 0.0),
+                      child: Column(children: [
+                        Row(children: [
+                          displayIcon(cpu2.name),
+                          displayStatus(cpu2.hasStand, 'Stand'),
+                        ]),
+                        displayCard(cpu2.inHand),
+                      ])),
+                  showScore(cpu2.score, player.showScore),
                 ],
               ),
             ],
