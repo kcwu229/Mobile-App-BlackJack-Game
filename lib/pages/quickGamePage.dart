@@ -1,9 +1,13 @@
+import 'dart:async';
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_blackjack/model/card.dart';
 import 'package:flutter_blackjack/model/cardBack.dart';
 import 'package:flutter_blackjack/model/deck.dart';
 import 'package:flutter_blackjack/model/gameLogic.dart';
 import 'package:flutter_blackjack/model/player.dart';
+import 'package:flutter_blackjack/model/playerIcon.dart';
 import 'package:flutter_blackjack/model/suit.dart';
 
 // one of the function on mainPage
@@ -16,17 +20,90 @@ class QuickGamePage extends StatefulWidget {
 class _QuickGamePageState extends State<QuickGamePage> {
   // create the instance
   InitalGameState gs = InitalGameState();
+  bool playerResponsed = false;
+  Completer<void> completer = Completer<void>();
+  bool playerTurn = false;
+
+  @override
+  void initState() {
+    super.initState();
+    loop();
+  }
+
+// looping the round;
+  Future<void> loop() async {
+    List<Player> players = gs.players;
+
+    // if not all the players are bust, the game would go on
+
+    while ((gs.countBust(players) + gs.countStand(players)) < players.length) {
+      setState(() {
+        playerResponsed = false;
+      });
+      for (var player in players) {
+        await Future.delayed(const Duration(seconds: 2));
+        // if player not stand / bust, he/ she can take action
+        if ((player.hasStand == false) & (player.isBust == false)) {
+          player.actionEnded = false;
+
+          if (player.isPlayer == true) {
+            setState(() {
+              playerTurn = true;
+            });
+            if ((player.actionEnded == false) &
+                (player.hasStand == false) &
+                (player.isBust == false) &
+                (player.gotNaturalBlackJack == false)) {
+              if ((playerResponsed == false) && (player.isBust == false)) {
+                //await waitForResponse;
+                await Future.any([
+                  Future.delayed(Duration(days: 365 * 10 ^ 10), () {
+                    setState(() {
+                      playerResponsed = true;
+                      playerTurn = false;
+                    });
+                  }),
+                  completer.future,
+                ]);
+              }
+            }
+          } else {
+            if (player.score < 15) {
+              gs.hit(player);
+              setState(() {});
+            } else {
+              gs.stand(player);
+            }
+          }
+        }
+      }
+    }
+  }
+
   late Player dealer = gs.getPlayer('dealer');
   late Player cpu1 = gs.getPlayer('cpu1');
   late Player cpu2 = gs.getPlayer('cpu2');
   late Player player = gs.getPlayer('player');
 
-  void _drawCardFromDeck() {
-    gs.drawCard(player.inHand, gs.deck, player.score, player);
+  // add String
+  String _playerAction = 'waiting';
+
+  void hit() {
+    gs.hit(player);
     gs.playerEndTurn(player);
     setState(() {
-      // Update the UI to reflect the new card in the player's hand
+      playerTurn = false;
     });
+    completer.complete();
+  }
+
+  void stand() {
+    gs.stand(player);
+    gs.playerEndTurn(player);
+    setState(() {
+      playerTurn = false;
+    });
+    completer.complete();
   }
 
   List<Widget> dealerHandWidgets(Player player) {
@@ -63,18 +140,7 @@ class _QuickGamePageState extends State<QuickGamePage> {
                   )
                 ],
               ),
-              Row(
-                children: [
-                  Visibility(
-                      visible: !player.actionEnded,
-                      child: ElevatedButton(
-                          onPressed: _drawCardFromDeck, child: Text('Hit'))),
-                  Visibility(
-                      visible: !player.actionEnded,
-                      child: ElevatedButton(
-                          onPressed: _drawCardFromDeck, child: Text('Stand'))),
-                ],
-              ),
+
               // Player's card in hand
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -83,32 +149,86 @@ class _QuickGamePageState extends State<QuickGamePage> {
                     for (var card in gs.getPlayer('cpu1').inHand)
                       Container(child: card)
                   ]),
-                  Offstage(
+                  /*Offstage(
                     child: Container(
                       child: Text('${cpu1.score}'),
                     ),
                     offstage: !cpu1.showScore,
-                  ),
+                  ),*/
                   Row(children: [
                     for (var card in gs.getPlayer('player').inHand)
                       Container(child: card)
                   ]),
-                  Offstage(
+                  /*Offstage(
                     child: Container(
                       child: Text('${player.score}'),
                     ),
                     offstage: !player.showScore,
-                  ),
+                  ),*/
                   Row(children: [
                     for (var card in gs.getPlayer('cpu2').inHand)
                       Container(child: card)
                   ]),
+                  /*
                   Offstage(
                     child: Container(
                       child: Text('${cpu2.score}'),
                     ),
                     offstage: !cpu2.showScore,
-                  ),
+                  ),*/
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  playerIcon(),
+                  playerIcon(),
+                  playerIcon(),
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Visibility(
+                      visible: ((playerResponsed == false) &&
+                          (player.hasStand == false) &&
+                          (player.isBust == false) &&
+                          (player.gotNaturalBlackJack == false) &&
+                          (playerTurn == true)),
+                      child: ElevatedButton(
+                          onPressed: () async {
+                            setState(() {
+                              playerResponsed = true;
+                              hit();
+                              completer.isCompleted;
+                            });
+                            await completer.future;
+                            setState(() {
+                              playerResponsed = false;
+                              completer = Completer<void>();
+                            });
+                          },
+                          child: Text('Hit'))),
+                  Visibility(
+                      visible: ((playerResponsed == false) &&
+                          (player.hasStand == false) &&
+                          (player.isBust == false) &&
+                          (player.gotNaturalBlackJack == false) &&
+                          (playerTurn == true)),
+                      child: ElevatedButton(
+                          onPressed: () async {
+                            setState(() {
+                              playerResponsed = true;
+                              stand();
+                              completer.isCompleted;
+                            });
+                            await completer.future;
+                            setState(() {
+                              playerResponsed = false;
+                              completer = Completer<void>();
+                            });
+                          },
+                          child: Text('Stand'))),
                 ],
               ),
             ],

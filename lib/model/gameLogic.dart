@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:ffi';
 import 'dart:io';
 
@@ -30,48 +31,32 @@ class InitalGameState {
     // Round 1
     for (var player in players) {
       player.inHand.addAll(deck.drawTwoCard());
-      player.score = calculation(player.inHand, player.score, player);
-    }
-
-    // Round 2 -- not finish yet
-    nextRound() {
-      for (var player in players) {
-        if (player.bust != true || player.stand != true) {
-          player.actionEnded = false;
-        }
-        if (player.isPlayer != true) {
-          if (player.score < 15) {
-            drawCard(player.inHand, deck, player.score, player);
-          } else if (player.isPlayer == true) {
-            Future<void> playerRound(Player player) async {
-              print("Player's turn: ${player.name}");
-              print("Current score: ${player.score}");
-
-              bool? action;
-              do {
-                ///
-              } while (player.actionEnded = false);
-
-              if (action == 'hit') {
-                //
-              } else if (action == 'stand') {
-                //
-              }
-            }
-          }
-        }
-      }
+      player.score = calculation(player.inHand, player);
+      settle(player);
     }
   }
 
-  void drawCard(List<MyCard> cards, Deck deck, int score, Player player) {
-    if (deck.length < 1) {
-      throw Exception('The deck is empty !');
+  // newly added
+  void handlePlayerAction(String string) {
+    // Implementation of the function
+    print(string);
+  }
+
+  void _handlePlayerAction(String action) {
+    // Implement the logic to handle the player's action
+    if (action == 'hit') {
+      // Handle 'hit' action
+    } else if (action == 'stand') {
+      // Handle 'stand' action
     }
-    // call function from deck instance
-    MyCard drawnCard = deck.drawCard();
-    cards.add(drawnCard);
-    player.score = calculation(cards, score, player);
+  }
+
+  int countBust(List<Player> players) {
+    return players.where((player) => player.isBust).length;
+  }
+
+  int countStand(List<Player> players) {
+    return players.where((player) => player.hasStand).length;
   }
 
   Player getPlayer(String name) {
@@ -81,24 +66,22 @@ class InitalGameState {
 
 // apply on cpu and dealer only
   void hit(Player player) {
-    player ??= Player('', false);
-    player.inHand.add(deck.drawCard() as MyCard);
+    player.inHand.add(deck.drawCard());
+    player.score = calculation(player.inHand, player);
+    print('${player.name} has draw the card !!!');
+    settle(player);
+    playerEndTurn(player);
   }
 
   void stand(Player player) {
-    player.actionEnded = true;
-  }
-
-  // stopped here
-  void endRound(bool bust, bool stand, bool naturalBlackJack) {
-    // Priority 1: If card in hand is 2 & (Ace + 10 / J / Q / K)
-    // Priority 2: All stand and got winner
-    // Priority 3: All bust and no winner
+    player.hasStand = true;
+    print('${player.name} -  stand !!!');
+    playerEndTurn(player);
   }
 
   // Need to calculate in every time as value of Ace depends on the card it owns...
-  int calculation(List<MyCard> cards, score, Player player) {
-    score = 0;
+  int calculation(List<MyCard> cards, Player player) {
+    int score = 0;
 
     int countAce(List<MyCard> hand) {
       return hand.where((card) => card.rank == 'A').length;
@@ -136,9 +119,24 @@ class InitalGameState {
     return score;
   }
 
-  playerEndTurn(Player player) {
+  void playerEndTurn(Player player) {
     player.actionEnded = true;
+    print('${player.name} has ended his action');
   }
 
+  void settle(Player player) {
+    // 1. If Neutral Happen -- winner - endRound
+    if ((player.score == 21) && (player.inHand.length == 2)) {
+      player.gotNaturalBlackJack = true;
+      player.hasWon = true;
+      print('${player.name} gets neutral black jack, and win the game !');
+    }
+
+    // 2. If bust -- bool bust = true
+    else if (player.score > 21) {
+      player.isBust = true;
+      print('${player.name},  unfortunately get busted and lose the game !');
+    }
+  }
   //
 }

@@ -11,10 +11,10 @@ class Player {
   int chip = 500;
 
   bool showScore = true;
-  bool bust = false;
-
-  bool naturalBlackJack = false;
-  bool stand = false;
+  bool isBust = false;
+  bool hasStand = false;
+  bool gotNaturalBlackJack = false;
+  bool hasWon = false;
 
   Player(this.name, this.isPlayer);
 }
