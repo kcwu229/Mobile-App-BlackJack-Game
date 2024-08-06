@@ -83,7 +83,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         fontWeight: FontWeight.bold,
                       ),
                       child: AnimatedTextKit(
-                        animatedTexts: [FadeAnimatedText('開始遊戲')],
+                        animatedTexts: [FadeAnimatedText('Start Game')],
                         repeatForever: true,
                       )),
                 ))),

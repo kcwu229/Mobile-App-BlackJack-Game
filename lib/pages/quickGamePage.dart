@@ -4,8 +4,10 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_blackjack/model/card.dart';
+import 'package:flutter_blackjack/model/userIcon.dart';
 import 'package:flutter_blackjack/model/cardBack.dart';
 import 'package:flutter_blackjack/model/deck.dart';
+import 'package:flutter_blackjack/model/dialogConfig.dart';
 import 'package:flutter_blackjack/model/gameLogic.dart';
 import 'package:flutter_blackjack/model/player.dart';
 import 'package:flutter_blackjack/model/score.dart';
@@ -14,6 +16,8 @@ import 'package:flutter_blackjack/model/suit.dart';
 // one of the function on mainPage
 // ignore: must_be_immutable
 class QuickGamePage extends StatefulWidget {
+  // dialog location
+
   @override
   _QuickGamePageState createState() => _QuickGamePageState();
 }
@@ -35,27 +39,34 @@ class _QuickGamePageState extends State<QuickGamePage> {
 // looping the round;
   Future<void> loop() async {
     List<Player> players = gs.players;
+    dialogLocation;
 
     // if not all the players are bust, the game would go on
-
     while ((gs.countBust(players) + gs.countStand(players)) < players.length) {
       setState(() {
         playerResponsed = false;
       });
       for (var player in players) {
-        await Future.delayed(const Duration(seconds: 2));
         // if player not stand / bust, he/ she can take action
+        print('Player busted: ${player.name}');
+        print('Player stand: ${player.name}');
+        player.myTurn = true;
+        await Future.delayed(Duration(seconds: 3));
         if ((player.hasStand == false) & (player.isBust == false)) {
-          player.actionEnded = false;
+          print('${player.name}  -- is his turn ?  ${player.myTurn}');
+          setState(() {
+            player.myTurn = true;
+          });
 
           if (player.isPlayer == true) {
             setState(() {
-              playerTurn = true;
+              player.myTurn == true;
             });
-            if ((player.actionEnded == false) &
+            if ((player.myTurn == true) &
                 (player.hasStand == false) &
                 (player.isBust == false) &
                 (player.gotNaturalBlackJack == false)) {
+              setState(() {});
               if ((playerResponsed == false) && (player.isBust == false)) {
                 //await waitForResponse;
                 await Future.any([
@@ -71,10 +82,23 @@ class _QuickGamePageState extends State<QuickGamePage> {
             }
           } else {
             if (player.score < 15) {
+              player.myTurn = true;
               gs.hit(player);
+              saySomething(
+                'Hit',
+                dialogLocation[player.name],
+              );
+              player.myTurn = false;
+
               setState(() {});
             } else {
+              player.myTurn = true;
               gs.stand(player);
+              saySomething(
+                'Stand',
+                dialogLocation[player.name],
+              );
+              player.myTurn = false;
             }
           }
         }
@@ -87,12 +111,51 @@ class _QuickGamePageState extends State<QuickGamePage> {
   late Player cpu2 = gs.getPlayer('cpu2');
   late Player player = gs.getPlayer('player');
 
-  // add String
-  String _playerAction = 'waiting';
+  // add dialog
+  void saySomething(text, distanceConfig) {
+    showGeneralDialog(
+      context: context,
+      pageBuilder: (context, animation, secondaryAnimation) {
+        return Align(
+          alignment: FractionalOffset(distanceConfig[0], distanceConfig[1]),
+          child: Positioned(
+            width: 200,
+            height: 50,
+            left: 20.0,
+            top: 20.0,
+            child: Card(
+              color: Color.fromRGBO(53, 135, 202, 0.702),
+              child: Padding(
+                padding: EdgeInsets.all(16.0),
+                child: Text(
+                  text,
+                  style: TextStyle(fontSize: 20),
+                ),
+              ),
+            ),
+          ),
+        );
+      },
+      barrierDismissible: false,
+      barrierColor: Colors.transparent,
+      transitionDuration: Duration(milliseconds: 500),
+      transitionBuilder: (context, animation, secondaryAnimation, child) {
+        return FadeTransition(
+          opacity: animation,
+          child: child,
+        );
+      },
+    );
+
+    Future.delayed(Duration(seconds: 2), () {
+      Navigator.of(context).pop();
+    });
+    gs.playerEndTurn(player);
+  }
 
   void hit() {
     gs.hit(player);
-    gs.playerEndTurn(player);
+    saySomething('Hit', dialogLocation[player.name]);
     setState(() {
       playerTurn = false;
     });
@@ -101,6 +164,7 @@ class _QuickGamePageState extends State<QuickGamePage> {
 
   void stand() {
     gs.stand(player);
+    saySomething('Stand', dialogLocation[player.name]);
     gs.playerEndTurn(player);
     setState(() {
       playerTurn = false;
@@ -144,13 +208,13 @@ class _QuickGamePageState extends State<QuickGamePage> {
                         (player.hasStand == false) &&
                         (player.isBust == false) &&
                         (player.gotNaturalBlackJack == false) &&
-                        (playerTurn == true)),
+                        (player.myTurn == true)),
                     child: Opacity(
                       opacity: ((playerResponsed == false) &&
                               (player.hasStand == false) &&
                               (player.isBust == false) &&
                               (player.gotNaturalBlackJack == false) &&
-                              (playerTurn == true))
+                              (player.myTurn == true))
                           ? 1.0
                           : 0.0,
                       child: Row(
@@ -202,32 +266,35 @@ class _QuickGamePageState extends State<QuickGamePage> {
                       transform: Matrix4.identity()..translate(0.0, -35.0, 0.0),
                       child: Column(children: [
                         Row(children: [
-                          displayIcon(cpu1.name),
+                          displayIcon(cpu1.name, cpu1.myTurn),
                           displayStatus(cpu1.hasStand, 'Stand'),
                         ]),
                         displayCard(cpu1.inHand),
+                        displayBust(cpu1.isBust, 'Bust'),
                       ])),
-                  showScore(cpu1.score, cpu1.showScore),
+                  //showScore(cpu1.score, cpu1.showScore),
                   Transform(
                       transform: Matrix4.identity()..translate(0.0, 0.0, 0.0),
                       child: Column(children: [
                         Row(children: [
-                          displayIcon(player.name),
+                          displayIcon(player.name, player.myTurn),
                           displayStatus(player.hasStand, 'Stand'),
                         ]),
                         displayCard(player.inHand),
+                        displayBust(player.isBust, 'Bust'),
                       ])),
-                  showScore(player.score, player.showScore),
+                  //showScore(player.score, player.showScore),
                   Transform(
                       transform: Matrix4.identity()..translate(0.0, -35.0, 0.0),
                       child: Column(children: [
                         Row(children: [
-                          displayIcon(cpu2.name),
+                          displayIcon(cpu2.name, cpu2.myTurn),
                           displayStatus(cpu2.hasStand, 'Stand'),
                         ]),
                         displayCard(cpu2.inHand),
+                        displayBust(cpu2.isBust, 'Bust'),
                       ])),
-                  showScore(cpu2.score, player.showScore),
+                  //showScore(cpu2.score, player.showScore),
                 ],
               ),
             ],

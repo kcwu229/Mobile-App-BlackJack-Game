@@ -6,6 +6,7 @@ import 'package:flutter/material.dart' as blackjack_card;
 import 'package:flutter_blackjack/model/card.dart';
 import 'package:flutter_blackjack/model/deck.dart';
 import 'package:flutter_blackjack/model/player.dart';
+import 'package:flutter_blackjack/model/userIcon.dart';
 
 class InitalGameState {
   // flag for win / lose -- default no
@@ -42,15 +43,6 @@ class InitalGameState {
     print(string);
   }
 
-  void _handlePlayerAction(String action) {
-    // Implement the logic to handle the player's action
-    if (action == 'hit') {
-      // Handle 'hit' action
-    } else if (action == 'stand') {
-      // Handle 'stand' action
-    }
-  }
-
   int countBust(List<Player> players) {
     return players.where((player) => player.isBust).length;
   }
@@ -68,6 +60,7 @@ class InitalGameState {
   void hit(Player player) {
     player.inHand.add(deck.drawCard());
     player.score = calculation(player.inHand, player);
+    player.myTurn = false;
     print('${player.name} has draw the card !!!');
     settle(player);
     playerEndTurn(player);
@@ -75,6 +68,7 @@ class InitalGameState {
 
   void stand(Player player) {
     player.hasStand = true;
+    player.myTurn = false;
     print('${player.name} -  stand !!!');
     playerEndTurn(player);
   }
