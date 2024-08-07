@@ -22,28 +22,31 @@ class Player {
   Player(this.name, this.isPlayer);
 }
 
-Widget displayStatus(opacityLevel, text) {
-  return Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-    Opacity(
-        opacity: opacityLevel ? 1.0 : 0.0,
-        child: Padding(
-            padding: const EdgeInsets.all(20),
-            child: RichText(
-                text: TextSpan(
-                    text: text,
-                    style: TextStyle(
-                        backgroundColor: Colors.blue,
-                        color: Colors.white,
-                        fontSize: 20)))))
-  ]);
+Widget displayStatus(statusList) {
+  return Transform(
+      transform: Matrix4.identity()..translate(-42.0, 0.0, 0.0),
+      child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+        Opacity(
+            opacity: statusList[0] ? 1.0 : 0.0,
+            child: Padding(
+                padding: const EdgeInsets.all(20),
+                child: RichText(
+                    text: TextSpan(
+                        text: statusList[1],
+                        style: TextStyle(
+                            backgroundColor: Colors.red,
+                            color: Colors.white,
+                            fontSize: 20)))))
+      ]));
 }
 
-Widget displayBust(opacityLevel, text) {
-  return Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+Widget displayBust(opacityLevel, text, status) {
+  return Positioned(
+      child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
     Opacity(
         opacity: opacityLevel ? 1.0 : 0.0,
         child: Padding(
-            padding: const EdgeInsets.all(20),
+            padding: const EdgeInsets.all(0),
             child: RichText(
                 text: TextSpan(
                     text: text,
@@ -51,5 +54,5 @@ Widget displayBust(opacityLevel, text) {
                         backgroundColor: Colors.red,
                         color: Colors.white,
                         fontSize: 20)))))
-  ]);
+  ]));
 }

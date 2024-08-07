@@ -51,6 +51,10 @@ class InitalGameState {
     return players.where((player) => player.hasStand).length;
   }
 
+  int countWon(List<Player> players) {
+    return players.where((player) => player.hasWon).length;
+  }
+
   Player getPlayer(String name) {
     return players.firstWhere((p) => p.name == name,
         orElse: () => throw Exception('No such player !!!'));
