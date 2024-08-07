@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 
 Map<String, List<double>> dialogLocation = {
   // 1:left 2:top 3:right 4. bottom
-  'dealer': [0.33, 0.23],
-  'cpu1': [0.2, 0.6],
-  'player': [0.55, 0.7],
-  'cpu2': [0.88, 0.65],
+  'dealer': [0.36, 0.2],
+  'cpu1': [0.02, 0.65],
+  'player': [0.36, 0.7],
+  'cpu2': [0.72, 0.65],
 };
 
 Widget dialogFrameWork(text, distanceConfig) {

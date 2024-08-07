@@ -3,7 +3,9 @@ import 'dart:ffi';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_blackjack/model/blackJackDesk.dart';
 import 'package:flutter_blackjack/model/card.dart';
+import 'package:flutter_blackjack/model/chip.dart';
 import 'package:flutter_blackjack/model/userIcon.dart';
 import 'package:flutter_blackjack/model/cardBack.dart';
 import 'package:flutter_blackjack/model/deck.dart';
@@ -25,6 +27,7 @@ class QuickGamePage extends StatefulWidget {
 class _QuickGamePageState extends State<QuickGamePage> {
   // create the instance
   InitalGameState gs = InitalGameState();
+  bool gameOver = false;
   bool playerResponsed = false;
   Completer<void> completer = Completer<void>();
   bool playerTurn = false;
@@ -104,6 +107,7 @@ class _QuickGamePageState extends State<QuickGamePage> {
         }
       }
     }
+    gameOver = true;
   }
 
   late Player dealer = gs.getPlayer('dealer');
@@ -124,12 +128,14 @@ class _QuickGamePageState extends State<QuickGamePage> {
             left: 20.0,
             top: 20.0,
             child: Card(
-              color: Color.fromRGBO(53, 135, 202, 0.702),
+              color: Color.fromRGBO(86, 164, 227, 0.721),
               child: Padding(
                 padding: EdgeInsets.all(16.0),
                 child: Text(
                   text,
-                  style: TextStyle(fontSize: 20),
+                  style: TextStyle(
+                      fontSize: 20,
+                      color: const Color.fromARGB(255, 255, 255, 255)),
                 ),
               ),
             ),
@@ -200,65 +206,15 @@ class _QuickGamePageState extends State<QuickGamePage> {
                   ]),
                 ])
               ]),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  IgnorePointer(
-                    ignoring: !((playerResponsed == false) &&
-                        (player.hasStand == false) &&
-                        (player.isBust == false) &&
-                        (player.gotNaturalBlackJack == false) &&
-                        (player.myTurn == true)),
-                    child: Opacity(
-                      opacity: ((playerResponsed == false) &&
-                              (player.hasStand == false) &&
-                              (player.isBust == false) &&
-                              (player.gotNaturalBlackJack == false) &&
-                              (player.myTurn == true))
-                          ? 1.0
-                          : 0.0,
-                      child: Row(
-                        children: [
-                          Positioned(
-                              left: 0,
-                              child: ElevatedButton(
-                                onPressed: () async {
-                                  setState(() {
-                                    playerResponsed = true;
-                                    hit();
-                                    completer.isCompleted;
-                                  });
-                                  await completer.future;
-                                  setState(() {
-                                    playerResponsed = false;
-                                    completer = Completer<void>();
-                                  });
-                                },
-                                child: const Text('Hit'),
-                              )),
-                          Positioned(
-                              left: 0,
-                              child: ElevatedButton(
-                                onPressed: () async {
-                                  setState(() {
-                                    playerResponsed = true;
-                                    stand();
-                                    completer.isCompleted;
-                                  });
-                                  await completer.future;
-                                  setState(() {
-                                    playerResponsed = false;
-                                    completer = Completer<void>();
-                                  });
-                                },
-                                child: const Text('Stand'),
-                              )),
-                        ],
-                      ),
+              Container(
+                  alignment: Alignment.center,
+                  height: 180,
+                  child: Stack(children: [
+                    Align(
+                      alignment: Alignment.center,
+                      child: label(550.0, 80.0, 'Black Jack Pays 3 To 2'),
                     ),
-                  )
-                ],
-              ),
+                  ])),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
@@ -266,34 +222,154 @@ class _QuickGamePageState extends State<QuickGamePage> {
                       transform: Matrix4.identity()..translate(0.0, -35.0, 0.0),
                       child: Column(children: [
                         Row(children: [
-                          displayIcon(cpu1.name, cpu1.myTurn),
-                          displayStatus(cpu1.hasStand, 'Stand'),
+                          cardArea(),
+                          displayCard(cpu1.inHand),
                         ]),
-                        displayCard(cpu1.inHand),
-                        displayBust(cpu1.isBust, 'Bust'),
+                        Row(children: [
+                          displayIcon(cpu1.name, cpu1.myTurn),
+                          chipArea(chips()),
+                        ]),
+                        Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              displayBust(cpu1.isBust, 'Bust'),
+                              displayStatus(cpu1.hasStand, 'Stand'),
+                            ])
                       ])),
                   //showScore(cpu1.score, cpu1.showScore),
                   Transform(
                       transform: Matrix4.identity()..translate(0.0, 0.0, 0.0),
                       child: Column(children: [
                         Row(children: [
-                          displayIcon(player.name, player.myTurn),
-                          displayStatus(player.hasStand, 'Stand'),
+                          cardArea(),
+                          displayCard(player.inHand),
                         ]),
-                        displayCard(player.inHand),
-                        displayBust(player.isBust, 'Bust'),
+                        Row(children: [
+                          displayIcon(player.name, player.myTurn),
+                          //  displayStatus(player.hasStand, 'Stand'),
+                          chipArea(chips()),
+                        ]),
+                        Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              displayBust(player.isBust, 'Bust'),
+                              displayStatus(player.hasStand, 'Stand'),
+                            ])
                       ])),
                   //showScore(player.score, player.showScore),
                   Transform(
                       transform: Matrix4.identity()..translate(0.0, -35.0, 0.0),
                       child: Column(children: [
                         Row(children: [
-                          displayIcon(cpu2.name, cpu2.myTurn),
-                          displayStatus(cpu2.hasStand, 'Stand'),
+                          cardArea(),
+                          displayCard(cpu2.inHand),
                         ]),
-                        displayCard(cpu2.inHand),
-                        displayBust(cpu2.isBust, 'Bust'),
+                        Row(children: [
+                          displayIcon(cpu2.name, cpu2.myTurn),
+                          chipArea(chips()),
+                        ]),
+                        Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              displayBust(cpu2.isBust, 'Bust'),
+                              displayStatus(cpu2.hasStand, 'Stand'),
+                            ])
                       ])),
+                  Stack(children: [
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        IgnorePointer(
+                          ignoring: !((playerResponsed == false) &&
+                              (player.hasStand == false) &&
+                              (player.isBust == false) &&
+                              (player.gotNaturalBlackJack == false) &&
+                              (player.myTurn == true)),
+                          child: Opacity(
+                            opacity: ((playerResponsed == false) &&
+                                    (player.hasStand == false) &&
+                                    (player.isBust == false) &&
+                                    (player.gotNaturalBlackJack == false) &&
+                                    (player.myTurn == true))
+                                ? 1.0
+                                : 0.0,
+                            child: Row(
+                              children: [
+                                Align(
+                                    alignment: FractionalOffset(0.1, 0.1),
+                                    child: RawMaterialButton(
+                                      shape: CircleBorder(),
+                                      fillColor: const Color.fromARGB(
+                                          242, 236, 144, 45),
+                                      onPressed: () async {
+                                        setState(() {
+                                          playerResponsed = true;
+                                          hit();
+                                          completer.isCompleted;
+                                        });
+                                        await completer.future;
+                                        setState(() {
+                                          playerResponsed = false;
+                                          completer = Completer<void>();
+                                        });
+                                      },
+                                      child: Container(
+                                          alignment: Alignment.center,
+                                          width: 80,
+                                          height: 80,
+                                          decoration: BoxDecoration(
+                                              shape: BoxShape.circle,
+                                              border: Border.all(
+                                                  color: Colors.black,
+                                                  width: 2)),
+                                          child: Text(
+                                            'Hit',
+                                            style: TextStyle(
+                                                fontSize: 20,
+                                                color: Colors.white),
+                                          )),
+                                    )),
+                                Align(
+                                    alignment: FractionalOffset(0.1, 0.5),
+                                    child: RawMaterialButton(
+                                      fillColor: const Color.fromARGB(
+                                          234, 28, 71, 150),
+                                      shape: CircleBorder(),
+                                      onPressed: () async {
+                                        setState(() {
+                                          playerResponsed = true;
+                                          stand();
+                                          completer.isCompleted;
+                                        });
+                                        await completer.future;
+                                        setState(() {
+                                          playerResponsed = false;
+                                          completer = Completer<void>();
+                                        });
+                                      },
+                                      child: Container(
+                                          alignment: Alignment.center,
+                                          width: 80,
+                                          height: 80,
+                                          decoration: BoxDecoration(
+                                              shape: BoxShape.circle,
+                                              border: Border.all(
+                                                  color: Colors.black,
+                                                  width: 2)),
+                                          child: Text(
+                                            'Stand',
+                                            style: TextStyle(
+                                                fontSize: 20,
+                                                color: Colors.white),
+                                          )),
+                                    )),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ],
+                    )
+                  ]),
                   //showScore(cpu2.score, player.showScore),
                 ],
               ),
