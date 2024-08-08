@@ -14,7 +14,31 @@ class MyCard extends StatelessWidget {
   final rank;
   final showBack;
 
+  String get Rank => rank;
+  List get getCardInfo => [suit, rank, showBack];
+
   MyCard({this.suit, this.rank, this.showBack});
+
+  int compareTo(MyCard other) {
+    final rankValues = [
+      '2',
+      '3',
+      '4',
+      '5',
+      '6',
+      '7',
+      '8',
+      '9',
+      '10',
+      'J',
+      'Q',
+      'K',
+      'A'
+    ];
+    return rankValues
+        .indexOf(this.rank)
+        .compareTo(rankValues.indexOf(other.rank));
+  }
 
   @override
   Widget build(BuildContext context) {

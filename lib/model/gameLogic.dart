@@ -1,6 +1,8 @@
 import 'dart:async';
 import 'dart:ffi';
 import 'dart:io';
+import 'dart:collection';
+import 'dart:math';
 
 import 'package:flutter/material.dart' as blackjack_card;
 import 'package:flutter_blackjack/model/card.dart';
@@ -29,11 +31,15 @@ class InitalGameState {
     // shuffle the card for drawing
     deck.shuffle();
 
+    //
+    //initalBetPage
+
     // Round 1
     for (var player in players) {
       player.inHand.addAll(deck.drawTwoCard());
-      player.score = calculation(player.inHand, player);
-      settle(player);
+      player.score =
+          calculation(player.inHand, player, countAce(player.inHand));
+      settle(player.inHand, players, player);
     }
   }
 
@@ -60,13 +66,17 @@ class InitalGameState {
         orElse: () => throw Exception('No such player !!!'));
   }
 
+  int countAce(List<MyCard> hand) {
+    return hand.where((card) => card.rank == 'A').length;
+  }
+
 // apply on cpu and dealer only
   void hit(Player player) {
     player.inHand.add(deck.drawCard());
-    player.score = calculation(player.inHand, player);
+    player.score = calculation(player.inHand, player, countAce(player.inHand));
     player.myTurn = false;
     print('${player.name} has draw the card !!!');
-    settle(player);
+    settle(player.inHand, players, player);
     playerEndTurn(player);
   }
 
@@ -78,43 +88,42 @@ class InitalGameState {
   }
 
   // Need to calculate in every time as value of Ace depends on the card it owns...
-  int calculation(List<MyCard> cards, Player player) {
-    int score = 0;
-
-    int countAce(List<MyCard> hand) {
-      return hand.where((card) => card.rank == 'A').length;
-    }
+  int calculation(List<MyCard> cards, Player player, int countAce) {
+    int totalScore = 0;
+    int maxScoreNotBust = 0;
 
     for (var card in cards) {
       // 1: JQK -> 10 marks
       if (['J', 'Q', 'K'].contains(card.rank)) {
-        score += 10;
+        totalScore += 10;
+        print('${player.name}: -- this time the score is 10}');
       }
 
       // 2: 2 - 10
       else if (card.rank != 'A') {
-        score += int.parse(card.rank);
-      }
-
-      // What if there are 1 Ace in Hand, and
-      else if ((countAce(cards) == 1) & (card.rank == 'A')) {
-        if (score < 11) {
-          score += 11;
-        } else {
-          score += 1;
-        }
-      }
-
-      // What if there are multi-Ace in Hand,
-      else if ((countAce(cards) > 1) & (card.rank == 'A')) {
-        if (score < 11) {
-          score += 11;
-        } else {
-          score += 1;
-        }
+        totalScore += int.parse(card.rank);
+        print(
+            '${player.name}: -- this time the score is ${int.parse(card.rank)}');
+      } else {
+        totalScore += 1;
       }
     }
-    return score;
+
+    // For player who got Ace:
+    maxScoreNotBust = 21 - totalScore;
+
+    for (var i = 0; i < countAce; i++) {
+      if (maxScoreNotBust >= 14 && countAce > 0) {
+        print(
+            '${player.name}: -- the remaining score not to bust is ${maxScoreNotBust}');
+
+        totalScore += 10;
+        print('${player.name}: -- chane the value of Ace from 1 to 11 !');
+      }
+    }
+
+    print('${player.name}: -- total ${totalScore} !');
+    return totalScore;
   }
 
   void playerEndTurn(Player player) {
@@ -122,9 +131,11 @@ class InitalGameState {
     print('${player.name} has ended his action');
   }
 
-  void settle(Player player) {
+  void settle(List<MyCard> cards, List<Player> players, Player player) {
+    List<Player> survivor = [];
+
     // 1. If Neutral Happen -- winner - endRound
-    if ((player.score == 21) && (player.inHand.length == 2)) {
+    if ((player.score == 21) && (cards.length == 2)) {
       player.gotNaturalBlackJack = true;
       player.hasWon = true;
       print('${player.name} gets neutral black jack, and win the game !');
@@ -134,7 +145,26 @@ class InitalGameState {
     else if (player.score > 21) {
       player.isBust = true;
       print('${player.name},  unfortunately get busted and lose the game !');
+    } else if ((countBust(players) + countStand(players)) < players.length) {
+      if (player.hasStand && !player.isBust) {
+        player.hasWon = true;
+      } else if ((countBust(players) + countStand(players)) == players.length) {
+        if (!player.isBust) {
+          survivor.add(player);
+        }
+      }
+    }
+
+    print(survivor.length);
+    // calculate the highestScore on the remaining player
+    List<Player> playerWithMaxScore = survivor
+        .where((player) =>
+            player.score == survivor.map((p) => p.score).reduce(max))
+        .toList();
+
+    for (Player player in playerWithMaxScore) {
+      player.hasWon = true;
+      print('- ${player.name} (score: ${player.score})');
     }
   }
-  //
 }

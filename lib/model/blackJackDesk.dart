@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_blackjack/model/card.dart';
 import 'package:flutter_blackjack/model/player.dart';
+import 'package:flutter_blackjack/model/score.dart';
 import 'package:flutter_blackjack/model/statusIcon.dart';
 import 'package:flutter_blackjack/model/userIcon.dart';
 import 'package:flutter_blackjack/pages/quickGamePage.dart';
@@ -65,8 +66,20 @@ Widget cardRegion() {
   ]);
 }
 
-Widget playerRegion(playerCard, playerName, playTurn, chips, playerBust,
-    playerStand, x, y, z, statusList, playerWon, playerNatureBJ) {
+Widget playerRegion(
+  playerCard,
+  playerName,
+  playTurn,
+  chips,
+  playerBust,
+  playerStand,
+  x,
+  y,
+  z,
+  statusList,
+  playerWon,
+  playerNatureBJ,
+) {
   List status = statusList;
   return Transform(
       transform: Matrix4.identity()..translate(x, y, z),
@@ -85,5 +98,4 @@ Widget playerRegion(playerCard, playerName, playTurn, chips, playerBust,
           displayWinIcon(playerWon, playerNatureBJ),
         ])
       ]));
-  //showScore(cpu1.score, cpu1.showScore),
 }
