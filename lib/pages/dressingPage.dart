@@ -8,12 +8,13 @@ class DressingPage extends StatelessWidget {
       body: Center(
         child: Container(
             child: RawMaterialButton(
+          shape: CircleBorder(),
           child: Container(
             width: 80,
             height: 80,
-            color: Colors.white,
-            alignment: Alignment.center,
-            child: Text('HomePage'),
+            decoration: BoxDecoration(
+                image: DecorationImage(
+                    image: AssetImage('assets/img/homePage.png'))),
           ),
           onPressed: () {
             // Navigate to the new page
