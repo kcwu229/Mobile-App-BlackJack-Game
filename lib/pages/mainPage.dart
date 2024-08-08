@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_blackjack/main.dart';
+import 'package:flutter_blackjack/pages/bettingPage.dart';
 import 'package:flutter_blackjack/pages/quickGamePage.dart';
 import 'package:flutter_blackjack/pages/settingPage.dart';
 import 'package:flutter_blackjack/pages/dressingPage.dart';
@@ -49,12 +51,11 @@ class MainPage extends StatelessWidget {
                             Positioned(
                                 top: 15,
                                 left: 13,
-                                child: Text('快速遊戲',
+                                child: Text('Quick Game',
                                     style: TextStyle(
                                         color: Colors.white,
-                                        fontSize: 30,
+                                        fontSize: 20,
                                         fontWeight: FontWeight.bold,
-                                        letterSpacing: 5,
                                         shadows: [
                                           Shadow(
                                             offset: Offset(1.3, 1.3),
@@ -89,11 +90,10 @@ class MainPage extends StatelessWidget {
                                         top: 15,
                                         left: 13,
                                         child: Text(
-                                          '設定',
+                                          'Setting',
                                           style: TextStyle(
-                                              fontSize: 25,
+                                              fontSize: 20,
                                               fontWeight: FontWeight.bold,
-                                              letterSpacing: 5,
                                               color: Colors.white,
                                               shadows: [
                                                 Shadow(
@@ -126,11 +126,10 @@ class MainPage extends StatelessWidget {
                                         top: 15,
                                         left: 13,
                                         child: Text(
-                                          '換裝',
+                                          'Dressing',
                                           style: TextStyle(
-                                              fontSize: 25,
+                                              fontSize: 20,
                                               fontWeight: FontWeight.bold,
-                                              letterSpacing: 5,
                                               color: Colors.white,
                                               shadows: [
                                                 Shadow(

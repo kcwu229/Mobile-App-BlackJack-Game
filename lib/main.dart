@@ -1,7 +1,9 @@
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_blackjack/model/myController.dart';
 import 'package:flutter_blackjack/pages/mainPage.dart';
+import 'package:flutter_blackjack/pages/quickGamePage.dart';
 
 void main() {
   runApp(const MyApp());
@@ -19,6 +21,7 @@ class MyApp extends StatelessWidget {
       DeviceOrientation.landscapeRight,
     ]);
 
+    // Add the onGenerateRoute attribute on the main.dart
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
@@ -26,6 +29,16 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       home: const MyHomePage(title: ''),
+      onGenerateRoute: (settings) {
+        if (settings.name == '/second-screen') {
+          return MaterialPageRoute(
+            builder: (context) => SecondScreen(
+              controller: settings.arguments as MyController,
+            ),
+          );
+        }
+        return null;
+      },
     );
   }
 }

@@ -11,6 +11,7 @@ class Player {
   int score = 0;
   bool actionEnded = true;
   int chip = 500;
+  bool hasBet = false;
   bool myTurn = false;
 
   bool showScore = true;
