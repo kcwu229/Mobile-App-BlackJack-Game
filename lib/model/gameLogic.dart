@@ -1,17 +1,9 @@
-import 'dart:async';
-import 'dart:ffi';
-import 'dart:io';
-import 'dart:collection';
 import 'dart:math';
-
-import 'package:flutter/material.dart' as blackjack_card;
 import 'package:flutter_blackjack/model/card.dart';
 import 'package:flutter_blackjack/model/deck.dart';
 import 'package:flutter_blackjack/model/player.dart';
-import 'package:flutter_blackjack/model/userIcon.dart';
 
 class InitalGameState {
-  // flag for win / lose -- default no
   bool gameOver = false;
   String result = '';
 
@@ -20,7 +12,6 @@ class InitalGameState {
   List<Player> players = [];
 
   InitalGameState() {
-    // initial Create Player
     players = [
       Player('dealer', false),
       Player('cpu1', false),
@@ -28,17 +19,14 @@ class InitalGameState {
       Player('cpu2', false)
     ];
 
-    // shuffle the card for drawing
     deck.shuffle();
-
-    //
-    //initalBetPage
 
     // Round 1
     for (var player in players) {
       player.inHand.addAll(deck.drawTwoCard());
       player.score =
-          calculation(player.inHand, player, countAce(player.inHand));
+          calculateScore(player.inHand, player, countAce(player.inHand));
+      print('Round 1:  ${player.name} - score: ${player.score}');
       settle(player.inHand, players, player);
     }
   }
@@ -73,7 +61,8 @@ class InitalGameState {
 // apply on cpu and dealer only
   void hit(Player player) {
     player.inHand.add(deck.drawCard());
-    player.score = calculation(player.inHand, player, countAce(player.inHand));
+    player.score =
+        calculateScore(player.inHand, player, countAce(player.inHand));
     player.myTurn = false;
     print('${player.name} has draw the card !!!');
     settle(player.inHand, players, player);
@@ -84,87 +73,86 @@ class InitalGameState {
     player.hasStand = true;
     player.myTurn = false;
     print('${player.name} -  stand !!!');
+    settle(player.inHand, players, player);
     playerEndTurn(player);
   }
 
-  // Need to calculate in every time as value of Ace depends on the card it owns...
-  int calculation(List<MyCard> cards, Player player, int countAce) {
+  int calculateScore(List<MyCard> cards, Player player, int countAce) {
     int totalScore = 0;
-    int maxScoreNotBust = 0;
+    int remainingScore = 0;
 
     for (var card in cards) {
-      // 1: JQK -> 10 marks
       if (['J', 'Q', 'K'].contains(card.rank)) {
         totalScore += 10;
-        print('${player.name}: -- this time the score is 10}');
-      }
-
-      // 2: 2 - 10
-      else if (card.rank != 'A') {
+      } else if (card.rank != 'A') {
         totalScore += int.parse(card.rank);
-        print(
-            '${player.name}: -- this time the score is ${int.parse(card.rank)}');
       } else {
         totalScore += 1;
       }
     }
 
     // For player who got Ace:
-    maxScoreNotBust = 21 - totalScore;
-
+    remainingScore = 21 - totalScore;
     for (var i = 0; i < countAce; i++) {
-      if (maxScoreNotBust >= 14 && countAce > 0) {
-        print(
-            '${player.name}: -- the remaining score not to bust is ${maxScoreNotBust}');
-
+      if (remainingScore >= 10) {
         totalScore += 10;
-        print('${player.name}: -- chane the value of Ace from 1 to 11 !');
+        remainingScore -= 10;
       }
     }
+    print('${player.name} - total score is : ${totalScore}');
+    print('${player.name} - remaining score is : ${remainingScore}');
 
-    print('${player.name}: -- total ${totalScore} !');
     return totalScore;
   }
 
   void playerEndTurn(Player player) {
     player.actionEnded = true;
-    print('${player.name} has ended his action');
   }
 
   void settle(List<MyCard> cards, List<Player> players, Player player) {
     List<Player> survivor = [];
 
     // 1. If Neutral Happen -- winner - endRound
-    if ((player.score == 21) && (cards.length == 2)) {
-      player.gotNaturalBlackJack = true;
+    if ((player.score == 21)) {
+      if (cards.length == 2) {
+        player.gotNaturalBlackJack = true;
+        print('${player.name} gets neutral black jack !');
+      }
       player.hasWon = true;
-      print('${player.name} gets neutral black jack, and win the game !');
+      //gameOver = true;
+      print('${player.name} win the game !');
     }
 
     // 2. If bust -- bool bust = true
     else if (player.score > 21) {
       player.isBust = true;
       print('${player.name},  unfortunately get busted and lose the game !');
-    } else if ((countBust(players) + countStand(players)) < players.length) {
-      if (player.hasStand && !player.isBust) {
-        player.hasWon = true;
-      } else if ((countBust(players) + countStand(players)) == players.length) {
-        if (!player.isBust) {
-          survivor.add(player);
-        }
+    }
+    // 3. if all stand
+    else if ((countBust(players) + countStand(players)) == players.length) {
+      if (player.isBust == false) {
+        survivor.add(player);
       }
     }
 
-    print(survivor.length);
-    // calculate the highestScore on the remaining player
     List<Player> playerWithMaxScore = survivor
         .where((player) =>
             player.score == survivor.map((p) => p.score).reduce(max))
+        .toList();
+
+    print(survivor.length);
+
+    List<String> playerWonList = players
+        .where((player) => player.hasWon == true)
+        .map((player) => player.name)
         .toList();
 
     for (Player player in playerWithMaxScore) {
       player.hasWon = true;
       print('- ${player.name} (score: ${player.score})');
     }
+    //gameOver = true;
+
+    print('The following winner won the game: ${playerWonList}');
   }
 }

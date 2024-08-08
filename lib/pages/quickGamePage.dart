@@ -1,20 +1,14 @@
 import 'dart:async';
-import 'dart:ffi';
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_blackjack/model/blackJackDesk.dart';
 import 'package:flutter_blackjack/model/card.dart';
 import 'package:flutter_blackjack/model/chip.dart';
 import 'package:flutter_blackjack/model/myController.dart';
-import 'package:flutter_blackjack/model/userIcon.dart';
-import 'package:flutter_blackjack/model/cardBack.dart';
-import 'package:flutter_blackjack/model/deck.dart';
+import 'package:flutter_blackjack/model/statusIcon.dart';
 import 'package:flutter_blackjack/model/dialogConfig.dart';
 import 'package:flutter_blackjack/model/gameLogic.dart';
 import 'package:flutter_blackjack/model/player.dart';
-import 'package:flutter_blackjack/model/score.dart';
-import 'package:flutter_blackjack/model/suit.dart';
+import 'package:flutter_blackjack/pages/bettingPage.dart';
 import 'package:flutter_blackjack/pages/mainPage.dart';
 
 // one of the function on mainPage
@@ -72,6 +66,7 @@ class _SecondScreenState extends State<SecondScreen> {
   Future<void> loop() async {
     List<Player> players = gs.players;
     dialogLocation;
+    int round = 1;
 
     // if no winner, go round 2
 
@@ -81,17 +76,27 @@ class _SecondScreenState extends State<SecondScreen> {
                 gs.countWon(players)) <
             players.length) ||
         gs.countWon(players) < 0) {
+      round += 1;
       setState(() {
         playerResponsed = false;
       });
       for (var player in players) {
-        player.myTurn = true;
-        await Future.delayed(Duration(seconds: 1));
-        if ((player.hasStand == false) & (player.isBust == false)) {
-          print('${player.name}  -- is his turn ?  ${player.myTurn}');
+        if (player.hasWon) {
+          print('${player.name}  -- has won.');
           setState(() {
-            player.myTurn = true;
+            player.myTurn = false;
           });
+        } else if (player.isBust == false &&
+            player.hasWon == false &&
+            player.hasStand == false) {
+          player.myTurn = true;
+        }
+        await Future.delayed(Duration(seconds: 1));
+        if ((player.hasStand == false) &
+            (player.isBust == false) &
+            (player.hasWon == false)) {
+          print('${player.name}  -- is his turn ?  ${player.myTurn}');
+          setState(() {});
 
           if (player.isPlayer == true) {
             setState(() {
@@ -116,7 +121,7 @@ class _SecondScreenState extends State<SecondScreen> {
               }
             }
           } else {
-            if ((player.score < 15) && (!player.hasWon)) {
+            if ((player.score <= 15) && (!player.hasWon)) {
               player.myTurn = true;
               gs.hit(player);
               saySomething(
@@ -126,7 +131,7 @@ class _SecondScreenState extends State<SecondScreen> {
               player.myTurn = false;
 
               setState(() {});
-            } else if ((player.score > 15) && (!player.hasWon)) {
+            } else if ((player.score > 15) && (player.hasWon == false)) {
               player.myTurn = true;
               gs.stand(player);
               saySomething(
@@ -232,11 +237,20 @@ class _SecondScreenState extends State<SecondScreen> {
               // Dealer's card in hand
 
               Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                displayStatus(checkStatus(player)),
+                Transform(
+                    transform: Matrix4.identity()..translate(50.0, 70.0, 0.0),
+                    child: displayStatus(checkStatus(dealer))),
+                Transform(
+                    transform: Matrix4.identity()..translate(-20.0, 120.0, 0.0),
+                    child: displayWinIcon(
+                        dealer.hasWon, dealer.gotNaturalBlackJack)),
                 Column(children: [
-                  Column(children: [
-                    displayCard(dealer.inHand),
-                  ]),
+                  Transform(
+                      transform: Matrix4.identity()
+                        ..translate(-75.0, 20.0, 0.0),
+                      child: Column(children: [
+                        displayCard(dealer.inHand),
+                      ])),
                 ]),
 
                 //showScore(dealer.score, dealer.showScore)
@@ -405,6 +419,30 @@ class _SecondScreenState extends State<SecondScreen> {
                           );
                         },
                       )),
+                      IgnorePointer(
+                          ignoring: !gameOver,
+                          child: Opacity(
+                              opacity: gameOver ? 1.0 : 0.0,
+                              child: Container(
+                                  child: RawMaterialButton(
+                                      shape: CircleBorder(),
+                                      child: Container(
+                                        width: 80,
+                                        height: 80,
+                                        decoration: BoxDecoration(
+                                            image: DecorationImage(
+                                                image: AssetImage(
+                                                    'assets/img/newGame.png'))),
+                                      ),
+                                      onPressed: () {
+                                        // Navigate to the new page
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  QuickGamePage()),
+                                        );
+                                      })))),
                     ]),
                   ]),
                 ],
