@@ -67,18 +67,12 @@ Widget cardRegion() {
 }
 
 Widget playerRegion(
-  playerCard,
-  playerName,
-  playTurn,
+  player,
   chips,
-  playerBust,
-  playerStand,
   x,
   y,
   z,
   statusList,
-  playerWon,
-  playerNatureBJ,
 ) {
   List status = statusList;
   return Transform(
@@ -87,15 +81,29 @@ Widget playerRegion(
       child: Column(children: [
         Row(children: [
           cardRegion(),
-          displayCard(playerCard),
+          displayCard(player.inHand),
         ]),
         Row(children: [
-          displayIcon(playerName, playTurn),
+          displayIcon(player),
           chipArea(chips),
         ]),
         Row(mainAxisAlignment: MainAxisAlignment.center, children: [
           displayStatus(status),
-          displayWinIcon(playerWon, playerNatureBJ),
+          displayWinIcon(player),
         ])
       ]));
+}
+
+Widget actionButtonConfig(text) {
+  return Container(
+      alignment: Alignment.center,
+      width: 80,
+      height: 80,
+      decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          border: Border.all(color: Colors.white, width: 3)),
+      child: Text(
+        text,
+        style: TextStyle(fontSize: 20, color: Colors.white),
+      ));
 }

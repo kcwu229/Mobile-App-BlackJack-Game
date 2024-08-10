@@ -66,23 +66,17 @@ class _SecondScreenState extends State<SecondScreen> {
   Future<void> loop() async {
     List<Player> players = gs.players;
     dialogLocation;
-    int round = 1;
-
-    // if no winner, go round 2
 
     // if not all players cannot take action, the game would go on until a winner is shown
     while (((gs.countBust(players) +
-                gs.countStand(players) +
-                gs.countWon(players)) <
-            players.length) ||
-        gs.countWon(players) < 0) {
-      round += 1;
+            gs.countStand(players) +
+            gs.countWon(players)) <
+        players.length)) {
       setState(() {
         playerResponsed = false;
       });
       for (var player in players) {
         if (player.hasWon) {
-          print('${player.name}  -- has won.');
           setState(() {
             player.myTurn = false;
           });
@@ -95,7 +89,6 @@ class _SecondScreenState extends State<SecondScreen> {
         if ((player.hasStand == false) &
             (player.isBust == false) &
             (player.hasWon == false)) {
-          print('${player.name}  -- is his turn ?  ${player.myTurn}');
           setState(() {});
 
           if (player.isPlayer == true) {
@@ -198,6 +191,7 @@ class _SecondScreenState extends State<SecondScreen> {
 
   void hit() {
     gs.hit(player);
+
     saySomething('Hit 🫳🏻', dialogLocation[player.name]);
     setState(() {
       playerTurn = false;
@@ -206,7 +200,9 @@ class _SecondScreenState extends State<SecondScreen> {
   }
 
   void stand() {
-    gs.stand(player);
+    gs.stand(
+      player,
+    );
     saySomething('Stand ✋🏻', dialogLocation[player.name]);
     gs.playerEndTurn(player);
     setState(() {
@@ -242,8 +238,7 @@ class _SecondScreenState extends State<SecondScreen> {
                     child: displayStatus(checkStatus(dealer))),
                 Transform(
                     transform: Matrix4.identity()..translate(-20.0, 120.0, 0.0),
-                    child: displayWinIcon(
-                        dealer.hasWon, dealer.gotNaturalBlackJack)),
+                    child: displayWinIcon(dealer)),
                 Column(children: [
                   Transform(
                       transform: Matrix4.identity()
@@ -271,46 +266,31 @@ class _SecondScreenState extends State<SecondScreen> {
                   Column(children: [
                     Stack(children: [
                       playerRegion(
-                          cpu1.inHand,
-                          cpu1.name,
-                          cpu1.myTurn,
-                          chips(cpu1.hasBet),
-                          cpu1.isBust,
-                          cpu1.hasStand,
-                          -200.0,
-                          0.0,
-                          0.0,
-                          checkStatus(cpu1),
-                          cpu1.hasWon,
-                          cpu1.gotNaturalBlackJack),
+                        cpu1,
+                        chips(cpu1.hasBet),
+                        -200.0,
+                        0.0,
+                        0.0,
+                        checkStatus(cpu1),
+                      ),
                       //showScore(cpu1.score, cpu1.showScore),
                       playerRegion(
-                          player.inHand,
-                          player.name,
-                          player.myTurn,
-                          chips(player.hasBet),
-                          player.isBust,
-                          player.hasStand,
-                          0.0,
-                          0.0,
-                          0.0,
-                          checkStatus(player),
-                          player.hasWon,
-                          player.gotNaturalBlackJack),
+                        player,
+                        chips(player.hasBet),
+                        0.0,
+                        0.0,
+                        0.0,
+                        checkStatus(player),
+                      ),
                       //showScore(player.score, player.showScore),
                       playerRegion(
-                          cpu2.inHand,
-                          cpu2.name,
-                          cpu2.myTurn,
-                          chips(cpu2.hasBet),
-                          cpu2.isBust,
-                          cpu2.hasStand,
-                          200.0,
-                          0.0,
-                          0.0,
-                          checkStatus(cpu2),
-                          cpu2.hasWon,
-                          cpu2.gotNaturalBlackJack),
+                        cpu2,
+                        chips(cpu2.hasBet),
+                        200.0,
+                        0.0,
+                        0.0,
+                        checkStatus(cpu2),
+                      ),
                       //showScore(cpu2.score, cpu2.showScore)
                     ]),
                     Row(children: [
@@ -347,21 +327,7 @@ class _SecondScreenState extends State<SecondScreen> {
                                           completer = Completer<void>();
                                         });
                                       },
-                                      child: Container(
-                                          alignment: Alignment.center,
-                                          width: 80,
-                                          height: 80,
-                                          decoration: BoxDecoration(
-                                              shape: BoxShape.circle,
-                                              border: Border.all(
-                                                  color: Colors.white,
-                                                  width: 3)),
-                                          child: Text(
-                                            'Hit',
-                                            style: TextStyle(
-                                                fontSize: 20,
-                                                color: Colors.white),
-                                          )),
+                                      child: actionButtonConfig('Hit'),
                                     )),
                                 Container(
                                     transform: Matrix4.identity()
@@ -380,21 +346,7 @@ class _SecondScreenState extends State<SecondScreen> {
                                           completer = Completer<void>();
                                         });
                                       },
-                                      child: Container(
-                                          alignment: Alignment.center,
-                                          width: 80,
-                                          height: 80,
-                                          decoration: BoxDecoration(
-                                              shape: BoxShape.circle,
-                                              border: Border.all(
-                                                  color: Colors.white,
-                                                  width: 3)),
-                                          child: Text(
-                                            'Stand',
-                                            style: TextStyle(
-                                                fontSize: 20,
-                                                color: Colors.white),
-                                          )),
+                                      child: actionButtonConfig('Stand'),
                                     )),
                               ],
                               // RETURN BUTTON
@@ -420,9 +372,9 @@ class _SecondScreenState extends State<SecondScreen> {
                         },
                       )),
                       IgnorePointer(
-                          ignoring: !gameOver,
+                          ignoring: (gameOver == false),
                           child: Opacity(
-                              opacity: gameOver ? 1.0 : 0.0,
+                              opacity: gameOver == true ? 1.0 : 0.0,
                               child: Container(
                                   child: RawMaterialButton(
                                       shape: CircleBorder(),

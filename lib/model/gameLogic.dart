@@ -10,6 +10,8 @@ class InitalGameState {
   Deck deck = Deck();
 
   List<Player> players = [];
+  List<Player> survivor = [];
+  List<String> playerWonList = [];
 
   InitalGameState() {
     players = [
@@ -27,26 +29,33 @@ class InitalGameState {
       player.score =
           calculateScore(player.inHand, player, countAce(player.inHand));
       print('Round 1:  ${player.name} - score: ${player.score}');
-      settle(player.inHand, players, player);
+      settle(players, player, countPlayerActionEnded);
     }
   }
 
   // newly added
+
+  int countPlayerActionEnded() {
+    int total = countWon(players) + countStand(players) + countBust(players);
+    print('Total: --  ${total}');
+    return total;
+  }
+
   void handlePlayerAction(String string) {
     // Implementation of the function
     print(string);
   }
 
   int countBust(List<Player> players) {
-    return players.where((player) => player.isBust).length;
+    return players.where((player) => player.isBust == true).length;
   }
 
   int countStand(List<Player> players) {
-    return players.where((player) => player.hasStand).length;
+    return players.where((player) => player.hasStand == true).length;
   }
 
   int countWon(List<Player> players) {
-    return players.where((player) => player.hasWon).length;
+    return players.where((player) => player.hasWon == true).length;
   }
 
   Player getPlayer(String name) {
@@ -65,7 +74,10 @@ class InitalGameState {
         calculateScore(player.inHand, player, countAce(player.inHand));
     player.myTurn = false;
     print('${player.name} has draw the card !!!');
-    settle(player.inHand, players, player);
+    print('${player.name}: has busted ? ${player.isBust}');
+    print('${player.name}: has stand ? ${player.hasStand}');
+    print('${player.name}: has won ? ${player.hasWon}');
+    settle(players, player, countPlayerActionEnded);
     playerEndTurn(player);
   }
 
@@ -73,7 +85,11 @@ class InitalGameState {
     player.hasStand = true;
     player.myTurn = false;
     print('${player.name} -  stand !!!');
-    settle(player.inHand, players, player);
+    print('${player.name}: has busted ? ${player.isBust}');
+    print('${player.name}: has stand ? ${player.hasStand}');
+    print('${player.name}: has won ? ${player.hasWon}');
+
+    settle(players, player, countPlayerActionEnded);
     playerEndTurn(player);
   }
 
@@ -109,50 +125,72 @@ class InitalGameState {
     player.actionEnded = true;
   }
 
-  void settle(List<MyCard> cards, List<Player> players, Player player) {
-    List<Player> survivor = [];
-
+  void settle(List<Player> players, Player player, countPlayerActionEnded()) {
     // 1. If Neutral Happen -- winner - endRound
+    markNeutralBlackJack(player, gameOver);
+    markBust(player);
+    markStand(player, survivor);
+
+    print('Now, number of survivor in :${survivor.length}');
+
+// if winner exist
+    chooseWinner(playerWonList, players, survivor);
+  }
+
+  void markNeutralBlackJack(Player player, bool gameOver) {
     if ((player.score == 21)) {
-      if (cards.length == 2) {
+      if (player.inHand.length == 2) {
         player.gotNaturalBlackJack = true;
         print('${player.name} gets neutral black jack !');
       }
       player.hasWon = true;
-      //gameOver = true;
+      gameOver = true;
       print('${player.name} win the game !');
     }
+  }
 
-    // 2. If bust -- bool bust = true
-    else if (player.score > 21) {
+  void markBust(Player player) {
+    if (player.score > 21) {
       player.isBust = true;
       print('${player.name},  unfortunately get busted and lose the game !');
     }
-    // 3. if all stand
-    else if ((countBust(players) + countStand(players)) == players.length) {
-      if (player.isBust == false) {
-        survivor.add(player);
-      }
+  }
+
+  void markStand(Player player, List<Player> survivorList) {
+    if ((player.hasWon == false) &&
+        (player.hasStand == true) &&
+        (player.isBust == false)) {
+      print('${player.name} --  stand ? -- ${player.hasStand}');
+      survivorList.add(player);
     }
+  }
 
-    List<Player> playerWithMaxScore = survivor
-        .where((player) =>
-            player.score == survivor.map((p) => p.score).reduce(max))
-        .toList();
-
-    print(survivor.length);
-
-    List<String> playerWonList = players
+  void chooseWinner(
+      List<String> playerWonList, List<Player> players, List<Player> survivor) {
+    playerWonList = players
         .where((player) => player.hasWon == true)
         .map((player) => player.name)
         .toList();
 
-    for (Player player in playerWithMaxScore) {
-      player.hasWon = true;
-      print('- ${player.name} (score: ${player.score})');
-    }
-    //gameOver = true;
+    if ((playerWonList.length == 0) &&
+        (countPlayerActionEnded() == players.length)) {
+      print('Why I cannot fix this !!!!');
+      List<Player> playerWithMaxScore = survivor
+          .where((player) =>
+              player.score == survivor.map((p) => p.score).reduce(max))
+          .toList();
 
-    print('The following winner won the game: ${playerWonList}');
+      for (Player player in playerWithMaxScore) {
+        player.hasWon = true;
+        print('- ${player.name} (score: ${player.score})');
+        gameOver = true;
+      }
+    }
+
+    if (playerWonList.length > 0) {
+      print('The following winner won the game: ${playerWonList}');
+      gameOver = true;
+    }
+    ;
   }
 }

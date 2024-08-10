@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
-Widget displayWinIcon(playerWon, playerNatureBJ) {
+Widget displayWinIcon(player) {
   return Column(mainAxisAlignment: MainAxisAlignment.center, children: [
     Transform(
         transform: Matrix4.identity()..translate(-70.0, -100.0, 0.0),
         child: Opacity(
-          opacity: (playerWon | playerNatureBJ) ? 1.0 : 0.0,
+          opacity: ((player.hasWon | player.gotNaturalBlackJack)) ? 1.0 : 0.0,
           child: ClipRRect(
               child: Container(
                   padding: const EdgeInsets.all(0),

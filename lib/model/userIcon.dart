@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_blackjack/model/deck.dart';
 
-Widget displayIcon(playerName, myTurn) {
+Widget displayIcon(player) {
   return Column(mainAxisAlignment: MainAxisAlignment.center, children: [
     Padding(
       padding: const EdgeInsets.all(3),
@@ -15,13 +15,13 @@ Widget displayIcon(playerName, myTurn) {
                 decoration: BoxDecoration(
                     shape: BoxShape.circle,
                     border: Border.all(
-                        color: myTurn
+                        color: player.myTurn
                             ? const Color.fromARGB(214, 250, 201, 26)
                             : const Color.fromARGB(238, 54, 62, 71),
                         width: 5),
                     image: DecorationImage(
-                      image:
-                          AssetImage('assets/img/playerIcon/${playerName}.jpg'),
+                      image: AssetImage(
+                          'assets/img/playerIcon/${player.name}.jpg'),
                       fit: BoxFit.cover,
                     )),
               ))),

@@ -84,15 +84,15 @@ class MyCard extends StatelessWidget {
   }
 }
 
-Widget displayCard(playerCards) {
+Widget displayCard(List<MyCard> cards) {
   return Column(mainAxisAlignment: MainAxisAlignment.center, children: [
     Stack(alignment: Alignment.center, children: [
-      for (int i = 0; i < playerCards.length; i++)
+      for (int i = 0; i < cards.length; i++)
         Transform(
             transform: Matrix4.identity()
               ..translate(28.0 * (i), 0.0 * (i), 0.0 * (i)),
             child: Container(
-              child: playerCards[i],
+              child: cards[i],
             )),
     ])
   ]);
