@@ -18,14 +18,15 @@ For this project, I am trying to make some enhancement on the previous experienc
 ![Simulator Screenshot - iPhone 15 Pro Max - 2024-08-06 at 21 55 37](https://github.com/user-attachments/assets/c2b8782e-170e-4eac-a9ca-ca17ee04eeac)
 
 <p>Here would be the preview of the mobile (still in processing ...)</p>
-<img width="1683" alt="image" src="https://github.com/user-attachments/assets/5d5e798f-6644-4830-8483-044c1bae40a1">
+<img width="805" alt="Screenshot 2024-08-14 at 1 11 26 AM" src="https://github.com/user-attachments/assets/f37150fb-0f55-4029-b0d4-91a67816b0d3">
 
 <p>Welcome to the game</p>
-<img width="1684" alt="image" src="https://github.com/user-attachments/assets/3dee884c-7520-4d7b-96a4-25b578d00076">
+<img width="806" alt="Screenshot 2024-08-14 at 1 14 09 AM" src="https://github.com/user-attachments/assets/bf63cce7-ff88-4e79-82aa-a193dcdd8db1">
+
 
 
 <p>We provide the quick game for black jack and other functions, like changing clothes of the characters / changing another characters (I would try to provide characters CV part, if the status of progress is under expectation)  Coming soon !!!!</p>
-<img width="791" alt="Screenshot 2024-08-07 at 5 35 12 PM" src="https://github.com/user-attachments/assets/1e21e556-9add-4278-beab-ab72e5b0551c">
+<img width="799" alt="Screenshot 2024-08-14 at 1 14 25 AM" src="https://github.com/user-attachments/assets/008d85a6-91a8-4660-8d41-bacafbfa1041">
 
 
 
