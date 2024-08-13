@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_blackjack/main.dart';
+import 'package:flutter_blackjack/model/mainPageUI.dart';
 import 'package:flutter_blackjack/pages/bettingPage.dart';
 import 'package:flutter_blackjack/pages/quickGamePage.dart';
 import 'package:flutter_blackjack/pages/settingPage.dart';
@@ -10,20 +11,29 @@ class MainPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      extendBodyBehindAppBar: true,
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-      ),
       body: Container(
         width: MediaQuery.of(context).size.width,
         //height: MediaQuery.of(context).size.height,
         decoration: const BoxDecoration(
             image: DecorationImage(
-          image: AssetImage("assets/img/mainPage/main_1.jpg"),
+          image: AssetImage("assets/img/mainPage/main_2.jpg"),
           fit: BoxFit.cover,
         )),
         child: Column(
           children: <Widget>[
+            Expanded(
+              flex: 2,
+              child: Row(
+                children: [
+                  Container(
+                    width: 30,
+                    height: 30,
+                  ),
+                  userIcon(100.0, 100.0),
+                  userInfo(),
+                ],
+              ),
+            ),
             Expanded(
               flex: 2,
               child: Container(),
@@ -48,21 +58,7 @@ class MainPage extends StatelessWidget {
                                           "assets/img/mainPage/quickGame.jpg"),
                                       fit: BoxFit.cover)),
                             ),
-                            Positioned(
-                                top: 15,
-                                left: 13,
-                                child: Text('Quick Game',
-                                    style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.bold,
-                                        shadows: [
-                                          Shadow(
-                                            offset: Offset(1.3, 1.3),
-                                            blurRadius: 1.0,
-                                            color: Colors.black,
-                                          ),
-                                        ])))
+                            mainPagePanel(160.0, 13.0, 'Quick Game')
                           ]),
                         )),
                     Expanded(
@@ -86,23 +82,7 @@ class MainPage extends StatelessWidget {
                                                   'assets/img/mainPage/setting.jpg'),
                                               fit: BoxFit.cover)),
                                     ),
-                                    Positioned(
-                                        top: 15,
-                                        left: 13,
-                                        child: Text(
-                                          'Setting',
-                                          style: TextStyle(
-                                              fontSize: 20,
-                                              fontWeight: FontWeight.bold,
-                                              color: Colors.white,
-                                              shadows: [
-                                                Shadow(
-                                                  offset: Offset(1.3, 1.3),
-                                                  blurRadius: 1.0,
-                                                  color: Colors.black,
-                                                ),
-                                              ]),
-                                        ))
+                                    mainPagePanel(60.0, 13.0, 'Setting')
                                   ]),
                                 )),
                             Expanded(
@@ -122,23 +102,7 @@ class MainPage extends StatelessWidget {
                                                   'assets/img/mainPage/change.jpg'),
                                               fit: BoxFit.cover)),
                                     ),
-                                    Positioned(
-                                        top: 15,
-                                        left: 13,
-                                        child: Text(
-                                          'Dressing',
-                                          style: TextStyle(
-                                              fontSize: 20,
-                                              fontWeight: FontWeight.bold,
-                                              color: Colors.white,
-                                              shadows: [
-                                                Shadow(
-                                                  offset: Offset(1.3, 1.3),
-                                                  blurRadius: 1.0,
-                                                  color: Colors.black,
-                                                ),
-                                              ]),
-                                        ))
+                                    mainPagePanel(60.0, 13.0, 'Dressing')
                                   ]),
                                 ))
                           ],
