@@ -23,7 +23,8 @@ For this project, I am trying to make some enhancement on the previous experienc
 <img width="805" alt="Screenshot 2024-08-14 at 1 11 26 AM" src="https://github.com/user-attachments/assets/f37150fb-0f55-4029-b0d4-91a67816b0d3">
 
 <p>Welcome to the game</p>
-<img width="797" alt="Screenshot 2024-08-16 at 9 18 33 PM" src="https://github.com/user-attachments/assets/0bb56cde-4f33-4fe3-a5dd-b03a2741a230">
+<img width="804" alt="Screenshot 2024-08-17 at 3 26 52 AM" src="https://github.com/user-attachments/assets/7a19d6a3-2723-4436-9182-94961462b622">
+
 
 
 
