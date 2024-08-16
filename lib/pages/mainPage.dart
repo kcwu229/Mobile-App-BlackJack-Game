@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_blackjack/main.dart';
 import 'package:flutter_blackjack/model/mainPageUI.dart';
 import 'package:flutter_blackjack/pages/bettingPage.dart';
-import 'package:flutter_blackjack/pages/quickGamePage.dart';
 import 'package:flutter_blackjack/pages/settingPage.dart';
-import 'package:flutter_blackjack/pages/dressingPage.dart';
 
 // shift to the main page
 class MainPage extends StatelessWidget {
@@ -16,7 +13,7 @@ class MainPage extends StatelessWidget {
         //height: MediaQuery.of(context).size.height,
         decoration: const BoxDecoration(
             image: DecorationImage(
-          image: AssetImage("assets/img/mainPage/main_2.jpg"),
+          image: AssetImage("assets/img/mainPage/mainPage.gif"),
           fit: BoxFit.cover,
         )),
         child: Column(
