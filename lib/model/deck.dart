@@ -1,6 +1,4 @@
-import 'package:flutter/rendering.dart';
 import 'package:flutter_blackjack/model/card.dart';
-import 'dart:developer' as developer;
 
 class Deck {
   final List<MyCard> deck = [];

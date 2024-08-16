@@ -17,6 +17,7 @@ class MainPage extends StatelessWidget {
           fit: BoxFit.cover,
         )),
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
             Expanded(
               flex: 2,
@@ -27,21 +28,59 @@ class MainPage extends StatelessWidget {
                     height: 30,
                   ),
                   userIcon(100.0, 100.0),
-                  userInfo(),
+                  Column(children: [
+                    userInfo(),
+                    Container(
+                        color: const Color.fromARGB(104, 158, 158, 158),
+                        child: Row(children: [
+                          SizedBox(
+                              height: 30.0,
+                              width: 30.0,
+                              child: IconButton(
+                                  icon: Icon(
+                                    Icons.email,
+                                    color: Colors.white,
+                                  ),
+                                  onPressed: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => BattlePage()),
+                                    );
+                                    //
+                                  })),
+                          SizedBox(
+                              height: 30.0,
+                              width: 30.0,
+                              child: IconButton(
+                                  icon: Icon(
+                                    Icons.settings,
+                                    color: Colors.white,
+                                  ),
+                                  onPressed: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => BattlePage()),
+                                    );
+                                    //
+                                  }))
+                        ])),
+                  ])
                 ],
               ),
             ),
             Expanded(
-              flex: 2,
+              flex: 1,
               child: Container(),
             ),
             Expanded(
-                flex: 4,
+                flex: 3,
                 child: Row(
                   children: <Widget>[
                     Expanded(flex: 5, child: Container()),
                     Expanded(
-                        flex: 3,
+                        flex: 2,
                         child: InkWell(
                           onTap: () {
                             Navigator.of(context).push(MaterialPageRoute(
@@ -49,57 +88,42 @@ class MainPage extends StatelessWidget {
                           },
                           child: Stack(children: [
                             Container(
-                              decoration: const BoxDecoration(
+                              decoration: BoxDecoration(
+                                  border:
+                                      Border.all(color: Colors.white, width: 2),
                                   image: DecorationImage(
                                       image: AssetImage(
-                                          "assets/img/mainPage/quickGame.jpg"),
+                                          "assets/img/mainPage/quickGame.png"),
                                       fit: BoxFit.cover)),
                             ),
-                            mainPagePanel(160.0, 13.0, 'Quick Game')
+                            mainPagePanel(138.0, 13.0, 'Quick Game')
                           ]),
                         )),
+                    Padding(padding: EdgeInsets.all(2)),
                     Expanded(
                         flex: 2,
                         child: Column(
                           children: <Widget>[
                             Expanded(
-                                flex: 5,
+                                flex: 6,
                                 child: InkWell(
                                   onTap: () {
                                     Navigator.of(context).push(
                                         MaterialPageRoute(
                                             builder: (context) =>
-                                                SettingPage()));
+                                                BattlePage()));
                                   },
                                   child: Stack(children: [
                                     Container(
-                                      decoration: const BoxDecoration(
+                                      decoration: BoxDecoration(
+                                          border: Border.all(
+                                              color: Colors.white, width: 2),
                                           image: DecorationImage(
                                               image: AssetImage(
-                                                  'assets/img/mainPage/setting.jpg'),
+                                                  'assets/img/mainPage/battle.png'),
                                               fit: BoxFit.cover)),
                                     ),
-                                    mainPagePanel(60.0, 13.0, 'Setting')
-                                  ]),
-                                )),
-                            Expanded(
-                                flex: 5,
-                                child: InkWell(
-                                  onTap: () {
-                                    Navigator.of(context).push(
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                SettingPage()));
-                                  },
-                                  child: Stack(children: [
-                                    Container(
-                                      decoration: const BoxDecoration(
-                                          image: DecorationImage(
-                                              image: AssetImage(
-                                                  'assets/img/mainPage/change.jpg'),
-                                              fit: BoxFit.cover)),
-                                    ),
-                                    mainPagePanel(60.0, 13.0, 'Dressing')
+                                    mainPagePanel(136.0, 50.0, 'Battle')
                                   ]),
                                 ))
                           ],

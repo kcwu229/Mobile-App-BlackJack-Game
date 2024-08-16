@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_blackjack/pages/mainPage.dart';
 
-class SettingPage extends StatelessWidget {
+class BattlePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

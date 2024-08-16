@@ -11,7 +11,7 @@ Widget mainPagePanel(
       child: Text(text,
           style: TextStyle(
               color: Colors.white,
-              fontSize: 20,
+              fontSize: 22,
               fontWeight: FontWeight.bold,
               shadows: [
                 Shadow(
@@ -46,7 +46,7 @@ Widget userLevel(text) {
   return Container(
     alignment: Alignment.bottomLeft,
     width: 180,
-    height: 50,
+    height: 40,
     child: Text(
       text,
       style: TextStyle(
@@ -62,7 +62,7 @@ Widget userExp(text) {
   return Container(
     alignment: Alignment.center,
     width: 180,
-    height: 20,
+    height: 25,
     decoration: BoxDecoration(
         gradient: LinearGradient(
       begin: Alignment.topLeft,
@@ -76,7 +76,7 @@ Widget userExp(text) {
       text,
       style: TextStyle(
         color: Colors.white,
-        fontSize: 10,
+        fontSize: 15,
         fontWeight: FontWeight.w400,
       ),
     ),
