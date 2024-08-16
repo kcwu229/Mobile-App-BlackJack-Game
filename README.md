@@ -12,10 +12,12 @@ For this project, I am trying to make some enhancement on the previous experienc
 
 <img width="536" alt="Screenshot 2024-07-25 at 12 37 46 AM" src="https://github.com/user-attachments/assets/2c012703-cf84-425b-a094-307c47847663">
 
-<p>Also, I use the AI generative tool -- stable difussion, to help create the image for the application, to durther speed up the development cycle.</p>
+<p>I use the AI generative tool -- stable difussion, to help create the image for the application, to durther speed up the development cycle.</p>
+
+![Uploading Screenshot 2024-08-17 at 12.15.18 AM.png…]()
+<p>To create 2D animation on mainPage, I use the Live 2D to build model and create an animation.</p>
 
 
-![Simulator Screenshot - iPhone 15 Pro Max - 2024-08-06 at 21 55 37](https://github.com/user-attachments/assets/c2b8782e-170e-4eac-a9ca-ca17ee04eeac)
 
 <p>Here would be the preview of the mobile (still in processing ...)</p>
 <img width="805" alt="Screenshot 2024-08-14 at 1 11 26 AM" src="https://github.com/user-attachments/assets/f37150fb-0f55-4029-b0d4-91a67816b0d3">
