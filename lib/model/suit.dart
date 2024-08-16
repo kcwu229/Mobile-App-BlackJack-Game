@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_blackjack/model/deck.dart';
 
 dynamic blackColor = Colors.black;
 dynamic redColor = Colors.red;

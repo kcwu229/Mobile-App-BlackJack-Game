@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_blackjack/model/deck.dart';
 
 Widget displayIcon(player) {
   return Column(mainAxisAlignment: MainAxisAlignment.center, children: [

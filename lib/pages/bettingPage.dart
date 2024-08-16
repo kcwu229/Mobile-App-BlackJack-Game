@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_blackjack/model/bettingPageUI.dart';
 import 'package:flutter_blackjack/model/blackJackDesk.dart';
-import 'package:flutter_blackjack/model/chip.dart';
-import 'package:flutter_blackjack/model/gameLogic.dart';
 import 'package:flutter_blackjack/model/myController.dart';
-import 'package:flutter_blackjack/model/player.dart';
 
 class QuickGamePage extends StatefulWidget {
   late final MyController controller;
