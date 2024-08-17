@@ -1,65 +1,71 @@
 import 'package:animated_text_kit/animated_text_kit.dart';
+import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_blackjack/model/musicPlayer.dart';
 import 'package:flutter_blackjack/model/myController.dart';
 import 'package:flutter_blackjack/pages/mainPage.dart';
 import 'package:flutter_blackjack/pages/quickGamePage.dart';
 import 'package:flutter_blackjack/pages/splashScreen.dart';
 
 void main() {
-  runApp(SplashScreen());
-}
-
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
-  // This widget is the root of your application.
-  @override
-  Widget build(BuildContext context) {
-    // 强制横屏
-    SystemChrome.setPreferredOrientations([
-      DeviceOrientation.landscapeLeft,
-      DeviceOrientation.landscapeRight,
-    ]);
-
-    // Add the onGenerateRoute attribute on the main.dart
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-      ),
-      home: const MyHomePage(title: ''),
-      onGenerateRoute: (settings) {
-        if (settings.name == '/second-screen') {
-          return MaterialPageRoute(
-            builder: (context) => SecondScreen(
-              controller: settings.arguments as MyController,
-            ),
-          );
-        }
-        return null;
-      },
-    );
-  }
+  runApp(MaterialApp(
+    title: 'Splash Screen',
+    home: SplashScreen(),
+    routes: {
+      '/home': (context) => MyHomePage(),
+      '/second-screen': (context) => SecondScreen(
+            controller:
+                ModalRoute.of(context)!.settings.arguments as MyController,
+          ),
+    },
+    onGenerateRoute: (settings) {
+      // Check if the route is '/second-screen'
+      if (settings.name == '/second-screen') {
+        // Retrieve the MyController argument from the route settings
+        final controller = settings.arguments as MyController;
+        // Return a MaterialPageRoute with the SecondScreen widget
+        return MaterialPageRoute(
+          builder: (context) => SecondScreen(
+            controller: controller,
+          ),
+        );
+      }
+      return null;
+    },
+  ));
 }
 
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-  final String title;
+  MyHomePage({super.key});
 
   @override
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  AudioPlayer audioPlayer = AudioPlayer();
+  final musicplayer = new Musicplayer();
+
+  @override
+  void initState() {
+    super.initState();
+    musicplayer.playAudio('music/myHomePage.mp3');
+  }
+
+  @override
+  void dispose() {
+    audioPlayer.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.landscapeLeft,
+      DeviceOrientation.landscapeRight,
+    ]);
     return Scaffold(
-      extendBodyBehindAppBar: true,
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-      ),
       body: Container(
         width: MediaQuery.of(context).size.width,
         //height: MediaQuery.of(context).size.height,
@@ -85,10 +91,12 @@ class _MyHomePageState extends State<MyHomePage> {
                     minimumSize: const Size.fromHeight(50),
                   ),
                   onPressed: () {
+                    musicplayer.stopAudio();
+
                     // Navigate to the new page
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => MainPage()),
+                      MaterialPageRoute(builder: (context) => MainPageWidget()),
                     );
                   },
                   child: DefaultTextStyle(

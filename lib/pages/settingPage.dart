@@ -20,7 +20,7 @@ class BattlePage extends StatelessWidget {
           // Navigate to the new page
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => MainPage()),
+            MaterialPageRoute(builder: (context) => MainPageWidget()),
           );
         },
       ))),

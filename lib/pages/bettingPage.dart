@@ -4,8 +4,6 @@ import 'package:flutter_blackjack/model/blackJackDesk.dart';
 import 'package:flutter_blackjack/model/myController.dart';
 
 class QuickGamePage extends StatefulWidget {
-  late final MyController controller;
-
   @override
   _QuickGamePageState createState() => _QuickGamePageState();
 }
@@ -48,6 +46,7 @@ class _QuickGamePageState extends State<QuickGamePage> {
               RawMaterialButton(
                   shape: CircleBorder(),
                   onPressed: () {
+                    final controller = MyController();
                     Navigator.of(context)
                         .pushNamed('/second-screen', arguments: controller);
                   },
@@ -69,7 +68,6 @@ class _QuickGamePageState extends State<QuickGamePage> {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return Scaffold(
         body: Container(
       alignment: Alignment.center,

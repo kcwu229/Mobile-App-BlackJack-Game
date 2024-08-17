@@ -15,7 +15,7 @@ import 'package:flutter_blackjack/pages/mainPage.dart';
 // ignore: must_be_immutable
 class SecondScreen extends StatefulWidget {
   // dialog location
-  late final MyController controller;
+  final MyController controller;
   SecondScreen({required this.controller});
 
   @override
@@ -23,7 +23,6 @@ class SecondScreen extends StatefulWidget {
 }
 
 class _SecondScreenState extends State<SecondScreen> {
-  late final MyController controller;
   // create the instance
   InitalGameState gs = InitalGameState();
   bool gameOver = false;
@@ -367,7 +366,8 @@ class _SecondScreenState extends State<SecondScreen> {
                           // Navigate to the new page
                           Navigator.push(
                             context,
-                            MaterialPageRoute(builder: (context) => MainPage()),
+                            MaterialPageRoute(
+                                builder: (context) => MainPageWidget()),
                           );
                         },
                       )),
