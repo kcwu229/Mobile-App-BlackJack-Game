@@ -4,9 +4,10 @@ import 'package:flutter/services.dart';
 import 'package:flutter_blackjack/model/myController.dart';
 import 'package:flutter_blackjack/pages/mainPage.dart';
 import 'package:flutter_blackjack/pages/quickGamePage.dart';
+import 'package:flutter_blackjack/pages/splashScreen.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(SplashScreen());
 }
 
 class MyApp extends StatelessWidget {
