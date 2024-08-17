@@ -1,10 +1,33 @@
+import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_blackjack/model/mainPageUI.dart';
+import 'package:flutter_blackjack/model/musicPlayer.dart';
 import 'package:flutter_blackjack/pages/bettingPage.dart';
 import 'package:flutter_blackjack/pages/settingPage.dart';
 
 // shift to the main page
-class MainPage extends StatelessWidget {
+
+class MainPageWidget extends StatefulWidget {
+  @override
+  _MainPageWidgetState createState() => _MainPageWidgetState();
+}
+
+class _MainPageWidgetState extends State<MainPageWidget> {
+  AudioPlayer audioPlayer = AudioPlayer();
+  Musicplayer musicplayer = new Musicplayer();
+
+  @override
+  void initState() {
+    super.initState();
+    musicplayer.playAudio('music/mainPage.mp3');
+  }
+
+  @override
+  void dispose() {
+    audioPlayer.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -42,6 +65,7 @@ class MainPage extends StatelessWidget {
                                     color: Colors.white,
                                   ),
                                   onPressed: () {
+                                    musicplayer.stopAudio();
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
@@ -58,6 +82,7 @@ class MainPage extends StatelessWidget {
                                     color: Colors.white,
                                   ),
                                   onPressed: () {
+                                    musicplayer.stopAudio();
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
@@ -83,6 +108,7 @@ class MainPage extends StatelessWidget {
                         flex: 2,
                         child: InkWell(
                           onTap: () {
+                            musicplayer.stopAudio();
                             Navigator.of(context).push(MaterialPageRoute(
                                 builder: (context) => QuickGamePage()));
                           },
@@ -108,6 +134,7 @@ class MainPage extends StatelessWidget {
                                 flex: 6,
                                 child: InkWell(
                                   onTap: () {
+                                    musicplayer.stopAudio();
                                     Navigator.of(context).push(
                                         MaterialPageRoute(
                                             builder: (context) =>

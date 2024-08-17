@@ -40,6 +40,7 @@ dependencies:
   flutter_launcher_icons: ^0.13.1
   flick_video_player: ^0.9.0
   video_player: ^2.9.1
+  audioplayers: ^5.2.1
 
 
 dev_dependencies:
@@ -74,6 +75,7 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
   - assets/videos/
+  - assets/music/
   - assets/img/
   - assets/img/loginPage/
   - assets/img/mainPage/
