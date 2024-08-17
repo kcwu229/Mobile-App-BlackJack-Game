@@ -24,6 +24,8 @@ class _SplashScreenState extends State<SplashScreen> {
     super.dispose();
   }
 
+  // TO DO: add the push page to HomePage after the video is finished.
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
