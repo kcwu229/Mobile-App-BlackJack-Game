@@ -111,20 +111,12 @@ class _SecondScreenState extends State<SecondScreen> {
           } else {
             if ((player.score <= 15) && (!player.hasWon)) {
               player.myTurn = true;
-              saySomething(
-                'Hit 🫳🏻',
-                dialogLocation[player.name],
-              );
               gs.hit(player);
               player.myTurn = false;
 
               setState(() {});
             } else if ((player.score > 15) && (player.hasWon == false)) {
               player.myTurn = true;
-              saySomething(
-                'Stand ✋🏻',
-                dialogLocation[player.name],
-              );
               gs.stand(player);
               player.myTurn = false;
             }
@@ -133,9 +125,12 @@ class _SecondScreenState extends State<SecondScreen> {
       }
     }
 
-    gameOver = true;
-
-    if (gameOver) {
+    if ((gs.countBust(players) +
+            gs.countStand(players) +
+            gs.countWon(players)) ==
+        players.length) {
+      print('Total winner:  ${gs.countWon(players)}');
+      gameOver = true;
       List<Player> winnerList = gs.winnerList;
       print('gameOver man');
       // push to another page and pass the parameter
@@ -149,7 +144,7 @@ class _SecondScreenState extends State<SecondScreen> {
   late Player player = gs.getPlayer('player');
 
   // add dialog
-  void saySomething(text, distanceConfig) {
+  saySomething(text, distanceConfig) {
     showGeneralDialog(
       context: context,
       pageBuilder: (context, animation, secondaryAnimation) {
@@ -157,7 +152,7 @@ class _SecondScreenState extends State<SecondScreen> {
       },
       barrierDismissible: false,
       barrierColor: Colors.transparent,
-      transitionDuration: Duration(milliseconds: 200),
+      transitionDuration: Duration(milliseconds: 500),
       transitionBuilder: (context, animation, secondaryAnimation, child) {
         return FadeTransition(
           opacity: animation,
@@ -165,23 +160,11 @@ class _SecondScreenState extends State<SecondScreen> {
         );
       },
     );
-
-    Future.delayed(Duration(seconds: 1), () {
-      Navigator.of(context).pop();
-    });
-    gs.playerEndTurn(player);
+    Navigator.of(context).pop();
   }
 
   void hitActionCallback() {
     waitForHitAction();
-  }
-
-  void newGameAction() {
-    print('can i run it ?');
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => QuickGamePage()),
-    );
   }
 
   void standActionCallback() {
@@ -216,8 +199,6 @@ class _SecondScreenState extends State<SecondScreen> {
 
   void hit() {
     gs.hit(player);
-
-    saySomething('Hit 🫳🏻', dialogLocation[player.name]);
     setState(() {
       playerTurn = false;
     });
@@ -228,7 +209,6 @@ class _SecondScreenState extends State<SecondScreen> {
     gs.stand(
       player,
     );
-    saySomething('Stand ✋🏻', dialogLocation[player.name]);
     gs.playerEndTurn(player);
     setState(() {
       playerTurn = false;
@@ -263,7 +243,7 @@ class _SecondScreenState extends State<SecondScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   Column(children: [
-                    playersArea(cpu1, player, cpu2),
+                    playersArea(cpu1, player, cpu2, checkStatus),
                     SizedBox(
                       height: 210,
                     ),
