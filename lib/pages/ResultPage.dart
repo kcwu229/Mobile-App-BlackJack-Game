@@ -21,10 +21,10 @@ class _ResultPageState extends State<ResultPage>
     super.initState();
 
     animationController =
-        AnimationController(vsync: this, duration: Duration(milliseconds: 400));
+        AnimationController(vsync: this, duration: Duration(milliseconds: 800));
 
     slideAnimation = Tween<Offset>(
-      begin: Offset(0.0, -0.2),
+      begin: Offset(0.0, -0.45),
       end: Offset(0.0, 0.0),
     ).animate(animationController);
 
@@ -65,17 +65,7 @@ class _ResultPageState extends State<ResultPage>
                         flex: 1,
                         child: Container(),
                       ),
-                      Expanded(
-                          flex: 2,
-                          child: Container(
-                            decoration: BoxDecoration(
-                                image: DecorationImage(
-                              image: AssetImage(
-                                  "assets/img/playerIcon/winLogo.png"),
-                            )),
-                            height: 120.0,
-                            width: 120.0,
-                          )),
+                      Expanded(flex: 2, child: glowingEffect()),
                       Expanded(
                           flex: 5,
                           child: Row(

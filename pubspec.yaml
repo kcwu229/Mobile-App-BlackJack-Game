@@ -41,6 +41,7 @@ dependencies:
   flick_video_player: ^0.9.0
   video_player: ^2.9.1
   audioplayers: ^5.2.1
+  avatar_glow: ^3.0.1
 
 
 dev_dependencies:
