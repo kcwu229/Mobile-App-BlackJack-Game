@@ -125,10 +125,10 @@ class _SecondScreenState extends State<SecondScreen> {
       }
     }
 
-    if ((gs.countBust(players) +
-            gs.countStand(players) +
-            gs.countWon(players)) ==
-        players.length) {
+    await Future.delayed(Duration(milliseconds: 800));
+    gameOver = true;
+
+    if (gameOver) {
       print('Total winner:  ${gs.countWon(players)}');
       gameOver = true;
       List<Player> winnerList = gs.winnerList;
@@ -243,7 +243,11 @@ class _SecondScreenState extends State<SecondScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   Column(children: [
-                    playersArea(cpu1, player, cpu2, checkStatus),
+                    playersArea(
+                      cpu1,
+                      player,
+                      cpu2,
+                    ),
                     SizedBox(
                       height: 210,
                     ),

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_blackjack/model/card.dart';
 import 'package:flutter_blackjack/model/chip.dart';
-import 'package:flutter_blackjack/model/player.dart';
 import 'package:flutter_blackjack/model/statusIcon.dart';
 import 'package:flutter_blackjack/model/userIcon.dart';
 
@@ -62,9 +61,9 @@ Widget playerRegion(
   x,
   y,
   z,
-  statusList,
+  //statusList,
 ) {
-  List status = statusList;
+  //List status = statusList;
   return Transform(
       transform: Matrix4.identity()..translate(x, y, z),
       alignment: Alignment.centerLeft,
@@ -75,11 +74,8 @@ Widget playerRegion(
             displayWinIcon(player),
           ]),
           displayCard(player.inHand),
-          //displayStatus(player)
         ]),
-        Row(children: [
-          chipArea(chips),
-        ]),
+        Row(children: [chipArea(chips), statusArea(player)]),
       ]));
 }
 
@@ -99,16 +95,19 @@ Widget actionButtonConfig(text) {
 
 Widget dealerArea(dealer) {
   return Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-    Transform(transform: Matrix4.identity()..translate(50.0, 70.0, 0.0)),
-    //child: displayStatus(checkStatus(dealer))),
+    Transform(
+      transform: Matrix4.identity()..translate(50.0, 70.0, 0.0),
+      //child: displayStatus(checkStatus(dealer))
+    ),
     Transform(
         transform: Matrix4.identity()..translate(-80.0, 30.0, 0.0),
         child: displayWinIcon(dealer)),
     Column(children: [
       Transform(
           transform: Matrix4.identity()..translate(-75.0, 20.0, 0.0),
-          child: Column(children: [
+          child: Row(children: [
             displayCard(dealer.inHand),
+            statusAreaDealer(dealer),
           ])),
     ]),
 
@@ -189,7 +188,7 @@ Widget newGameButton(newGameAction) {
       onPressed: newGameAction);
 }
 
-Widget playersArea(cpu1, player, cpu2, checkStatus) {
+Widget playersArea(cpu1, player, cpu2) {
   return Stack(children: [
     playerRegion(
       cpu1,
@@ -197,7 +196,7 @@ Widget playersArea(cpu1, player, cpu2, checkStatus) {
       -330.0,
       260.0,
       0.0,
-      checkStatus(cpu1),
+      //checkStatus(cpu1),
     ),
     //showScore(cpu1.score, cpu1.showScore),
     playerRegion(
@@ -206,7 +205,7 @@ Widget playersArea(cpu1, player, cpu2, checkStatus) {
       -100.0,
       260.0,
       0.0,
-      checkStatus(player),
+      //checkStatus(player),
     ),
     //showScore(player.score, player.showScore),
     playerRegion(
@@ -215,8 +214,48 @@ Widget playersArea(cpu1, player, cpu2, checkStatus) {
       160.0,
       260.0,
       0.0,
-      checkStatus(cpu2),
+      //checkStatus(cpu2),
     ),
     //showScore(cpu2.score, cpu2.showScore)
   ]);
+}
+
+Widget statusArea(player) {
+  return Transform(
+      transform: Matrix4.identity()..translate(0.0, -170.0, 0.0),
+      child: Container(
+          width: 80,
+          height: 30,
+          child: Text(
+            player.isBust
+                ? 'Bust'
+                : player.hasStand
+                    ? 'Stand'
+                    : '',
+            style: TextStyle(
+              color: Colors.red,
+              fontSize: 24,
+              fontWeight: FontWeight.bold,
+            ),
+          )));
+}
+
+Widget statusAreaDealer(player) {
+  return Transform(
+      transform: Matrix4.identity()..translate(-30.0, 65.0, 0.0),
+      child: Container(
+          width: 80,
+          height: 30,
+          child: Text(
+            player.isBust
+                ? 'Bust'
+                : player.hasStand
+                    ? 'Stand'
+                    : '',
+            style: TextStyle(
+              color: Colors.red,
+              fontSize: 24,
+              fontWeight: FontWeight.bold,
+            ),
+          )));
 }
