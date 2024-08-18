@@ -3,7 +3,7 @@ import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_blackjack/model/musicPlayer.dart';
-import 'package:flutter_blackjack/model/myController.dart';
+import 'package:flutter_blackjack/pages/resultPage.dart';
 import 'package:flutter_blackjack/pages/mainPage.dart';
 import 'package:flutter_blackjack/pages/quickGamePage.dart';
 import 'package:flutter_blackjack/pages/splashScreen.dart';
@@ -14,22 +14,17 @@ void main() {
     home: SplashScreen(),
     routes: {
       '/home': (context) => MyHomePage(),
-      '/second-screen': (context) => SecondScreen(
-            controller:
-                ModalRoute.of(context)!.settings.arguments as MyController,
-          ),
+      '/second-screen': (context) => SecondScreen(),
+      '/result-screen': (context) => ResultPage(),
     },
     onGenerateRoute: (settings) {
       // Check if the route is '/second-screen'
       if (settings.name == '/second-screen') {
-        // Retrieve the MyController argument from the route settings
-        final controller = settings.arguments as MyController;
-        // Return a MaterialPageRoute with the SecondScreen widget
         return MaterialPageRoute(
-          builder: (context) => SecondScreen(
-            controller: controller,
-          ),
+          builder: (context) => SecondScreen(),
         );
+      } else if (settings.name == '/result-screen') {
+        return MaterialPageRoute(builder: (context) => ResultPage());
       }
       return null;
     },

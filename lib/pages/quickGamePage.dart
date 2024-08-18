@@ -2,9 +2,6 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_blackjack/model/blackJackDesk.dart';
 import 'package:flutter_blackjack/model/card.dart';
-import 'package:flutter_blackjack/model/chip.dart';
-import 'package:flutter_blackjack/model/myController.dart';
-import 'package:flutter_blackjack/model/statusIcon.dart';
 import 'package:flutter_blackjack/model/dialogConfig.dart';
 import 'package:flutter_blackjack/model/gameLogic.dart';
 import 'package:flutter_blackjack/model/player.dart';
@@ -15,8 +12,8 @@ import 'package:flutter_blackjack/pages/mainPage.dart';
 // ignore: must_be_immutable
 class SecondScreen extends StatefulWidget {
   // dialog location
-  final MyController controller;
-  SecondScreen({required this.controller});
+
+  SecondScreen();
 
   @override
   _SecondScreenState createState() => _SecondScreenState();
@@ -65,7 +62,6 @@ class _SecondScreenState extends State<SecondScreen> {
   Future<void> loop() async {
     List<Player> players = gs.players;
     dialogLocation;
-
     // if not all players cannot take action, the game would go on until a winner is shown
     while (((gs.countBust(players) +
             gs.countStand(players) +
@@ -115,28 +111,36 @@ class _SecondScreenState extends State<SecondScreen> {
           } else {
             if ((player.score <= 15) && (!player.hasWon)) {
               player.myTurn = true;
-              gs.hit(player);
               saySomething(
                 'Hit 🫳🏻',
                 dialogLocation[player.name],
               );
+              gs.hit(player);
               player.myTurn = false;
 
               setState(() {});
             } else if ((player.score > 15) && (player.hasWon == false)) {
               player.myTurn = true;
-              gs.stand(player);
               saySomething(
                 'Stand ✋🏻',
                 dialogLocation[player.name],
               );
+              gs.stand(player);
               player.myTurn = false;
             }
           }
         }
       }
     }
+
     gameOver = true;
+
+    if (gameOver) {
+      List<Player> winnerList = gs.winnerList;
+      print('gameOver man');
+      // push to another page and pass the parameter
+      Navigator.of(context).pushNamed('/result-screen', arguments: winnerList);
+    }
   }
 
   late Player dealer = gs.getPlayer('dealer');
@@ -149,31 +153,11 @@ class _SecondScreenState extends State<SecondScreen> {
     showGeneralDialog(
       context: context,
       pageBuilder: (context, animation, secondaryAnimation) {
-        return Align(
-          alignment: FractionalOffset(distanceConfig[0], distanceConfig[1]),
-          child: Positioned(
-            width: 200,
-            height: 50,
-            left: 20.0,
-            top: 20.0,
-            child: Card(
-              color: Color.fromRGBO(86, 164, 227, 0.721),
-              child: Padding(
-                padding: EdgeInsets.all(16.0),
-                child: Text(
-                  text,
-                  style: TextStyle(
-                      fontSize: 20,
-                      color: const Color.fromARGB(255, 255, 255, 255)),
-                ),
-              ),
-            ),
-          ),
-        );
+        return dialogConfig(text, distanceConfig);
       },
       barrierDismissible: false,
       barrierColor: Colors.transparent,
-      transitionDuration: Duration(milliseconds: 500),
+      transitionDuration: Duration(milliseconds: 200),
       transitionBuilder: (context, animation, secondaryAnimation, child) {
         return FadeTransition(
           opacity: animation,
@@ -182,10 +166,52 @@ class _SecondScreenState extends State<SecondScreen> {
       },
     );
 
-    Future.delayed(Duration(seconds: 2), () {
+    Future.delayed(Duration(seconds: 1), () {
       Navigator.of(context).pop();
     });
     gs.playerEndTurn(player);
+  }
+
+  void hitActionCallback() {
+    waitForHitAction();
+  }
+
+  void newGameAction() {
+    print('can i run it ?');
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => QuickGamePage()),
+    );
+  }
+
+  void standActionCallback() {
+    waitForStandAction();
+  }
+
+  Future<void> waitForHitAction() async {
+    setState(() {
+      playerResponsed = true;
+      hit();
+      completer.isCompleted;
+    });
+    await completer.future;
+    setState(() {
+      playerResponsed = false;
+      completer = Completer<void>();
+    });
+  }
+
+  Future<void> waitForStandAction() async {
+    setState(() {
+      playerResponsed = true;
+      stand();
+      completer.isCompleted;
+    });
+    await completer.future;
+    setState(() {
+      playerResponsed = false;
+      completer = Completer<void>();
+    });
   }
 
   void hit() {
@@ -218,139 +244,34 @@ class _SecondScreenState extends State<SecondScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        body: Container(
+    return MaterialApp(
+        home: Scaffold(
+            body: Container(
       alignment: Alignment.center,
       width: MediaQuery.of(context).size.width,
-      decoration: const BoxDecoration(color: Color.fromARGB(255, 76, 135, 78)),
+      decoration: const BoxDecoration(
+          image: DecorationImage(
+              image: AssetImage("assets/img/pokerCard/table.jpg"),
+              fit: BoxFit.cover)),
       child: Center(
         child: SizedBox(
           width: MediaQuery.of(context).size.width,
           child: Column(
-            //mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              // Dealer's card in hand
-
-              Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                Transform(
-                    transform: Matrix4.identity()..translate(50.0, 70.0, 0.0),
-                    child: displayStatus(checkStatus(dealer))),
-                Transform(
-                    transform: Matrix4.identity()..translate(-20.0, 120.0, 0.0),
-                    child: displayWinIcon(dealer)),
-                Column(children: [
-                  Transform(
-                      transform: Matrix4.identity()
-                        ..translate(-75.0, 20.0, 0.0),
-                      child: Column(children: [
-                        displayCard(dealer.inHand),
-                      ])),
-                ]),
-
-                //showScore(dealer.score, dealer.showScore)
-              ]),
-
-              Container(
-                  alignment: Alignment.center,
-                  height: 180,
-                  child: Stack(children: [
-                    Align(
-                      alignment: Alignment.center,
-                      child: label(550.0, 80.0, 'Black Jack Pays 3 To 2'),
-                    ),
-                  ])),
+              dealerArea(dealer),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   Column(children: [
-                    Stack(children: [
-                      playerRegion(
-                        cpu1,
-                        chips(cpu1.hasBet),
-                        -200.0,
-                        0.0,
-                        0.0,
-                        checkStatus(cpu1),
-                      ),
-                      //showScore(cpu1.score, cpu1.showScore),
-                      playerRegion(
-                        player,
-                        chips(player.hasBet),
-                        0.0,
-                        0.0,
-                        0.0,
-                        checkStatus(player),
-                      ),
-                      //showScore(player.score, player.showScore),
-                      playerRegion(
-                        cpu2,
-                        chips(cpu2.hasBet),
-                        200.0,
-                        0.0,
-                        0.0,
-                        checkStatus(cpu2),
-                      ),
-                      //showScore(cpu2.score, cpu2.showScore)
-                    ]),
+                    playersArea(cpu1, player, cpu2),
+                    SizedBox(
+                      height: 210,
+                    ),
                     Row(children: [
-                      IgnorePointer(
-                          ignoring: !((playerResponsed == false) &&
-                              (player.hasStand == false) &&
-                              (player.isBust == false) &&
-                              (player.gotNaturalBlackJack == false) &&
-                              (player.myTurn == true)),
-                          child: Opacity(
-                            opacity: ((playerResponsed == false) &&
-                                    (player.hasStand == false) &&
-                                    (player.isBust == false) &&
-                                    (player.gotNaturalBlackJack == false) &&
-                                    (player.myTurn == true))
-                                ? 1.0
-                                : 0.0,
-                            child: Row(
-                              children: [
-                                Container(
-                                    transform: Matrix4.identity()
-                                      ..translate(0.0, 0.0, 0.0),
-                                    child: RawMaterialButton(
-                                      shape: CircleBorder(),
-                                      onPressed: () async {
-                                        setState(() {
-                                          playerResponsed = true;
-                                          hit();
-                                          completer.isCompleted;
-                                        });
-                                        await completer.future;
-                                        setState(() {
-                                          playerResponsed = false;
-                                          completer = Completer<void>();
-                                        });
-                                      },
-                                      child: actionButtonConfig('Hit'),
-                                    )),
-                                Container(
-                                    transform: Matrix4.identity()
-                                      ..translate(0.0, 0.0, 0.0),
-                                    child: RawMaterialButton(
-                                      shape: CircleBorder(),
-                                      onPressed: () async {
-                                        setState(() {
-                                          playerResponsed = true;
-                                          stand();
-                                          completer.isCompleted;
-                                        });
-                                        await completer.future;
-                                        setState(() {
-                                          playerResponsed = false;
-                                          completer = Completer<void>();
-                                        });
-                                      },
-                                      child: actionButtonConfig('Stand'),
-                                    )),
-                              ],
-                              // RETURN BUTTON
-                            ),
-                          )),
+                      // Hit & Stand button code location
+                      playerActionButton(playerResponsed, player,
+                          hitActionCallback, standActionCallback),
+
                       Container(
                           child: RawMaterialButton(
                         shape: CircleBorder(),
@@ -371,30 +292,6 @@ class _SecondScreenState extends State<SecondScreen> {
                           );
                         },
                       )),
-                      IgnorePointer(
-                          ignoring: (gameOver == false),
-                          child: Opacity(
-                              opacity: gameOver == true ? 1.0 : 0.0,
-                              child: Container(
-                                  child: RawMaterialButton(
-                                      shape: CircleBorder(),
-                                      child: Container(
-                                        width: 80,
-                                        height: 80,
-                                        decoration: BoxDecoration(
-                                            image: DecorationImage(
-                                                image: AssetImage(
-                                                    'assets/img/newGame.png'))),
-                                      ),
-                                      onPressed: () {
-                                        // Navigate to the new page
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  QuickGamePage()),
-                                        );
-                                      })))),
                     ]),
                   ]),
                 ],
@@ -403,6 +300,6 @@ class _SecondScreenState extends State<SecondScreen> {
           ),
         ),
       ),
-    ));
+    )));
   }
 }

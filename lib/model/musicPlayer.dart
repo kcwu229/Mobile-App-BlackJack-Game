@@ -18,7 +18,6 @@ class Musicplayer {
   }
 
   Future<void> stopAudio() async {
-    print('I stopped the music');
     stop = true;
     await _audioPlayer.stop();
   }

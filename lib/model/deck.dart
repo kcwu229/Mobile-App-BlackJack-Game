@@ -5,6 +5,7 @@ class Deck {
   final List<String> suitList = ['spade', 'heart', 'club', 'diamond'];
   final List<String> rankList = [
     "A",
+    /*
     "2",
     "3",
     "4",
@@ -13,6 +14,7 @@ class Deck {
     "7",
     "8",
     "9",
+    */
     "10",
     "J",
     "Q",
