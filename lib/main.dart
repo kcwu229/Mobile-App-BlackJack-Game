@@ -3,7 +3,7 @@ import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_blackjack/model/musicPlayer.dart';
-import 'package:flutter_blackjack/pages/ResultPage.dart';
+import 'package:flutter_blackjack/pages/resultPage.dart';
 import 'package:flutter_blackjack/pages/mainPage.dart';
 import 'package:flutter_blackjack/pages/quickGamePage.dart';
 import 'package:flutter_blackjack/pages/splashScreen.dart';

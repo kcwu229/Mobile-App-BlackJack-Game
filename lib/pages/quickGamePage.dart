@@ -61,9 +61,7 @@ class _SecondScreenState extends State<SecondScreen> {
 // looping the round;
   Future<void> loop() async {
     List<Player> players = gs.players;
-
     dialogLocation;
-
     // if not all players cannot take action, the game would go on until a winner is shown
     while (((gs.countBust(players) +
             gs.countStand(players) +
@@ -113,27 +111,28 @@ class _SecondScreenState extends State<SecondScreen> {
           } else {
             if ((player.score <= 15) && (!player.hasWon)) {
               player.myTurn = true;
-              gs.hit(player);
               saySomething(
                 'Hit 🫳🏻',
                 dialogLocation[player.name],
               );
+              gs.hit(player);
               player.myTurn = false;
 
               setState(() {});
             } else if ((player.score > 15) && (player.hasWon == false)) {
               player.myTurn = true;
-              gs.stand(player);
               saySomething(
                 'Stand ✋🏻',
                 dialogLocation[player.name],
               );
+              gs.stand(player);
               player.myTurn = false;
             }
           }
         }
       }
     }
+
     gameOver = true;
 
     if (gameOver) {
@@ -158,7 +157,7 @@ class _SecondScreenState extends State<SecondScreen> {
       },
       barrierDismissible: false,
       barrierColor: Colors.transparent,
-      transitionDuration: Duration(milliseconds: 500),
+      transitionDuration: Duration(milliseconds: 200),
       transitionBuilder: (context, animation, secondaryAnimation, child) {
         return FadeTransition(
           opacity: animation,
@@ -167,7 +166,7 @@ class _SecondScreenState extends State<SecondScreen> {
       },
     );
 
-    Future.delayed(Duration(seconds: 2), () {
+    Future.delayed(Duration(seconds: 1), () {
       Navigator.of(context).pop();
     });
     gs.playerEndTurn(player);

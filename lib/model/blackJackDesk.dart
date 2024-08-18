@@ -102,7 +102,7 @@ Widget dealerArea(dealer) {
       //child: displayStatus(checkStatus(dealer))
     ),
     Transform(
-        transform: Matrix4.identity()..translate(-20.0, 120.0, 0.0),
+        transform: Matrix4.identity()..translate(-80.0, 30.0, 0.0),
         child: displayWinIcon(dealer)),
     Column(children: [
       Transform(
@@ -176,22 +176,17 @@ Widget playerActionButton(
       ));
 }
 
-Widget newGameButton(gameOver, newGameAction) {
-  return IgnorePointer(
-      ignoring: (gameOver == false),
-      child: Opacity(
-          opacity: gameOver == true ? 1.0 : 0.0,
-          child: Container(
-              child: RawMaterialButton(
-                  shape: CircleBorder(),
-                  child: Container(
-                    width: 80,
-                    height: 80,
-                    decoration: BoxDecoration(
-                        image: DecorationImage(
-                            image: AssetImage('assets/img/newGame.png'))),
-                  ),
-                  onPressed: newGameAction))));
+Widget newGameButton(newGameAction) {
+  return RawMaterialButton(
+      shape: CircleBorder(),
+      child: Container(
+        width: 80,
+        height: 80,
+        decoration: BoxDecoration(
+            image:
+                DecorationImage(image: AssetImage('assets/img/newGame.png'))),
+      ),
+      onPressed: newGameAction);
 }
 
 Widget playersArea(cpu1, player, cpu2) {
