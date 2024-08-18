@@ -110,20 +110,12 @@ class _SecondScreenState extends State<SecondScreen> {
             }
           } else {
             if ((player.score <= 15) && (!player.hasWon)) {
-              await saySomething(
-                'Hit 🫳🏻',
-                dialogLocation[player.name],
-              );
               player.myTurn = true;
               gs.hit(player);
               player.myTurn = false;
 
               setState(() {});
             } else if ((player.score > 15) && (player.hasWon == false)) {
-              saySomething(
-                'Stand ✋🏻',
-                dialogLocation[player.name],
-              );
               player.myTurn = true;
               gs.stand(player);
               player.myTurn = false;
@@ -206,7 +198,6 @@ class _SecondScreenState extends State<SecondScreen> {
   }
 
   void hit() {
-    saySomething('Hit 🫳🏻', dialogLocation[player.name]);
     gs.hit(player);
     setState(() {
       playerTurn = false;
@@ -215,7 +206,6 @@ class _SecondScreenState extends State<SecondScreen> {
   }
 
   void stand() {
-    saySomething('Stand ✋🏻', dialogLocation[player.name]);
     gs.stand(
       player,
     );
@@ -253,7 +243,7 @@ class _SecondScreenState extends State<SecondScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   Column(children: [
-                    playersArea(cpu1, player, cpu2),
+                    playersArea(cpu1, player, cpu2, checkStatus),
                     SizedBox(
                       height: 210,
                     ),
