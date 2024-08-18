@@ -61,7 +61,7 @@ class _MainPageWidgetState extends State<MainPageWidget> {
                               width: 30.0,
                               child: IconButton(
                                   icon: Icon(
-                                    Icons.email,
+                                    Icons.email_rounded,
                                     color: Colors.white,
                                   ),
                                   onPressed: () {
@@ -79,6 +79,40 @@ class _MainPageWidgetState extends State<MainPageWidget> {
                               child: IconButton(
                                   icon: Icon(
                                     Icons.settings,
+                                    color: Colors.white,
+                                  ),
+                                  onPressed: () {
+                                    musicplayer.stopAudio();
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => BattlePage()),
+                                    );
+                                    //
+                                  })),
+                          SizedBox(
+                              height: 30.0,
+                              width: 30.0,
+                              child: IconButton(
+                                  icon: Icon(
+                                    Icons.facebook,
+                                    color: Colors.white,
+                                  ),
+                                  onPressed: () {
+                                    musicplayer.stopAudio();
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => BattlePage()),
+                                    );
+                                    //
+                                  })),
+                          SizedBox(
+                              height: 30.0,
+                              width: 30.0,
+                              child: IconButton(
+                                  icon: Icon(
+                                    Icons.menu,
                                     color: Colors.white,
                                   ),
                                   onPressed: () {

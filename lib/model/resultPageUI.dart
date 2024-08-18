@@ -1,6 +1,5 @@
 import 'package:avatar_glow/avatar_glow.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_blackjack/model/player.dart';
 
 Widget showPlayerUI(winnerName) {
   return Padding(
@@ -13,7 +12,7 @@ Widget showPlayerUI(winnerName) {
                   angle: 5 * 3.14159 / 180,
                   child: Container(
                     decoration: BoxDecoration(
-                        border: Border.all(color: Colors.white, width: 5),
+                        border: Border.all(color: Colors.white, width: 3),
                         shape: BoxShape.rectangle,
                         image: DecorationImage(
                           image: AssetImage(
