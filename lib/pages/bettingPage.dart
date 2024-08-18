@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_blackjack/model/bettingPageUI.dart';
 import 'package:flutter_blackjack/model/blackJackDesk.dart';
-import 'package:flutter_blackjack/model/myController.dart';
 
 class QuickGamePage extends StatefulWidget {
   @override
@@ -9,15 +8,12 @@ class QuickGamePage extends StatefulWidget {
 }
 
 class _QuickGamePageState extends State<QuickGamePage> {
-  late final MyController controller;
-
   @override
   void initState() {
     super.initState();
     Future.delayed(Duration.zero, () {
       _showBetDialogBox();
     });
-    controller = MyController();
   }
 
   void _showBetDialogBox() {
@@ -46,9 +42,7 @@ class _QuickGamePageState extends State<QuickGamePage> {
               RawMaterialButton(
                   shape: CircleBorder(),
                   onPressed: () {
-                    final controller = MyController();
-                    Navigator.of(context)
-                        .pushNamed('/second-screen', arguments: controller);
+                    Navigator.of(context).pushNamed('/second-screen');
                   },
                   child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,

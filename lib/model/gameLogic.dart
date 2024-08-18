@@ -11,7 +11,8 @@ class InitalGameState {
 
   List<Player> players = [];
   List<Player> survivor = [];
-  List<String> playerWonList = [];
+  List<String> winnerNameList = [];
+  List<Player> winnerList = [];
 
   InitalGameState() {
     players = [
@@ -28,7 +29,6 @@ class InitalGameState {
       player.inHand.addAll(deck.drawTwoCard());
       player.score =
           calculateScore(player.inHand, player, countAce(player.inHand));
-      print('Round 1:  ${player.name} - score: ${player.score}');
       settle(players, player, countPlayerActionEnded);
     }
   }
@@ -37,13 +37,11 @@ class InitalGameState {
 
   int countPlayerActionEnded() {
     int total = countWon(players) + countStand(players) + countBust(players);
-    print('Total: --  ${total}');
     return total;
   }
 
-  void handlePlayerAction(String string) {
-    // Implementation of the function
-    print(string);
+  List<Player> getWinnerList(players) {
+    return players.where((player) => player.hasWon == true).toList();
   }
 
   int countBust(List<Player> players) {
@@ -73,10 +71,6 @@ class InitalGameState {
     player.score =
         calculateScore(player.inHand, player, countAce(player.inHand));
     player.myTurn = false;
-    print('${player.name} has draw the card !!!');
-    print('${player.name}: has busted ? ${player.isBust}');
-    print('${player.name}: has stand ? ${player.hasStand}');
-    print('${player.name}: has won ? ${player.hasWon}');
     settle(players, player, countPlayerActionEnded);
     playerEndTurn(player);
   }
@@ -84,11 +78,6 @@ class InitalGameState {
   void stand(Player player) {
     player.hasStand = true;
     player.myTurn = false;
-    print('${player.name} -  stand !!!');
-    print('${player.name}: has busted ? ${player.isBust}');
-    print('${player.name}: has stand ? ${player.hasStand}');
-    print('${player.name}: has won ? ${player.hasWon}');
-
     settle(players, player, countPlayerActionEnded);
     playerEndTurn(player);
   }
@@ -115,8 +104,6 @@ class InitalGameState {
         remainingScore -= 10;
       }
     }
-    print('${player.name} - total score is : ${totalScore}');
-    print('${player.name} - remaining score is : ${remainingScore}');
 
     return totalScore;
   }
@@ -131,28 +118,23 @@ class InitalGameState {
     markBust(player);
     markStand(player, survivor);
 
-    print('Now, number of survivor in :${survivor.length}');
-
 // if winner exist
-    chooseWinner(playerWonList, players, survivor);
+    chooseWinner(winnerNameList, players, survivor);
   }
 
   void markNeutralBlackJack(Player player, bool gameOver) {
     if ((player.score == 21)) {
       if (player.inHand.length == 2) {
         player.gotNaturalBlackJack = true;
-        print('${player.name} gets neutral black jack !');
       }
       player.hasWon = true;
       gameOver = true;
-      print('${player.name} win the game !');
     }
   }
 
   void markBust(Player player) {
     if (player.score > 21) {
       player.isBust = true;
-      print('${player.name},  unfortunately get busted and lose the game !');
     }
   }
 
@@ -160,7 +142,6 @@ class InitalGameState {
     if ((player.hasWon == false) &&
         (player.hasStand == true) &&
         (player.isBust == false)) {
-      print('${player.name} --  stand ? -- ${player.hasStand}');
       survivorList.add(player);
     }
   }
@@ -174,7 +155,6 @@ class InitalGameState {
 
     if ((playerWonList.length == 0) &&
         (countPlayerActionEnded() == players.length)) {
-      print('Why I cannot fix this !!!!');
       List<Player> playerWithMaxScore = survivor
           .where((player) =>
               player.score == survivor.map((p) => p.score).reduce(max))
@@ -182,15 +162,14 @@ class InitalGameState {
 
       for (Player player in playerWithMaxScore) {
         player.hasWon = true;
-        print('- ${player.name} (score: ${player.score})');
         gameOver = true;
       }
     }
 
     if (playerWonList.length > 0) {
-      print('The following winner won the game: ${playerWonList}');
       gameOver = true;
     }
-    ;
+    // obtain the
+    winnerList = getWinnerList(players);
   }
 }
