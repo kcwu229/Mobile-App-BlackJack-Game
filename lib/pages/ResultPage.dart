@@ -2,8 +2,10 @@ import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_blackjack/model/player.dart';
 import 'package:flutter_blackjack/model/resultPageUI.dart';
+import 'package:flutter_blackjack/model/userData.dart';
 import 'package:flutter_blackjack/pages/bettingPage.dart';
 import 'package:flutter_blackjack/pages/mainPage.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 // one of the function on mainPage
 // ignore: must_be_immutable
@@ -16,6 +18,7 @@ class _ResultPageState extends State<ResultPage>
     with SingleTickerProviderStateMixin {
   late Animation<Offset> slideAnimation;
   late AnimationController animationController;
+  int expAward = 100;
   @override
   void initState() {
     super.initState();
@@ -29,6 +32,17 @@ class _ResultPageState extends State<ResultPage>
     ).animate(animationController);
 
     animationController.forward();
+  }
+
+  void addUserExp() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    UserExp userExp = new UserExp();
+
+    setState(() {
+      int level = (prefs.getInt('level') ?? 1);
+      int exp = (prefs.getInt('exp') ?? 0) + expAward;
+      userExp.levelUp(level, exp);
+    });
   }
 
   @override

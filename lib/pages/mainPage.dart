@@ -2,6 +2,7 @@ import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_blackjack/model/mainPageUI.dart';
 import 'package:flutter_blackjack/model/musicPlayer.dart';
+import 'package:flutter_blackjack/model/userData.dart';
 import 'package:flutter_blackjack/pages/bettingPage.dart';
 import 'package:flutter_blackjack/pages/settingPage.dart';
 
@@ -15,11 +16,16 @@ class MainPageWidget extends StatefulWidget {
 class _MainPageWidgetState extends State<MainPageWidget> {
   AudioPlayer audioPlayer = AudioPlayer();
   Musicplayer musicplayer = new Musicplayer();
+  int userLevel = 0;
+  int userExp = 0;
 
   @override
   void initState() {
     super.initState();
     musicplayer.playAudio('music/mainPage.mp3');
+
+    // read the User Data
+    loadUserData();
   }
 
   @override
