@@ -5,7 +5,6 @@ import 'package:flutter_blackjack/model/card.dart';
 import 'package:flutter_blackjack/model/dialogConfig.dart';
 import 'package:flutter_blackjack/model/gameLogic.dart';
 import 'package:flutter_blackjack/model/player.dart';
-import 'package:flutter_blackjack/pages/bettingPage.dart';
 import 'package:flutter_blackjack/pages/mainPage.dart';
 
 // one of the function on mainPage

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_blackjack/model/userData.dart';
 
 Widget mainPagePanel(
   top,
@@ -34,11 +35,29 @@ Widget userIcon(width, height) {
 }
 
 Widget userInfo() {
-  return Column(
-    children: [
-      userLevel('LV.20'),
-      userExp('20/100'),
-    ],
+  // need further study
+  return FutureBuilder<Map<String, dynamic>>(
+    future: loadUserData(),
+    builder: (context, snapshot) {
+      if (snapshot.hasData) {
+        final userData = snapshot.data!;
+        final userExpTable = UserExp();
+        final userlevel = userData['level'];
+        final userCurrentExp = userData['level'];
+        final totalExp = userExpTable.getExp(userlevel);
+
+        return Column(
+          children: [
+            userLevel('LV. ${userlevel}'),
+            userExp('${userCurrentExp}  / ${totalExp}', 15.0),
+          ],
+        );
+      } else if (snapshot.hasError) {
+        return Text('Error loading user data: ${snapshot.error}');
+      } else {
+        return CircularProgressIndicator(); // or some other loading indicator
+      }
+    },
   );
 }
 
@@ -58,7 +77,7 @@ Widget userLevel(text) {
   );
 }
 
-Widget userExp(text) {
+Widget userExp(text, fontSize) {
   return Container(
     alignment: Alignment.center,
     width: 180,
@@ -76,7 +95,7 @@ Widget userExp(text) {
       text,
       style: TextStyle(
         color: Colors.white,
-        fontSize: 15,
+        fontSize: fontSize,
         fontWeight: FontWeight.w400,
       ),
     ),

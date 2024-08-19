@@ -82,11 +82,10 @@ Widget playerRegion(
 Widget actionButtonConfig(text) {
   return Container(
       alignment: Alignment.center,
-      width: 80,
-      height: 80,
-      decoration: BoxDecoration(
-          shape: BoxShape.circle,
-          border: Border.all(color: Colors.white, width: 3)),
+      width: 100,
+      height: 60,
+      decoration:
+          BoxDecoration(border: Border.all(color: Colors.white, width: 3)),
       child: Text(
         text,
         style: TextStyle(fontSize: 20, color: Colors.white),
@@ -158,14 +157,15 @@ Widget playerActionButton(
             Container(
                 transform: Matrix4.identity()..translate(0.0, 0.0, 0.0),
                 child: RawMaterialButton(
-                  shape: CircleBorder(),
                   onPressed: waitForHitAction,
                   child: actionButtonConfig('Hit'),
                 )),
+            SizedBox(
+              width: 10,
+            ),
             Container(
                 transform: Matrix4.identity()..translate(0.0, 0.0, 0.0),
                 child: RawMaterialButton(
-                  shape: CircleBorder(),
                   onPressed: waitForStandAction,
                   child: actionButtonConfig('Stand'),
                 )),
