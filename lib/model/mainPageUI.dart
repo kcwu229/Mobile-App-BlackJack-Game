@@ -48,8 +48,8 @@ Widget userInfo() {
 
         return Column(
           children: [
-            userLevel('LV. $userlevel'),
-            userExp('$userCurrentExp  / $totalExp'),
+            userLevel('LV. ${userlevel}'),
+            userExp('${userCurrentExp}  / ${totalExp}', 15.0),
           ],
         );
       } else if (snapshot.hasError) {
@@ -77,7 +77,7 @@ Widget userLevel(text) {
   );
 }
 
-Widget userExp(text) {
+Widget userExp(text, fontSize) {
   return Container(
     alignment: Alignment.center,
     width: 180,
@@ -95,7 +95,7 @@ Widget userExp(text) {
       text,
       style: TextStyle(
         color: Colors.white,
-        fontSize: 15,
+        fontSize: fontSize,
         fontWeight: FontWeight.w400,
       ),
     ),

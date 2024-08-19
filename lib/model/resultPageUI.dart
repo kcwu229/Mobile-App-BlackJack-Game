@@ -1,7 +1,12 @@
+import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:avatar_glow/avatar_glow.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_blackjack/model/mainPageUI.dart';
+import 'package:flutter_blackjack/model/userData.dart';
 
 Widget showPlayerUI(winnerName) {
+  // adding exp and level up
+
   return Padding(
       padding: EdgeInsets.all(10),
       child: Column(
@@ -44,7 +49,7 @@ Widget showPlayerUI(winnerName) {
       ));
 }
 
-Widget glowingEffect() {
+Widget glowingEffect(width, height) {
   return AvatarGlow(
     glowShape: BoxShape.circle,
     repeat: true,
@@ -53,7 +58,166 @@ Widget glowingEffect() {
     duration: Duration(seconds: 3),
     child: Image(
         image: AssetImage("assets/img/playerIcon/winLogo.png"),
-        width: 80,
-        height: 80),
+        width: width,
+        height: height),
+  );
+}
+
+Widget showUserExp(level, exp, slideOne, function, width, totalExp, expAward) {
+  // Add a state variable to keep track of the user's level and experience
+  final ValueNotifier<Map<String, dynamic>> _userData =
+      ValueNotifier<Map<String, dynamic>>({
+    'level': 0,
+    'exp': 0,
+  });
+
+  UserExp userExpClass = new UserExp();
+
+  userExpClass.levelUp(level, exp, expAward);
+
+  return FutureBuilder<Map<String, dynamic>>(
+    future: loadUserData(),
+    builder: (context, snapshot) {
+      if (snapshot.hasData) {
+        final userData = snapshot.data!;
+        final userExpTable = UserExp();
+
+        // Update the state variable with the user's level and experience
+        _userData.value = {
+          'level': userData['level'],
+          'exp': userData['exp'],
+        };
+
+        return ValueListenableBuilder(
+            valueListenable: _userData,
+            builder: (context, userData, _) {
+              final userlevel = userData['level'];
+              final userCurrentExp = userData['exp'];
+              final totalExp = userExpTable.getExp(userlevel);
+
+              userExpClass.levelUp(userlevel, userCurrentExp, expAward);
+
+              return Padding(
+                  padding: EdgeInsets.all(10),
+                  child: Column(children: [
+                    Expanded(
+                        flex: 9,
+                        child: Row(
+                          children: [
+                            Expanded(flex: 1, child: Container()),
+                            Expanded(
+                                flex: 3,
+                                child: Container(
+                                    decoration: BoxDecoration(
+                                        shape: BoxShape.rectangle,
+                                        image: DecorationImage(
+                                          image: AssetImage(
+                                              "assets/img/resultPage/playerFullBody.png"),
+                                          fit: BoxFit.cover,
+                                        )))),
+                            Expanded(
+                                flex: 5,
+                                child: Column(
+                                  children: [
+                                    Expanded(
+                                        flex: 2,
+                                        child: glowingEffect(100.0, 100.0)),
+                                    Expanded(flex: 1, child: Container()),
+                                    Row(children: [
+                                      Expanded(
+                                          flex: 2,
+                                          child: Text(
+                                            '  Lv.${userlevel}',
+                                            style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 15),
+                                          )),
+                                      SizedBox(
+                                        height: 80,
+                                      ),
+                                      Expanded(
+                                          flex: 6,
+                                          child: Container(
+                                            width: 200,
+                                            height: 30,
+                                            color: Colors.green,
+                                            child: userExp(
+                                                '${userCurrentExp}  / ${totalExp}',
+                                                10.0),
+                                            // To Do List
+                                          )),
+                                      Expanded(
+                                          flex: 2,
+                                          child: Text(
+                                            '   + ${expAward}',
+                                            style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 15),
+                                          ))
+                                    ]),
+                                    Expanded(
+                                        flex: 3,
+                                        child: Container(
+                                          width: 400,
+                                          height: 160,
+
+                                          child: Row(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                            children: [
+                                              Container(
+                                                  width: 70,
+                                                  height: 70,
+                                                  decoration: BoxDecoration(
+                                                      shape: BoxShape.rectangle,
+                                                      border: Border.all(
+                                                          color: Colors.white,
+                                                          width: 3),
+                                                      image: DecorationImage(
+                                                        image: AssetImage(
+                                                            "assets/img/resultPage/playerFullBody.png"),
+                                                        fit: BoxFit.cover,
+                                                      )))
+                                            ],
+                                          ),
+
+                                          // To Do List
+                                        )),
+                                    Expanded(flex: 1, child: Container()),
+                                  ],
+                                )),
+                          ],
+                        )),
+                    Expanded(
+                      flex: 1,
+                      child: InkWell(
+                          onTap: slideOne ? '' : function,
+                          child: Container(
+                              color: const Color.fromARGB(231, 238, 146, 8),
+                              alignment: Alignment.centerRight,
+                              width: width,
+                              child: DefaultTextStyle(
+                                  style: TextStyle(
+                                    fontSize: 17,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                  child: AnimatedTextKit(
+                                    animatedTexts: [
+                                      FadeAnimatedText(
+                                          'Tap here to HomePage     ')
+                                    ],
+                                    repeatForever: true,
+                                  )))),
+                    ),
+                  ]));
+            });
+      } else if (snapshot.hasError) {
+        return Text('Error loading user data: ${snapshot.error}');
+      } else {
+        return CircularProgressIndicator(); // or some other loading indicator
+      }
+    },
   );
 }

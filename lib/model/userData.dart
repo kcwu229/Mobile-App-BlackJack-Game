@@ -1,4 +1,5 @@
 // TO DO: add write level, exp data
+import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 Future<void> saveUserData(level, exp) async {
@@ -123,12 +124,19 @@ class UserExp {
     return experienceTable[level] ?? 0;
   }
 
-  void levelUp(level, exp) {
+  Future<void> levelUp(level, exp, expGained) async {
+    print('original level - ${level}, original exp -  ${exp}');
     // if levelUp, save
-    if (exp > getExp(level)) {
+    int requiredExp = getExp(level);
+    exp += expGained;
+    print('requiredExp - ${requiredExp}');
+    print('Gained exp - ${expGained}');
+    if (exp >= requiredExp) {
       level += 1;
-      exp = 0;
-      saveUserData(level, exp);
+      exp -= requiredExp;
+      await saveUserData(level, exp);
+      print('Now the player has levl up !');
+      print('level - ${level}, exp -  ${exp}');
     }
   }
 }
