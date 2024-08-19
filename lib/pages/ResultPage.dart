@@ -32,6 +32,7 @@ class _ResultPageState extends State<ResultPage>
     ).animate(animationController);
 
     animationController.forward();
+    addUserExp();
   }
 
   void addUserExp() async {
