@@ -36,6 +36,7 @@ Widget userIcon(width, height) {
 
 Widget userInfo() {
   // need further study
+
   return FutureBuilder<Map<String, dynamic>>(
     future: loadUserData(),
     builder: (context, snapshot) {
@@ -43,7 +44,7 @@ Widget userInfo() {
         final userData = snapshot.data!;
         final userExpTable = UserExp();
         final userlevel = userData['level'];
-        final userCurrentExp = userData['level'];
+        final userCurrentExp = userData['exp'];
         final totalExp = userExpTable.getExp(userlevel);
 
         return Column(

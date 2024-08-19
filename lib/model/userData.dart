@@ -125,18 +125,14 @@ class UserExp {
   }
 
   Future<void> levelUp(level, exp, expGained) async {
-    print('original level - ${level}, original exp -  ${exp}');
-    // if levelUp, save
+    var a = await loadUserData();
+    print('In result page, Current exp is :   ${a['exp']}');
     int requiredExp = getExp(level);
-    exp += expGained;
-    print('requiredExp - ${requiredExp}');
-    print('Gained exp - ${expGained}');
+    exp = exp + expGained;
     if (exp >= requiredExp) {
       level += 1;
       exp -= requiredExp;
-      await saveUserData(level, exp);
-      print('Now the player has levl up !');
-      print('level - ${level}, exp -  ${exp}');
     }
+    await saveUserData(level, exp);
   }
 }
