@@ -21,7 +21,7 @@ class _ResultPageState extends State<ResultPage>
   late AnimationController animationController;
   final level = 0;
   final exp = 0;
-  int expAward = 100;
+  int expAward = 1200;
   UserExp userExp = new UserExp();
 
   @override
@@ -63,18 +63,6 @@ class _ResultPageState extends State<ResultPage>
       context,
       MaterialPageRoute(builder: (context) => MainPageWidget()),
     );
-  }
-
-  void calculateExp() {
-    setState(() async {
-      SharedPreferences prefs = await SharedPreferences.getInstance();
-      UserExp userExp = new UserExp();
-      int level = (prefs.getInt('level') ?? 1);
-      int exp = (prefs.getInt('exp') ?? 0) + expAward;
-      print('Now the exp is :  ${exp}');
-      //userExp.levelUp(level, exp);
-      //saveUserData(level, exp);
-    });
   }
 
   @override
