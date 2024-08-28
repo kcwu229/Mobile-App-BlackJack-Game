@@ -22,14 +22,14 @@ Widget label(width, height, text) {
       ));
 }
 
-Widget chipArea(chip) {
+Widget chipArea(chip, width, height) {
   return Stack(children: [
     Transform(
       transform: Matrix4.identity()..translate(0.0, 0.0, 0.0),
       child: Container(
         alignment: Alignment.center,
-        width: 70,
-        height: 70,
+        width: width,
+        height: height,
         decoration: BoxDecoration(
           shape: BoxShape.circle,
         ),
@@ -55,14 +55,9 @@ Widget cardRegion() {
   ]);
 }
 
-Widget playerRegion(
-  player,
-  chips,
-  x,
-  y,
-  z,
-  //statusList,
-) {
+Widget playerRegion(player, chips, x, y, z, width, height
+    //statusList,
+    ) {
   //List status = statusList;
   return Transform(
       transform: Matrix4.identity()..translate(x, y, z),
@@ -70,20 +65,20 @@ Widget playerRegion(
       child: Column(children: [
         Row(children: [
           Column(children: [
-            displayIcon(player),
+            displayIcon(player, width, height),
             displayWinIcon(player),
           ]),
           displayCard(player.inHand),
         ]),
-        Row(children: [chipArea(chips), statusArea(player)]),
+        Row(children: [chipArea(chips, width, height), statusArea(player)]),
       ]));
 }
 
-Widget actionButtonConfig(text) {
+Widget actionButtonConfig(text, width, height) {
   return Container(
       alignment: Alignment.center,
-      width: 100,
-      height: 60,
+      width: width,
+      height: height,
       decoration:
           BoxDecoration(border: Border.all(color: Colors.white, width: 3)),
       child: Text(
@@ -136,8 +131,8 @@ Widget dialogConfig(text, distanceConfig) {
   );
 }
 
-Widget playerActionButton(
-    playerResponsed, player, waitForHitAction, waitForStandAction) {
+Widget playerActionButton(playerResponsed, player, waitForHitAction,
+    waitForStandAction, width, height) {
   return IgnorePointer(
       ignoring: !((playerResponsed == false) &&
           (player.hasStand == false) &&
@@ -158,7 +153,7 @@ Widget playerActionButton(
                 transform: Matrix4.identity()..translate(0.0, 0.0, 0.0),
                 child: RawMaterialButton(
                   onPressed: waitForHitAction,
-                  child: actionButtonConfig('Hit'),
+                  child: actionButtonConfig('Hit', width, height),
                 )),
             SizedBox(
               width: 10,
@@ -167,7 +162,7 @@ Widget playerActionButton(
                 transform: Matrix4.identity()..translate(0.0, 0.0, 0.0),
                 child: RawMaterialButton(
                   onPressed: waitForStandAction,
-                  child: actionButtonConfig('Stand'),
+                  child: actionButtonConfig('Stand', width, height),
                 )),
           ],
           // RETURN BUTTON
@@ -175,12 +170,12 @@ Widget playerActionButton(
       ));
 }
 
-Widget newGameButton(newGameAction) {
+Widget newGameButton(newGameAction, width, height) {
   return RawMaterialButton(
       shape: CircleBorder(),
       child: Container(
-        width: 80,
-        height: 80,
+        width: width,
+        height: height,
         decoration: BoxDecoration(
             image:
                 DecorationImage(image: AssetImage('assets/img/newGame.png'))),
@@ -188,34 +183,22 @@ Widget newGameButton(newGameAction) {
       onPressed: newGameAction);
 }
 
-Widget playersArea(cpu1, player, cpu2) {
+Widget playersArea(cpu1, player, cpu2, height, width, widthChip, heightChip) {
   return Stack(children: [
-    playerRegion(
-      cpu1,
-      chips(cpu1.hasBet),
-      -330.0,
-      260.0,
-      0.0,
-      //checkStatus(cpu1),
-    ),
+    playerRegion(cpu1, chips(cpu1.hasBet), width / -2.8, height / 2.8, 0.0,
+        widthChip, heightChip
+        //checkStatus(cpu1),
+        ),
     //showScore(cpu1.score, cpu1.showScore),
-    playerRegion(
-      player,
-      chips(player.hasBet),
-      -100.0,
-      260.0,
-      0.0,
-      //checkStatus(player),
-    ),
+    playerRegion(player, chips(player.hasBet), width / 80, height / 2.8, 0.0,
+        widthChip, heightChip
+        //checkStatus(player),
+        ),
     //showScore(player.score, player.showScore),
-    playerRegion(
-      cpu2,
-      chips(cpu2.hasBet),
-      160.0,
-      260.0,
-      0.0,
-      //checkStatus(cpu2),
-    ),
+    playerRegion(cpu2, chips(cpu2.hasBet), width / 2.8, height / 2.8, 0.0,
+        widthChip, heightChip
+        //checkStatus(cpu2),
+        ),
     //showScore(cpu2.score, cpu2.showScore)
   ]);
 }

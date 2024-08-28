@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_blackjack/model/blackJackDesk.dart';
 import 'package:flutter_blackjack/model/chip.dart';
 
-Widget regionHomepage() {
+Widget regionHomepage(width, height) {
   return Stack(
     alignment: Alignment.center,
     children: [
@@ -10,13 +10,15 @@ Widget regionHomepage() {
         children: List.generate(6, (index) {
           if (index % 2 == 0) {
             return Transform(
-              transform: Matrix4.identity()..translate(-30.0, 100.0, 0.0),
+              transform: Matrix4.identity()
+                ..translate(width / -4, height / 4, 0.0),
               child: cardRegion(),
             );
           } else {
             return Transform(
-              transform: Matrix4.identity()..translate(-40.0, 190.0, 0.0),
-              child: chipArea(chips(false)),
+              transform: Matrix4.identity()
+                ..translate(width / -4, height / 4, 0.0),
+              child: chipArea(chips(false), width, height),
             );
           }
         }),

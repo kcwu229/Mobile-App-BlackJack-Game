@@ -226,66 +226,70 @@ class _SecondScreenState extends State<SecondScreen> {
     final mediaQuery = MediaQuery.of(context);
     final height = mediaQuery.size.height;
     final width = mediaQuery.size.width;
+    final widthChip = width / 4;
+    final heightChip = height / 4;
     return MaterialApp(
         home: Scaffold(
-            body: Container(
-      alignment: Alignment.center,
-      width: MediaQuery.of(context).size.width,
-      decoration: const BoxDecoration(
-          image: DecorationImage(
-              image: AssetImage("assets/img/pokerCard/table.jpg"),
-              fit: BoxFit.cover)),
-      child: Center(
-        child: SizedBox(
-          width: MediaQuery.of(context).size.width,
-          child: Column(
-            children: [
-              dealerArea(dealer),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Column(children: [
-                    playersArea(
-                      cpu1,
-                      player,
-                      cpu2,
-                    ),
-                    SizedBox(
-                      height: 210,
-                    ),
-                    Row(children: [
-                      // Hit & Stand button code location
-                      playerActionButton(playerResponsed, player,
-                          hitActionCallback, standActionCallback),
+            body: PopScope(
+                canPop: false,
+                child: Container(
+                  alignment: Alignment.center,
+                  width: width,
+                  decoration: const BoxDecoration(
+                      image: DecorationImage(
+                          image: AssetImage("assets/img/pokerCard/table.jpg"),
+                          fit: BoxFit.fill)),
+                  child: Center(
+                    child: SizedBox(
+                      width: MediaQuery.of(context).size.width,
+                      child: Column(
+                        children: [
+                          dealerArea(dealer),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              Column(children: [
+                                playersArea(cpu1, player, cpu2, height, width,
+                                    widthChip, heightChip),
+                                Row(children: [
+                                  // Hit & Stand button code location
+                                  playerActionButton(
+                                      playerResponsed,
+                                      player,
+                                      hitActionCallback,
+                                      standActionCallback,
+                                      width / 5,
+                                      height / 5),
 
-                      Container(
-                          child: RawMaterialButton(
-                        shape: CircleBorder(),
-                        child: Container(
-                          width: 80,
-                          height: 80,
-                          decoration: BoxDecoration(
-                              image: DecorationImage(
-                                  image:
-                                      AssetImage('assets/img/homePage.png'))),
-                        ),
-                        onPressed: () {
-                          // Navigate to the new page
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => MainPageWidget()),
-                          );
-                        },
-                      )),
-                    ]),
-                  ]),
-                ],
-              ),
-            ],
-          ),
-        ),
-      ),
-    )));
+                                  Container(
+                                      child: RawMaterialButton(
+                                    shape: CircleBorder(),
+                                    child: Container(
+                                      width: width / 8,
+                                      height: height / 8,
+                                      decoration: BoxDecoration(
+                                          image: DecorationImage(
+                                              image: AssetImage(
+                                                  'assets/img/homePage.png'))),
+                                    ),
+                                    onPressed: () {
+                                      // Navigate to the new page
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                MainPageWidget()),
+                                      );
+                                    },
+                                  )),
+                                ]),
+                              ]),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ))));
   }
 }

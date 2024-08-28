@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-Widget displayIcon(player) {
+Widget displayIcon(player, width, height) {
   return Column(mainAxisAlignment: MainAxisAlignment.center, children: [
     Padding(
       padding: const EdgeInsets.all(3),
@@ -8,8 +8,8 @@ Widget displayIcon(player) {
           borderRadius: BorderRadius.circular(50),
           child: Container(
               padding: const EdgeInsets.all(0),
-              height: 60,
-              width: 60,
+              height: height / 2,
+              width: width / 5,
               child: Container(
                 decoration: BoxDecoration(
                     shape: BoxShape.circle,
