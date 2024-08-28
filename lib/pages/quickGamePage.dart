@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_blackjack/model/blackJackDesk.dart';
 import 'package:flutter_blackjack/model/card.dart';
+import 'package:flutter_blackjack/model/deck.dart';
 import 'package:flutter_blackjack/model/dialogConfig.dart';
 import 'package:flutter_blackjack/model/gameLogic.dart';
 import 'package:flutter_blackjack/model/player.dart';
@@ -26,6 +27,9 @@ class _SecondScreenState extends State<SecondScreen> {
   Completer<void> completer = Completer<void>();
   bool playerTurn = false;
   String status = '';
+
+  // obtain the deck
+  late Deck deck = gs.deck;
 
   @override
   void initState() {
@@ -243,7 +247,7 @@ class _SecondScreenState extends State<SecondScreen> {
                       width: width,
                       child: Column(
                         children: [
-                          dealerArea(dealer, width, height),
+                          dealerArea(dealer, width, height, deck),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [

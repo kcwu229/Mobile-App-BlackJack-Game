@@ -70,39 +70,43 @@ class _QuickGamePageState extends State<QuickGamePage> {
     });
 
     return Scaffold(
-        body: Container(
-      alignment: Alignment.center,
-      width: width,
-      height: height,
-      decoration: const BoxDecoration(
-          image: DecorationImage(
-              image: AssetImage("assets/img/pokerCard/table.jpg"),
-              fit: BoxFit.cover)),
-      child: Center(
-        child: SizedBox(
-          width: width,
-          child: Stack(children: [
-            Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-              // Dealer's card in hand
-              chipsRemaining(500, height / 4, width / 4),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Column(
-                    children: [
-                      //regionHomepage(),
-                      SizedBox(
-                        height: height / 2,
-                      ),
-                    ],
-                  ),
-                ],
+        body: PopScope(
+            canPop: false,
+            child: Container(
+              alignment: Alignment.center,
+              width: width,
+              height: height,
+              decoration: const BoxDecoration(
+                  image: DecorationImage(
+                      image: AssetImage("assets/img/pokerCard/table.jpg"),
+                      fit: BoxFit.cover)),
+              child: Center(
+                child: SizedBox(
+                  width: width,
+                  child: Stack(children: [
+                    Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          // Dealer's card in hand
+                          chipsRemaining(500, height / 4, width / 4),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Column(
+                                children: [
+                                  //regionHomepage(),
+                                  SizedBox(
+                                    height: height / 2,
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ])
+                  ]),
+                ),
               ),
-            ])
-          ]),
-        ),
-      ),
-    ));
+            )));
   }
 }

@@ -89,22 +89,24 @@ Widget actionButtonConfig(text, width, height) {
       ));
 }
 
-Widget dealerArea(dealer, width, height) {
+Widget dealerArea(dealer, width, height, deck) {
   return Row(mainAxisAlignment: MainAxisAlignment.center, children: [
     Transform(
-      transform: Matrix4.identity()..translate(width / 2, height / 2, 0.0),
-      //child: displayStatus(checkStatus(dealer))
-    ),
-    Transform(
-        transform: Matrix4.identity()..translate(width / 10, height / 5, 0.0),
+        transform: Matrix4.identity()..translate(width / 5, height / 5, 0.0),
         child: displayWinIcon(dealer)),
     Column(children: [
       Transform(
-          transform: Matrix4.identity()
-            ..translate(width / -10, height * 0.04, 0.0),
+          transform: Matrix4.identity()..translate(0.0, height * 0.04, 0.0),
           child: Row(children: [
+            SizedBox(
+              width: width / 5,
+            ),
             displayCard(dealer.inHand),
-            statusAreaDealer(dealer),
+            statusAreaDealer(dealer, width, height),
+            SizedBox(
+              width: width / 3,
+            ),
+            deckArea(deck, width, height),
           ])),
     ]),
 
@@ -188,13 +190,10 @@ Widget playersArea(cpu1, player, cpu2, height, width, widthChip, heightChip) {
   return Row(children: [
     playerRegion(cpu1, chips(cpu1.hasBet), width / -5, height / 8, 0.0,
         widthChip, heightChip),
-    //showScore(cpu1.score, cpu1.showScore),
     playerRegion(player, chips(player.hasBet), 0.0, height / 8, 0.0, widthChip,
         heightChip),
-    //showScore(player.score, player.showScore),
     playerRegion(cpu2, chips(cpu2.hasBet), width / 8, height / 8, 0.0,
         widthChip, heightChip),
-    //showScore(cpu2.score, cpu2.showScore)
   ]);
 }
 
@@ -222,12 +221,12 @@ Widget statusArea(
           )));
 }
 
-Widget statusAreaDealer(player) {
+Widget statusAreaDealer(player, width, height) {
   return Transform(
-      transform: Matrix4.identity()..translate(-30.0, 65.0, 0.0),
+      transform: Matrix4.identity()..translate(width / -10, height / 6, 0.0),
       child: Container(
-          width: 80,
-          height: 30,
+          width: width / 10,
+          height: height / 8,
           child: Text(
             player.isBust
                 ? 'Bust'
@@ -240,4 +239,19 @@ Widget statusAreaDealer(player) {
               fontWeight: FontWeight.bold,
             ),
           )));
+}
+
+Widget deckArea(deck, width, height) {
+  return Transform(
+      transform: Matrix4.identity()..translate(width / 40, height / 24, 0.0),
+      child: Transform.rotate(
+          angle: -54 * 3.14159 / 180,
+          child: Container(
+              width: 65,
+              height: 90,
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                    image: AssetImage('assets/img/pokerCard/pokerBack.jpg')),
+                borderRadius: BorderRadius.circular(13),
+              ))));
 }

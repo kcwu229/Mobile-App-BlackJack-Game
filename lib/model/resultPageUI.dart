@@ -8,8 +8,9 @@ Widget showPlayerUI(winnerName, width, height) {
   // adding exp and level up
 
   return Padding(
-      padding: EdgeInsets.all(height / 100),
+      padding: EdgeInsets.all(height / 80),
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Expanded(
               flex: 9,
@@ -25,7 +26,7 @@ Widget showPlayerUI(winnerName, width, height) {
                           fit: BoxFit.cover,
                         )),
                     height: height / 1.4,
-                    width: width / 4,
+                    width: width / 8,
                   ))),
           Expanded(
             flex: 1,
@@ -35,11 +36,11 @@ Widget showPlayerUI(winnerName, width, height) {
                   alignment: Alignment.center,
                   color: Colors.white,
                   height: height / 4,
-                  width: width / 4,
+                  width: width / 8,
                   child: Text(
                     '${winnerName}',
                     style: TextStyle(
-                        fontSize: height / 25,
+                        fontSize: height / 40,
                         fontWeight: FontWeight.bold,
                         color: const Color.fromARGB(255, 32, 32, 32)),
                   ),
@@ -58,13 +59,13 @@ Widget glowingEffect(width, height) {
     duration: Duration(seconds: 3),
     child: Image(
         image: AssetImage("assets/img/playerIcon/winLogo.png"),
-        width: width / 4,
-        height: height / 4),
+        width: width,
+        height: height),
   );
 }
 
 Widget showUserExp(
-    level, exp, slideOne, function, width, totalExp, expAward, height) {
+    level, exp, slideOne, function, totalExp, expAward, width, height) {
   // Add a state variable to keep track of the user's level and experience
 
   UserExp userExpClass = new UserExp();
@@ -81,7 +82,7 @@ Widget showUserExp(
         userExpClass.levelUp(userlevel, userCurrentExp, expAward);
 
         return Padding(
-            padding: EdgeInsets.all(10),
+            padding: EdgeInsets.all(height / 80),
             child: Column(children: [
               Expanded(
                   flex: 9,
@@ -105,7 +106,7 @@ Widget showUserExp(
                             children: [
                               Expanded(flex: 1, child: Container()),
                               Expanded(
-                                  flex: 2, child: glowingEffect(100.0, 100.0)),
+                                  flex: 2, child: glowingEffect(height, width)),
                               Expanded(flex: 1, child: Container()),
                               levelBar(userlevel, userCurrentExp, totalExp,
                                   expAward, width, height),
@@ -113,9 +114,9 @@ Widget showUserExp(
                               Expanded(
                                   flex: 3,
                                   child: Container(
-                                    width: 400,
-                                    height: 160,
-                                    child: obtainItemList(),
+                                    width: width / 3,
+                                    height: height / 3,
+                                    child: obtainItemList(height),
 
                                     // To Do List
                                   )),
@@ -161,31 +162,31 @@ Widget levelBar(userlevel, userCurrentExp, totalExp, expAward, width, height) {
         flex: 2,
         child: Text(
           '  Lv.${userlevel}',
-          style: TextStyle(color: Colors.white, fontSize: 15),
+          style: TextStyle(color: Colors.white, fontSize: height / 20),
         )),
     SizedBox(
-      height: 80,
+      height: height / 10,
     ),
     Expanded(
         flex: 6,
         child: Container(
-          width: 200,
-          height: 20,
+          width: width / 4,
+          height: height / 20,
           color: Colors.green,
-          child:
-              userExp('${userCurrentExp}  / ${totalExp}', width, height, 10.0),
+          child: userExp(
+              '${userCurrentExp}  / ${totalExp}', width, height, height / 28),
           // To Do List
         )),
     Expanded(
         flex: 2,
         child: Text(
           '   + ${expAward}',
-          style: TextStyle(color: Colors.white, fontSize: 15),
+          style: TextStyle(color: Colors.white, fontSize: height / 25),
         ))
   ]);
 }
 
-Widget obtainItemList() {
+Widget obtainItemList(height) {
   return Row(
     crossAxisAlignment: CrossAxisAlignment.start,
     mainAxisAlignment: MainAxisAlignment.start,
@@ -202,10 +203,10 @@ Widget obtainItemList() {
                 fit: BoxFit.cover,
               )),
           child: Padding(
-            padding: EdgeInsets.all(5),
+            padding: EdgeInsets.all(height / 80),
             child: Text(
               '1',
-              style: TextStyle(color: Colors.white, fontSize: 16),
+              style: TextStyle(color: Colors.white, fontSize: height / 25),
             ),
           ))
     ],

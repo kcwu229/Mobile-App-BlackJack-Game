@@ -21,7 +21,7 @@ class _ResultPageState extends State<ResultPage>
   late AnimationController animationController;
   final int level = 0;
   final int exp = 0;
-  int expAward = 300;
+  int expAward = 50;
   UserExp userExp = new UserExp();
 
   @override
@@ -72,17 +72,17 @@ class _ResultPageState extends State<ResultPage>
     int totalExp = userExp.getExp(level);
     final mediaQuery = MediaQuery.of(context);
     double height = mediaQuery.size.height;
-    double width = mediaQuery.size.height;
+    double width = mediaQuery.size.width;
     return MaterialApp(
         home: Scaffold(
             body: PopScope(
                 canPop: false,
                 child: Container(
                     alignment: Alignment.center,
-                    width: MediaQuery.of(context).size.width,
+                    width: width,
                     color: Colors.black,
                     child: Padding(
-                      padding: EdgeInsets.all(height / 100),
+                      padding: EdgeInsets.all(0),
                       child: slideOne
                           ? Column(
                               mainAxisAlignment: MainAxisAlignment.center,
@@ -112,7 +112,6 @@ class _ResultPageState extends State<ResultPage>
                                   child: InkWell(
                                       onTap: slideOne
                                           ? () {
-                                              print("Now is page 2");
                                               setState(() {
                                                 slideOne = false;
                                               });
@@ -126,13 +125,12 @@ class _ResultPageState extends State<ResultPage>
                                             },
                                       child: Container(
                                           alignment: Alignment.centerRight,
-                                          width:
-                                              MediaQuery.of(context).size.width,
+                                          width: width,
                                           color: const Color.fromARGB(
                                               231, 238, 146, 8),
                                           child: DefaultTextStyle(
                                               style: TextStyle(
-                                                fontSize: height / 25,
+                                                fontSize: height / 20,
                                                 fontWeight: FontWeight.bold,
                                               ),
                                               child: AnimatedTextKit(

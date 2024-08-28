@@ -5,7 +5,9 @@ class BattlePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
+        body: PopScope(
+      canPop: false,
+      child: Center(
           child: Container(
               child: RawMaterialButton(
         shape: CircleBorder(),
@@ -24,6 +26,6 @@ class BattlePage extends StatelessWidget {
           );
         },
       ))),
-    );
+    ));
   }
 }
