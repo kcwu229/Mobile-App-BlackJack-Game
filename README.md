@@ -20,8 +20,6 @@ For this project, I am trying to make some enhancement on the previous experienc
 <p>I use the AI generative tool -- stable difussion, to help create the image for the application, Suno AI to help create the instrumental background music, and Photoshop for some graphical drawing.</p>
 
 <p>To create 2D animation on mainPage, I use the Live 2D to build model and create an animation.</p>
-<img width="779" alt="Screenshot 2024-08-29 at 3 52 13 AM" src="https://github.com/user-attachments/assets/fa933183-3d81-489d-8d2f-bd904aee1cec">
-
 
 <p>Welcome to the game</p>
 <img width="779" alt="Screenshot 2024-08-17 at 3 26 52 AM" src="https://github.com/user-attachments/assets/7a19d6a3-2723-4436-9182-94961462b622">
