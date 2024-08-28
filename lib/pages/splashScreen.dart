@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flick_video_player/flick_video_player.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_blackjack/main.dart';
 import 'package:video_player/video_player.dart';
 
@@ -38,9 +39,16 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final mediaQuery = MediaQuery.of(context);
+
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.landscapeRight,
+    ]);
+
     return Scaffold(
-      body: Container(
-        alignment: Alignment.center,
+      body: SizedBox(
+        width: mediaQuery.size.width,
+        height: mediaQuery.size.height,
         child: FlickVideoPlayer(
           flickManager: flickManager,
           flickVideoWithControls: FlickVideoWithControls(

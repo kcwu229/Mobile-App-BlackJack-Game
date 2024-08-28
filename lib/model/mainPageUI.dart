@@ -34,9 +34,8 @@ Widget userIcon(width, height) {
   );
 }
 
-Widget userInfo() {
+Widget userInfo(width, height, fontSize) {
   // need further study
-
   return FutureBuilder<Map<String, dynamic>>(
     future: loadUserData(),
     builder: (context, snapshot) {
@@ -49,8 +48,9 @@ Widget userInfo() {
 
         return Column(
           children: [
-            userLevel('LV. ${userlevel}'),
-            userExp('${userCurrentExp}  / ${totalExp}', 15.0),
+            userLevel('LV. ${userlevel}', width, height, fontSize),
+            userExp(
+                '${userCurrentExp}  / ${totalExp}', width, height, fontSize),
           ],
         );
       } else if (snapshot.hasError) {
@@ -62,27 +62,27 @@ Widget userInfo() {
   );
 }
 
-Widget userLevel(text) {
+Widget userLevel(text, width, height, fontSize) {
   return Container(
     alignment: Alignment.bottomLeft,
-    width: 180,
-    height: 40,
+    width: width,
+    height: height,
     child: Text(
       text,
       style: TextStyle(
         color: const Color.fromARGB(255, 24, 24, 24),
         fontWeight: FontWeight.w400,
-        fontSize: 20,
+        fontSize: fontSize,
       ),
     ),
   );
 }
 
-Widget userExp(text, fontSize) {
+Widget userExp(text, width, height, fontSize) {
   return Container(
     alignment: Alignment.center,
-    width: 180,
-    height: 25,
+    width: width,
+    height: height,
     decoration: BoxDecoration(
         gradient: LinearGradient(
       begin: Alignment.topLeft,

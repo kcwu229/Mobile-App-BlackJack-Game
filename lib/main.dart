@@ -56,59 +56,64 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
+    final mediaQuery = MediaQuery.of(context);
+    final height = mediaQuery.size.height;
     SystemChrome.setPreferredOrientations([
-      DeviceOrientation.landscapeLeft,
       DeviceOrientation.landscapeRight,
     ]);
     return Scaffold(
-      body: Container(
-        width: MediaQuery.of(context).size.width,
-        //height: MediaQuery.of(context).size.height,
-        decoration: const BoxDecoration(
-            image: DecorationImage(
-          image: AssetImage("assets/img/loginPage/login_1.jpg"),
-          fit: BoxFit.cover,
-        )),
+      // add a restriction on preventing the user the swipe finger to redirect to another page
+      body: PopScope(
+          canPop: false,
+          child: Container(
+            width: MediaQuery.of(context).size.width,
+            decoration: const BoxDecoration(
+                image: DecorationImage(
+              image: AssetImage("assets/img/loginPage/login_1.jpg"),
+              fit: BoxFit.cover,
+            )),
+            child: Column(
+              children: <Widget>[
+                // row 1, takes height 70%
+                Expanded(flex: 7, child: Container()),
 
-        child: Column(
-          children: <Widget>[
-            // row 1, takes height 70%
-            Expanded(flex: 7, child: Container()),
+                // row 2, takes height 20%
+                Expanded(
+                    flex: 2,
+                    child: Container(
+                        child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                          foregroundColor: Colors.white,
+                          backgroundColor: Color.fromRGBO(83, 102, 94, 50),
+                          minimumSize: const Size.fromHeight(50),
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.zero)),
+                      onPressed: () {
+                        musicplayer.stopAudio();
 
-            // row 2, takes height 20%
-            Expanded(
-                flex: 2,
-                child: Container(
-                    child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    foregroundColor: Colors.white,
-                    backgroundColor: Color.fromRGBO(83, 102, 94, 50),
-                    minimumSize: const Size.fromHeight(50),
-                  ),
-                  onPressed: () {
-                    musicplayer.stopAudio();
-
-                    // Navigate to the new page
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => MainPageWidget()),
-                    );
-                  },
-                  child: DefaultTextStyle(
-                      style: TextStyle(
-                        fontSize: 40,
-                        fontWeight: FontWeight.bold,
-                      ),
-                      child: AnimatedTextKit(
-                        animatedTexts: [FadeAnimatedText('Start Game')],
-                        repeatForever: true,
-                      )),
-                ))),
-            // row 3, takes height 10%
-            Expanded(flex: 1, child: Container())
-          ],
-        ),
-      ),
+                        // Navigate to the new page
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => MainPageWidget()),
+                        );
+                      },
+                      child: DefaultTextStyle(
+                          style: TextStyle(
+                            // on scale
+                            fontSize: height / 14,
+                            fontWeight: FontWeight.bold,
+                          ),
+                          child: AnimatedTextKit(
+                            animatedTexts: [FadeAnimatedText('Start Game')],
+                            repeatForever: true,
+                          )),
+                    ))),
+                // row 3, takes height 10%
+                Expanded(flex: 1, child: Container())
+              ],
+            ),
+          )),
     );
   }
 }

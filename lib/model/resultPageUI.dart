@@ -63,7 +63,8 @@ Widget glowingEffect(width, height) {
   );
 }
 
-Widget showUserExp(level, exp, slideOne, function, width, totalExp, expAward) {
+Widget showUserExp(
+    level, exp, slideOne, function, width, totalExp, expAward, height) {
   // Add a state variable to keep track of the user's level and experience
 
   UserExp userExpClass = new UserExp();
@@ -106,12 +107,8 @@ Widget showUserExp(level, exp, slideOne, function, width, totalExp, expAward) {
                               Expanded(
                                   flex: 2, child: glowingEffect(100.0, 100.0)),
                               Expanded(flex: 1, child: Container()),
-                              levelBar(
-                                userlevel,
-                                userCurrentExp,
-                                totalExp,
-                                expAward,
-                              ),
+                              levelBar(userlevel, userCurrentExp, totalExp,
+                                  expAward, width, height),
                               Expanded(flex: 1, child: Container()),
                               Expanded(
                                   flex: 3,
@@ -157,7 +154,7 @@ Widget showUserExp(level, exp, slideOne, function, width, totalExp, expAward) {
   );
 }
 
-Widget levelBar(userlevel, userCurrentExp, totalExp, expAward) {
+Widget levelBar(userlevel, userCurrentExp, totalExp, expAward, width, height) {
   userCurrentExp += expAward;
   return Row(children: [
     Expanded(
@@ -175,7 +172,8 @@ Widget levelBar(userlevel, userCurrentExp, totalExp, expAward) {
           width: 200,
           height: 20,
           color: Colors.green,
-          child: userExp('${userCurrentExp}  / ${totalExp}', 10.0),
+          child:
+              userExp('${userCurrentExp}  / ${totalExp}', width, height, 10.0),
           // To Do List
         )),
     Expanded(

@@ -70,7 +70,9 @@ class _ResultPageState extends State<ResultPage>
     // obtain the parameter for further action
     final winners = ModalRoute.of(context)?.settings.arguments as List<Player>;
     int totalExp = userExp.getExp(level);
-
+    final mediaQuery = MediaQuery.of(context);
+    final height = mediaQuery.size.height;
+    final width = mediaQuery.size.height;
     return MaterialApp(
         home: Scaffold(
             body: Container(
@@ -139,15 +141,8 @@ class _ResultPageState extends State<ResultPage>
                             )
                           ],
                         )
-                      : showUserExp(
-                          level,
-                          exp,
-                          slideOne,
-                          goMainPage,
-                          MediaQuery.of(context).size.width,
-                          totalExp,
-                          expAward,
-                        ),
+                      : showUserExp(level, exp, slideOne, goMainPage, totalExp,
+                          expAward, width, height),
                 ))));
   }
 }
