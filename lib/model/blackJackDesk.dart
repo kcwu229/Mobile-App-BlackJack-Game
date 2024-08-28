@@ -22,17 +22,16 @@ Widget label(width, height, text) {
       ));
 }
 
-Widget chipArea(chip) {
+Widget chipArea(chip, width, height) {
   return Stack(children: [
     Transform(
-      transform: Matrix4.identity()..translate(0.0, 0.0, 0.0),
+      transform: Matrix4.identity()..translate(width / 3, height / -0.71, 0.0),
       child: Container(
         alignment: Alignment.center,
-        width: 70,
-        height: 70,
+        width: width / 5,
+        height: height / 2,
         decoration: BoxDecoration(
-          shape: BoxShape.circle,
-        ),
+            shape: BoxShape.circle, border: Border.all(color: Colors.black)),
       ),
     ),
     chip,
@@ -55,14 +54,9 @@ Widget cardRegion() {
   ]);
 }
 
-Widget playerRegion(
-  player,
-  chips,
-  x,
-  y,
-  z,
-  //statusList,
-) {
+Widget playerRegion(player, chips, x, y, z, width, height
+    //statusList,
+    ) {
   //List status = statusList;
   return Transform(
       transform: Matrix4.identity()..translate(x, y, z),
@@ -70,20 +64,23 @@ Widget playerRegion(
       child: Column(children: [
         Row(children: [
           Column(children: [
-            displayIcon(player),
+            displayIcon(player, width, height),
             displayWinIcon(player),
           ]),
           displayCard(player.inHand),
         ]),
-        Row(children: [chipArea(chips), statusArea(player)]),
+        Row(children: [
+          chipArea(chips, width, height),
+          statusArea(player, width / 3, height / 2.2)
+        ]),
       ]));
 }
 
-Widget actionButtonConfig(text) {
+Widget actionButtonConfig(text, width, height) {
   return Container(
       alignment: Alignment.center,
-      width: 100,
-      height: 60,
+      width: width,
+      height: height,
       decoration:
           BoxDecoration(border: Border.all(color: Colors.white, width: 3)),
       child: Text(
@@ -92,21 +89,24 @@ Widget actionButtonConfig(text) {
       ));
 }
 
-Widget dealerArea(dealer) {
+Widget dealerArea(dealer, width, height, deck) {
   return Row(mainAxisAlignment: MainAxisAlignment.center, children: [
     Transform(
-      transform: Matrix4.identity()..translate(50.0, 70.0, 0.0),
-      //child: displayStatus(checkStatus(dealer))
-    ),
-    Transform(
-        transform: Matrix4.identity()..translate(-80.0, 30.0, 0.0),
+        transform: Matrix4.identity()..translate(width / 5, height / 5, 0.0),
         child: displayWinIcon(dealer)),
     Column(children: [
       Transform(
-          transform: Matrix4.identity()..translate(-75.0, 20.0, 0.0),
+          transform: Matrix4.identity()..translate(0.0, height * 0.04, 0.0),
           child: Row(children: [
+            SizedBox(
+              width: width / 5,
+            ),
             displayCard(dealer.inHand),
-            statusAreaDealer(dealer),
+            statusAreaDealer(dealer, width, height),
+            SizedBox(
+              width: width / 3,
+            ),
+            deckArea(deck, width, height),
           ])),
     ]),
 
@@ -136,8 +136,8 @@ Widget dialogConfig(text, distanceConfig) {
   );
 }
 
-Widget playerActionButton(
-    playerResponsed, player, waitForHitAction, waitForStandAction) {
+Widget playerActionButton(playerResponsed, player, waitForHitAction,
+    waitForStandAction, width, height) {
   return IgnorePointer(
       ignoring: !((playerResponsed == false) &&
           (player.hasStand == false) &&
@@ -155,32 +155,30 @@ Widget playerActionButton(
         child: Row(
           children: [
             Container(
-                transform: Matrix4.identity()..translate(0.0, 0.0, 0.0),
                 child: RawMaterialButton(
-                  onPressed: waitForHitAction,
-                  child: actionButtonConfig('Hit'),
-                )),
+              onPressed: waitForHitAction,
+              child: actionButtonConfig('Hit', width / 3, height / 3),
+            )),
             SizedBox(
               width: 10,
             ),
             Container(
-                transform: Matrix4.identity()..translate(0.0, 0.0, 0.0),
                 child: RawMaterialButton(
-                  onPressed: waitForStandAction,
-                  child: actionButtonConfig('Stand'),
-                )),
+              onPressed: waitForStandAction,
+              child: actionButtonConfig('Stand', width / 3, height / 3),
+            )),
           ],
           // RETURN BUTTON
         ),
       ));
 }
 
-Widget newGameButton(newGameAction) {
+Widget newGameButton(newGameAction, width, height) {
   return RawMaterialButton(
       shape: CircleBorder(),
       child: Container(
-        width: 80,
-        height: 80,
+        width: width,
+        height: height,
         decoration: BoxDecoration(
             image:
                 DecorationImage(image: AssetImage('assets/img/newGame.png'))),
@@ -188,44 +186,47 @@ Widget newGameButton(newGameAction) {
       onPressed: newGameAction);
 }
 
-Widget playersArea(cpu1, player, cpu2) {
-  return Stack(children: [
-    playerRegion(
-      cpu1,
-      chips(cpu1.hasBet),
-      -330.0,
-      260.0,
-      0.0,
-      //checkStatus(cpu1),
-    ),
-    //showScore(cpu1.score, cpu1.showScore),
-    playerRegion(
-      player,
-      chips(player.hasBet),
-      -100.0,
-      260.0,
-      0.0,
-      //checkStatus(player),
-    ),
-    //showScore(player.score, player.showScore),
-    playerRegion(
-      cpu2,
-      chips(cpu2.hasBet),
-      160.0,
-      260.0,
-      0.0,
-      //checkStatus(cpu2),
-    ),
-    //showScore(cpu2.score, cpu2.showScore)
+Widget playersArea(cpu1, player, cpu2, height, width, widthChip, heightChip) {
+  return Row(children: [
+    playerRegion(cpu1, chips(cpu1.hasBet), width / -5, height / 8, 0.0,
+        widthChip, heightChip),
+    playerRegion(player, chips(player.hasBet), 0.0, height / 8, 0.0, widthChip,
+        heightChip),
+    playerRegion(cpu2, chips(cpu2.hasBet), width / 8, height / 8, 0.0,
+        widthChip, heightChip),
   ]);
 }
 
-Widget statusArea(player) {
+Widget statusArea(
+  player,
+  width,
+  height,
+) {
   return Transform(
-      transform: Matrix4.identity()..translate(0.0, -170.0, 0.0),
+      transform: Matrix4.identity()..translate(0.0, height / -1.98, 0.0),
       child: Container(
-          width: 80,
-          height: 30,
+          width: width,
+          height: height,
+          child: Text(
+            player.isBust
+                ? 'Bust'
+                : player.hasStand
+                    ? 'Stand'
+                    : '',
+            style: TextStyle(
+              color: Colors.red,
+              fontSize: height / 2,
+              fontWeight: FontWeight.bold,
+            ),
+          )));
+}
+
+Widget statusAreaDealer(player, width, height) {
+  return Transform(
+      transform: Matrix4.identity()..translate(width / -10, height / 6, 0.0),
+      child: Container(
+          width: width / 10,
+          height: height / 8,
           child: Text(
             player.isBust
                 ? 'Bust'
@@ -240,22 +241,17 @@ Widget statusArea(player) {
           )));
 }
 
-Widget statusAreaDealer(player) {
+Widget deckArea(deck, width, height) {
   return Transform(
-      transform: Matrix4.identity()..translate(-30.0, 65.0, 0.0),
-      child: Container(
-          width: 80,
-          height: 30,
-          child: Text(
-            player.isBust
-                ? 'Bust'
-                : player.hasStand
-                    ? 'Stand'
-                    : '',
-            style: TextStyle(
-              color: Colors.red,
-              fontSize: 24,
-              fontWeight: FontWeight.bold,
-            ),
-          )));
+      transform: Matrix4.identity()..translate(width / 40, height / 24, 0.0),
+      child: Transform.rotate(
+          angle: -54 * 3.14159 / 180,
+          child: Container(
+              width: 65,
+              height: 90,
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                    image: AssetImage('assets/img/pokerCard/pokerBack.jpg')),
+                borderRadius: BorderRadius.circular(13),
+              ))));
 }

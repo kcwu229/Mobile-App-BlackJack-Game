@@ -4,12 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_blackjack/model/mainPageUI.dart';
 import 'package:flutter_blackjack/model/userData.dart';
 
-Widget showPlayerUI(winnerName) {
+Widget showPlayerUI(winnerName, width, height) {
   // adding exp and level up
 
   return Padding(
-      padding: EdgeInsets.all(10),
+      padding: EdgeInsets.all(height / 80),
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Expanded(
               flex: 9,
@@ -24,8 +25,8 @@ Widget showPlayerUI(winnerName) {
                               "assets/img/resultPage/${winnerName}Won.jpg"),
                           fit: BoxFit.cover,
                         )),
-                    height: 70.0,
-                    width: 170.0,
+                    height: height / 1.4,
+                    width: width / 8,
                   ))),
           Expanded(
             flex: 1,
@@ -34,12 +35,12 @@ Widget showPlayerUI(winnerName) {
                 child: Container(
                   alignment: Alignment.center,
                   color: Colors.white,
-                  height: 30.0,
-                  width: 170.0,
+                  height: height / 4,
+                  width: width / 8,
                   child: Text(
                     '${winnerName}',
                     style: TextStyle(
-                        fontSize: 20,
+                        fontSize: height / 40,
                         fontWeight: FontWeight.bold,
                         color: const Color.fromARGB(255, 32, 32, 32)),
                   ),
@@ -63,7 +64,8 @@ Widget glowingEffect(width, height) {
   );
 }
 
-Widget showUserExp(level, exp, slideOne, function, width, totalExp, expAward) {
+Widget showUserExp(
+    level, exp, slideOne, function, totalExp, expAward, width, height) {
   // Add a state variable to keep track of the user's level and experience
 
   UserExp userExpClass = new UserExp();
@@ -74,13 +76,13 @@ Widget showUserExp(level, exp, slideOne, function, width, totalExp, expAward) {
       if (snapshot.hasData) {
         final userData = snapshot.data!;
         final userExpTable = UserExp();
-        final userlevel = userData['level'];
-        final userCurrentExp = userData['exp'];
-        final totalExp = userExpTable.getExp(userlevel);
+        final int userlevel = userData['level'];
+        final int userCurrentExp = userData['exp'];
+        final int totalExp = userExpTable.getExp(userlevel);
         userExpClass.levelUp(userlevel, userCurrentExp, expAward);
 
         return Padding(
-            padding: EdgeInsets.all(10),
+            padding: EdgeInsets.all(height / 80),
             child: Column(children: [
               Expanded(
                   flex: 9,
@@ -104,21 +106,17 @@ Widget showUserExp(level, exp, slideOne, function, width, totalExp, expAward) {
                             children: [
                               Expanded(flex: 1, child: Container()),
                               Expanded(
-                                  flex: 2, child: glowingEffect(100.0, 100.0)),
+                                  flex: 2, child: glowingEffect(height, width)),
                               Expanded(flex: 1, child: Container()),
-                              levelBar(
-                                userlevel,
-                                userCurrentExp,
-                                totalExp,
-                                expAward,
-                              ),
+                              levelBar(userlevel, userCurrentExp, totalExp,
+                                  expAward, width, height),
                               Expanded(flex: 1, child: Container()),
                               Expanded(
                                   flex: 3,
                                   child: Container(
-                                    width: 400,
-                                    height: 160,
-                                    child: obtainItemList(),
+                                    width: width / 3,
+                                    height: height / 3,
+                                    child: obtainItemList(height),
 
                                     // To Do List
                                   )),
@@ -157,37 +155,38 @@ Widget showUserExp(level, exp, slideOne, function, width, totalExp, expAward) {
   );
 }
 
-Widget levelBar(userlevel, userCurrentExp, totalExp, expAward) {
+Widget levelBar(userlevel, userCurrentExp, totalExp, expAward, width, height) {
   userCurrentExp += expAward;
   return Row(children: [
     Expanded(
         flex: 2,
         child: Text(
           '  Lv.${userlevel}',
-          style: TextStyle(color: Colors.white, fontSize: 15),
+          style: TextStyle(color: Colors.white, fontSize: height / 20),
         )),
     SizedBox(
-      height: 80,
+      height: height / 10,
     ),
     Expanded(
         flex: 6,
         child: Container(
-          width: 200,
-          height: 20,
+          width: width / 4,
+          height: height / 20,
           color: Colors.green,
-          child: userExp('${userCurrentExp}  / ${totalExp}', 10.0),
+          child: userExp(
+              '${userCurrentExp}  / ${totalExp}', width, height, height / 28),
           // To Do List
         )),
     Expanded(
         flex: 2,
         child: Text(
           '   + ${expAward}',
-          style: TextStyle(color: Colors.white, fontSize: 15),
+          style: TextStyle(color: Colors.white, fontSize: height / 25),
         ))
   ]);
 }
 
-Widget obtainItemList() {
+Widget obtainItemList(height) {
   return Row(
     crossAxisAlignment: CrossAxisAlignment.start,
     mainAxisAlignment: MainAxisAlignment.start,
@@ -204,10 +203,10 @@ Widget obtainItemList() {
                 fit: BoxFit.cover,
               )),
           child: Padding(
-            padding: EdgeInsets.all(5),
+            padding: EdgeInsets.all(height / 80),
             child: Text(
               '1',
-              style: TextStyle(color: Colors.white, fontSize: 16),
+              style: TextStyle(color: Colors.white, fontSize: height / 25),
             ),
           ))
     ],

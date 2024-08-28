@@ -125,9 +125,10 @@ class UserExp {
   }
 
   Future<void> levelUp(level, exp, expGained) async {
-    var a = await loadUserData();
-    print('In result page, Current exp is :   ${a['exp']}');
+    //var a = await loadUserData();
+    //print('In result page, Current exp is :   ${a['exp']}');
     int requiredExp = getExp(level);
+    print('Required exp is ${requiredExp}');
     exp = exp + expGained;
     if (exp >= requiredExp) {
       level += 1;

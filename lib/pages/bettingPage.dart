@@ -8,15 +8,14 @@ class QuickGamePage extends StatefulWidget {
 }
 
 class _QuickGamePageState extends State<QuickGamePage> {
+  late double height;
+  late double width;
   @override
   void initState() {
     super.initState();
-    Future.delayed(Duration.zero, () {
-      _showBetDialogBox();
-    });
   }
 
-  void _showBetDialogBox() {
+  void _showBetDialogBox(height, width) {
     showDialog(
         context: context,
         barrierDismissible: false,
@@ -30,31 +29,31 @@ class _QuickGamePageState extends State<QuickGamePage> {
               style: TextStyle(color: Colors.white),
             ),
             content: SizedBox(
-                width: 600,
-                height: 500,
-                child: Container(
-                  child: Text(
-                    'Please select the chips amount for betting: ',
-                    style: TextStyle(color: Colors.white),
-                  ),
-                )),
+                width: width,
+                height: height,
+                child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Container(
+                        child: Text(
+                          'Please select the chips amount for betting: ',
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      ),
+                      SizedBox(width: width / 8, height: height / 8),
+                      chipItem(width, height / 2.5),
+                    ])),
             actions: [
-              RawMaterialButton(
-                  shape: CircleBorder(),
+              Container(
+                alignment: Alignment.center,
+                child: RawMaterialButton(
                   onPressed: () {
                     Navigator.of(context).pushNamed('/second-screen');
                   },
-                  child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        chipItem(),
-                        Container(
-                          width: 200,
-                          height: 200,
-                        ),
-                        betButtonConfig(),
-                      ])),
+                  child: betButtonConfig(width, height / 2.5),
+                ),
+              )
             ],
           ));
         });
@@ -62,51 +61,52 @@ class _QuickGamePageState extends State<QuickGamePage> {
 
   @override
   Widget build(BuildContext context) {
+    final mediaQuery = MediaQuery.of(context);
+    final height = mediaQuery.size.height;
+    final width = mediaQuery.size.width;
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _showBetDialogBox(height / 2.5, width / 6);
+    });
+
     return Scaffold(
-        body: Container(
-      alignment: Alignment.center,
-      width: MediaQuery.of(context).size.width,
-      decoration: const BoxDecoration(color: Color.fromARGB(255, 76, 135, 78)),
-      child: Center(
-        child: SizedBox(
-          width: MediaQuery.of(context).size.width,
-          child: Stack(children: [
-            Column(
-                //mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  // Dealer's card in hand
-                  chipsRemaining(500),
-                  Container(
-                      alignment: Alignment.center,
-                      height: 100,
-                      child: Stack(children: [
-                        Align(
-                          alignment: Alignment.center,
-                          child: Transform(
-                              transform: Matrix4.identity()
-                                ..translate(0.0, 80.0, 0.0),
-                              child:
-                                  label(550.0, 80.0, 'Black Jack Pays 3 To 2')),
-                        ),
-                      ])),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Column(
+        body: PopScope(
+            canPop: false,
+            child: Container(
+              alignment: Alignment.center,
+              width: width,
+              height: height,
+              decoration: const BoxDecoration(
+                  image: DecorationImage(
+                      image: AssetImage("assets/img/pokerCard/table.jpg"),
+                      fit: BoxFit.cover)),
+              child: Center(
+                child: SizedBox(
+                  width: width,
+                  child: Stack(children: [
+                    Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          regionHomepage(),
-                          SizedBox(
-                            height: 200,
+                          // Dealer's card in hand
+                          chipsRemaining(500, height / 4, width / 4),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Column(
+                                children: [
+                                  //regionHomepage(),
+                                  SizedBox(
+                                    height: height / 2,
+                                  ),
+                                ],
+                              ),
+                            ],
                           ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ])
-          ]),
-        ),
-      ),
-    ));
+                        ])
+                  ]),
+                ),
+              ),
+            )));
   }
 }

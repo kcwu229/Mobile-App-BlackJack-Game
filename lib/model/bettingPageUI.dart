@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_blackjack/model/blackJackDesk.dart';
 import 'package:flutter_blackjack/model/chip.dart';
 
-Widget regionHomepage() {
+Widget regionHomepage(width, height) {
   return Stack(
     alignment: Alignment.center,
     children: [
@@ -10,13 +10,15 @@ Widget regionHomepage() {
         children: List.generate(6, (index) {
           if (index % 2 == 0) {
             return Transform(
-              transform: Matrix4.identity()..translate(-30.0, 100.0, 0.0),
+              transform: Matrix4.identity()
+                ..translate(width / -4, height / 4, 0.0),
               child: cardRegion(),
             );
           } else {
             return Transform(
-              transform: Matrix4.identity()..translate(-40.0, 190.0, 0.0),
-              child: chipArea(chips(false)),
+              transform: Matrix4.identity()
+                ..translate(width / -4, height / 4, 0.0),
+              child: chipArea(chips(false), width, height),
             );
           }
         }),
@@ -25,44 +27,44 @@ Widget regionHomepage() {
   );
 }
 
-Widget chipsRemaining(playerChips) {
+Widget chipsRemaining(playerChips, height, width) {
   return Container(
     alignment: Alignment.topRight,
-    height: 80,
-    width: 150,
+    height: height,
+    width: width,
     child: Text(
       'Chips: ${playerChips}',
-      style: TextStyle(color: Colors.black),
+      style: TextStyle(color: Colors.white),
     ),
   );
 }
 
-Widget chipItem() {
+Widget chipItem(width, height) {
   return Container(
       alignment: Alignment.center,
-      width: 100,
-      height: 100,
+      width: width,
+      height: height,
       decoration: BoxDecoration(
           color: const Color.fromARGB(255, 220, 48, 42),
           shape: BoxShape.circle,
           border: Border.all(color: Colors.white, width: 7)),
       child: Text(
         '50',
-        style: TextStyle(fontSize: 20, color: Colors.white),
+        style: TextStyle(fontSize: height / 4, color: Colors.white),
       ));
 }
 
-Widget betButtonConfig() {
+Widget betButtonConfig(width, height) {
   return Container(
       alignment: Alignment.center,
-      width: 180,
-      height: 80,
+      width: width,
+      height: height / 1.5,
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(8),
           color: const Color.fromARGB(255, 44, 121, 184),
           border: Border.all(color: Colors.black, width: 2)),
       child: Text(
         'Bet',
-        style: TextStyle(fontSize: 20, color: Colors.white),
+        style: TextStyle(fontSize: height / 5, color: Colors.white),
       ));
 }

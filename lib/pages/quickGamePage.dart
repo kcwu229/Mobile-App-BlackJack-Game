@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_blackjack/model/blackJackDesk.dart';
 import 'package:flutter_blackjack/model/card.dart';
+import 'package:flutter_blackjack/model/deck.dart';
 import 'package:flutter_blackjack/model/dialogConfig.dart';
 import 'package:flutter_blackjack/model/gameLogic.dart';
 import 'package:flutter_blackjack/model/player.dart';
@@ -26,6 +27,9 @@ class _SecondScreenState extends State<SecondScreen> {
   Completer<void> completer = Completer<void>();
   bool playerTurn = false;
   String status = '';
+
+  // obtain the deck
+  late Deck deck = gs.deck;
 
   @override
   void initState() {
@@ -223,66 +227,79 @@ class _SecondScreenState extends State<SecondScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final mediaQuery = MediaQuery.of(context);
+    final height = mediaQuery.size.height;
+    final width = mediaQuery.size.width;
+    final widthChip = width / 4;
+    final heightChip = height / 4;
     return MaterialApp(
         home: Scaffold(
-            body: Container(
-      alignment: Alignment.center,
-      width: MediaQuery.of(context).size.width,
-      decoration: const BoxDecoration(
-          image: DecorationImage(
-              image: AssetImage("assets/img/pokerCard/table.jpg"),
-              fit: BoxFit.cover)),
-      child: Center(
-        child: SizedBox(
-          width: MediaQuery.of(context).size.width,
-          child: Column(
-            children: [
-              dealerArea(dealer),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Column(children: [
-                    playersArea(
-                      cpu1,
-                      player,
-                      cpu2,
-                    ),
-                    SizedBox(
-                      height: 210,
-                    ),
-                    Row(children: [
-                      // Hit & Stand button code location
-                      playerActionButton(playerResponsed, player,
-                          hitActionCallback, standActionCallback),
+            body: PopScope(
+                canPop: false,
+                child: Container(
+                  width: width,
+                  decoration: const BoxDecoration(
+                      image: DecorationImage(
+                          image: AssetImage("assets/img/pokerCard/table.jpg"),
+                          fit: BoxFit.fill)),
+                  child: Center(
+                    child: SizedBox(
+                      width: width,
+                      child: Column(
+                        children: [
+                          dealerArea(dealer, width, height, deck),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Column(children: [
+                                SizedBox(
+                                  height: height / 5,
+                                ),
+                                playersArea(cpu1, player, cpu2, height, width,
+                                    widthChip, heightChip),
+                                Row(children: [
+                                  SizedBox(
+                                    width: width / 3.2,
+                                  ),
+                                  // Hit & Stand button code location
+                                  Center(
+                                      child: playerActionButton(
+                                          playerResponsed,
+                                          player,
+                                          hitActionCallback,
+                                          standActionCallback,
+                                          width / 3,
+                                          height / 4)),
 
-                      Container(
-                          child: RawMaterialButton(
-                        shape: CircleBorder(),
-                        child: Container(
-                          width: 80,
-                          height: 80,
-                          decoration: BoxDecoration(
-                              image: DecorationImage(
-                                  image:
-                                      AssetImage('assets/img/homePage.png'))),
-                        ),
-                        onPressed: () {
-                          // Navigate to the new page
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => MainPageWidget()),
-                          );
-                        },
-                      )),
-                    ]),
-                  ]),
-                ],
-              ),
-            ],
-          ),
-        ),
-      ),
-    )));
+                                  Container(
+                                      child: RawMaterialButton(
+                                    shape: CircleBorder(),
+                                    child: Container(
+                                      width: width / 8,
+                                      height: height / 8,
+                                      decoration: BoxDecoration(
+                                          image: DecorationImage(
+                                              image: AssetImage(
+                                                  'assets/img/homePage.png'))),
+                                    ),
+                                    onPressed: () {
+                                      // Navigate to the new page
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                MainPageWidget()),
+                                      );
+                                    },
+                                  )),
+                                ]),
+                              ]),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ))));
   }
 }
