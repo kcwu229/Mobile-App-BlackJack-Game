@@ -233,7 +233,6 @@ class _SecondScreenState extends State<SecondScreen> {
             body: PopScope(
                 canPop: false,
                 child: Container(
-                  alignment: Alignment.center,
                   width: width,
                   decoration: const BoxDecoration(
                       image: DecorationImage(
@@ -241,25 +240,32 @@ class _SecondScreenState extends State<SecondScreen> {
                           fit: BoxFit.fill)),
                   child: Center(
                     child: SizedBox(
-                      width: MediaQuery.of(context).size.width,
+                      width: width,
                       child: Column(
                         children: [
-                          dealerArea(dealer),
+                          dealerArea(dealer, width, height),
                           Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Column(children: [
+                                SizedBox(
+                                  height: height / 5,
+                                ),
                                 playersArea(cpu1, player, cpu2, height, width,
                                     widthChip, heightChip),
                                 Row(children: [
+                                  SizedBox(
+                                    width: width / 3.2,
+                                  ),
                                   // Hit & Stand button code location
-                                  playerActionButton(
-                                      playerResponsed,
-                                      player,
-                                      hitActionCallback,
-                                      standActionCallback,
-                                      width / 5,
-                                      height / 5),
+                                  Center(
+                                      child: playerActionButton(
+                                          playerResponsed,
+                                          player,
+                                          hitActionCallback,
+                                          standActionCallback,
+                                          width / 3,
+                                          height / 4)),
 
                                   Container(
                                       child: RawMaterialButton(

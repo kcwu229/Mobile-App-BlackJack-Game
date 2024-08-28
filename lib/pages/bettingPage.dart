@@ -82,26 +82,24 @@ class _QuickGamePageState extends State<QuickGamePage> {
         child: SizedBox(
           width: width,
           child: Stack(children: [
-            Column(
-                //mainAxisAlignment: MainAxisAlignment.spaceAround,
+            Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+              // Dealer's card in hand
+              chipsRemaining(500, height / 4, width / 4),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  // Dealer's card in hand
-                  chipsRemaining(500, height, width),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
+                  Column(
                     children: [
-                      Column(
-                        children: [
-                          //regionHomepage(),
-                          SizedBox(
-                            height: height / 2,
-                          ),
-                        ],
+                      //regionHomepage(),
+                      SizedBox(
+                        height: height / 2,
                       ),
                     ],
                   ),
-                ])
+                ],
+              ),
+            ])
           ]),
         ),
       ),

@@ -25,14 +25,13 @@ Widget label(width, height, text) {
 Widget chipArea(chip, width, height) {
   return Stack(children: [
     Transform(
-      transform: Matrix4.identity()..translate(0.0, 0.0, 0.0),
+      transform: Matrix4.identity()..translate(width / 3, height / -0.71, 0.0),
       child: Container(
         alignment: Alignment.center,
-        width: width,
-        height: height,
+        width: width / 5,
+        height: height / 2,
         decoration: BoxDecoration(
-          shape: BoxShape.circle,
-        ),
+            shape: BoxShape.circle, border: Border.all(color: Colors.black)),
       ),
     ),
     chip,
@@ -70,7 +69,10 @@ Widget playerRegion(player, chips, x, y, z, width, height
           ]),
           displayCard(player.inHand),
         ]),
-        Row(children: [chipArea(chips, width, height), statusArea(player)]),
+        Row(children: [
+          chipArea(chips, width, height),
+          statusArea(player, width / 3, height / 2.2)
+        ]),
       ]));
 }
 
@@ -87,18 +89,19 @@ Widget actionButtonConfig(text, width, height) {
       ));
 }
 
-Widget dealerArea(dealer) {
+Widget dealerArea(dealer, width, height) {
   return Row(mainAxisAlignment: MainAxisAlignment.center, children: [
     Transform(
-      transform: Matrix4.identity()..translate(50.0, 70.0, 0.0),
+      transform: Matrix4.identity()..translate(width / 2, height / 2, 0.0),
       //child: displayStatus(checkStatus(dealer))
     ),
     Transform(
-        transform: Matrix4.identity()..translate(-80.0, 30.0, 0.0),
+        transform: Matrix4.identity()..translate(width / 10, height / 5, 0.0),
         child: displayWinIcon(dealer)),
     Column(children: [
       Transform(
-          transform: Matrix4.identity()..translate(-75.0, 20.0, 0.0),
+          transform: Matrix4.identity()
+            ..translate(width / -10, height * 0.04, 0.0),
           child: Row(children: [
             displayCard(dealer.inHand),
             statusAreaDealer(dealer),
@@ -150,20 +153,18 @@ Widget playerActionButton(playerResponsed, player, waitForHitAction,
         child: Row(
           children: [
             Container(
-                transform: Matrix4.identity()..translate(0.0, 0.0, 0.0),
                 child: RawMaterialButton(
-                  onPressed: waitForHitAction,
-                  child: actionButtonConfig('Hit', width, height),
-                )),
+              onPressed: waitForHitAction,
+              child: actionButtonConfig('Hit', width / 3, height / 3),
+            )),
             SizedBox(
               width: 10,
             ),
             Container(
-                transform: Matrix4.identity()..translate(0.0, 0.0, 0.0),
                 child: RawMaterialButton(
-                  onPressed: waitForStandAction,
-                  child: actionButtonConfig('Stand', width, height),
-                )),
+              onPressed: waitForStandAction,
+              child: actionButtonConfig('Stand', width / 3, height / 3),
+            )),
           ],
           // RETURN BUTTON
         ),
@@ -184,31 +185,29 @@ Widget newGameButton(newGameAction, width, height) {
 }
 
 Widget playersArea(cpu1, player, cpu2, height, width, widthChip, heightChip) {
-  return Stack(children: [
-    playerRegion(cpu1, chips(cpu1.hasBet), width / -2.8, height / 2.8, 0.0,
-        widthChip, heightChip
-        //checkStatus(cpu1),
-        ),
+  return Row(children: [
+    playerRegion(cpu1, chips(cpu1.hasBet), width / -5, height / 8, 0.0,
+        widthChip, heightChip),
     //showScore(cpu1.score, cpu1.showScore),
-    playerRegion(player, chips(player.hasBet), width / 80, height / 2.8, 0.0,
-        widthChip, heightChip
-        //checkStatus(player),
-        ),
+    playerRegion(player, chips(player.hasBet), 0.0, height / 8, 0.0, widthChip,
+        heightChip),
     //showScore(player.score, player.showScore),
-    playerRegion(cpu2, chips(cpu2.hasBet), width / 2.8, height / 2.8, 0.0,
-        widthChip, heightChip
-        //checkStatus(cpu2),
-        ),
+    playerRegion(cpu2, chips(cpu2.hasBet), width / 8, height / 8, 0.0,
+        widthChip, heightChip),
     //showScore(cpu2.score, cpu2.showScore)
   ]);
 }
 
-Widget statusArea(player) {
+Widget statusArea(
+  player,
+  width,
+  height,
+) {
   return Transform(
-      transform: Matrix4.identity()..translate(0.0, -170.0, 0.0),
+      transform: Matrix4.identity()..translate(0.0, height / -1.98, 0.0),
       child: Container(
-          width: 80,
-          height: 30,
+          width: width,
+          height: height,
           child: Text(
             player.isBust
                 ? 'Bust'
@@ -217,7 +216,7 @@ Widget statusArea(player) {
                     : '',
             style: TextStyle(
               color: Colors.red,
-              fontSize: 24,
+              fontSize: height / 2,
               fontWeight: FontWeight.bold,
             ),
           )));

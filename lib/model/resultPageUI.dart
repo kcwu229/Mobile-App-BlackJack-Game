@@ -4,11 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_blackjack/model/mainPageUI.dart';
 import 'package:flutter_blackjack/model/userData.dart';
 
-Widget showPlayerUI(winnerName) {
+Widget showPlayerUI(winnerName, width, height) {
   // adding exp and level up
 
   return Padding(
-      padding: EdgeInsets.all(10),
+      padding: EdgeInsets.all(height / 100),
       child: Column(
         children: [
           Expanded(
@@ -24,8 +24,8 @@ Widget showPlayerUI(winnerName) {
                               "assets/img/resultPage/${winnerName}Won.jpg"),
                           fit: BoxFit.cover,
                         )),
-                    height: 70.0,
-                    width: 170.0,
+                    height: height / 1.4,
+                    width: width / 4,
                   ))),
           Expanded(
             flex: 1,
@@ -34,12 +34,12 @@ Widget showPlayerUI(winnerName) {
                 child: Container(
                   alignment: Alignment.center,
                   color: Colors.white,
-                  height: 30.0,
-                  width: 170.0,
+                  height: height / 4,
+                  width: width / 4,
                   child: Text(
                     '${winnerName}',
                     style: TextStyle(
-                        fontSize: 20,
+                        fontSize: height / 25,
                         fontWeight: FontWeight.bold,
                         color: const Color.fromARGB(255, 32, 32, 32)),
                   ),
@@ -58,8 +58,8 @@ Widget glowingEffect(width, height) {
     duration: Duration(seconds: 3),
     child: Image(
         image: AssetImage("assets/img/playerIcon/winLogo.png"),
-        width: width,
-        height: height),
+        width: width / 4,
+        height: height / 4),
   );
 }
 
@@ -75,9 +75,9 @@ Widget showUserExp(
       if (snapshot.hasData) {
         final userData = snapshot.data!;
         final userExpTable = UserExp();
-        final userlevel = userData['level'];
-        final userCurrentExp = userData['exp'];
-        final totalExp = userExpTable.getExp(userlevel);
+        final int userlevel = userData['level'];
+        final int userCurrentExp = userData['exp'];
+        final int totalExp = userExpTable.getExp(userlevel);
         userExpClass.levelUp(userlevel, userCurrentExp, expAward);
 
         return Padding(

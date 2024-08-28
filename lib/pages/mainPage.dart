@@ -37,10 +37,10 @@ class _MainPageWidgetState extends State<MainPageWidget> {
   @override
   Widget build(BuildContext context) {
     final mediaQuery = MediaQuery.of(context);
-    final height = mediaQuery.size.height;
-    final width = mediaQuery.size.width;
-    final iconHeight = height / 12;
-    final iconWidth = width / 25;
+    double height = mediaQuery.size.height;
+    double width = mediaQuery.size.width;
+    double iconHeight = height / 12;
+    double iconWidth = width / 25;
     return Scaffold(
       body: PopScope(
           canPop: false,
