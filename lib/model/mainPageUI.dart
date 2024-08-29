@@ -192,26 +192,51 @@ Widget mainPanels(
                     image: AssetImage("assets/img/mainPage/${imageName}.png"),
                     fit: BoxFit.cover)),
           ),
-          mainPagePanel(height / 3.3, width / 30, text)
+          mainPagePanel(height / 0.9, width / 30, text)
         ]),
       ));
 }
 
-Widget iconPanels(iconHeight, iconWidth, musicplayer, context, iconShape) {
+Widget iconPanels(
+    iconHeight, iconWidth, musicplayer, context, iconShape, location) {
   return SizedBox(
       height: iconHeight,
       width: iconWidth,
       child: IconButton(
           icon: Icon(
             iconShape,
+            size: iconHeight / 1.8,
             color: Colors.white,
           ),
           onPressed: () {
             musicplayer.stopAudio();
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => BattlePage()),
+              MaterialPageRoute(builder: (context) => location),
             );
             //
           }));
+}
+
+Widget gachaPanel(
+    height, width, musicplayer, context, imageName, text, pageFunction) {
+  return Expanded(
+      flex: 2,
+      child: InkWell(
+        onTap: () {
+          musicplayer.stopAudio();
+          Navigator.of(context)
+              .push(MaterialPageRoute(builder: (context) => pageFunction));
+        },
+        child: Stack(children: [
+          Container(
+            decoration: BoxDecoration(
+                border: Border.all(color: Colors.white, width: 2),
+                image: DecorationImage(
+                    image: AssetImage("assets/img/mainPage/${imageName}.jpg"),
+                    fit: BoxFit.cover)),
+          ),
+          mainPagePanel(height / 1.1, width / 30, text)
+        ]),
+      ));
 }

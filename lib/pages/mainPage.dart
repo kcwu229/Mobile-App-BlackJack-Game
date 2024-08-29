@@ -19,6 +19,12 @@ class _MainPageWidgetState extends State<MainPageWidget> {
   Musicplayer musicplayer = new Musicplayer();
   int userLevel = 0;
   int userExp = 0;
+  List<IconData> iconList = [
+    Icons.email_rounded,
+    Icons.settings,
+    Icons.facebook,
+    Icons.shopify,
+  ];
 
   @override
   void initState() {
@@ -43,12 +49,6 @@ class _MainPageWidgetState extends State<MainPageWidget> {
     double iconHeight = height / 12;
     double iconWidth = width / 25;
     final prefs = SharedPreferences.getInstance();
-    List<IconData> iconList = [
-      Icons.email_rounded,
-      Icons.settings,
-      Icons.facebook,
-      Icons.menu
-    ];
 
     return Scaffold(
       body: PopScope(
@@ -64,7 +64,7 @@ class _MainPageWidgetState extends State<MainPageWidget> {
             child: Column(
               children: <Widget>[
                 Expanded(
-                  flex: 2,
+                  flex: 1,
                   child: Row(
                     children: [
                       Transform(
@@ -81,8 +81,13 @@ class _MainPageWidgetState extends State<MainPageWidget> {
                                 color: const Color.fromARGB(154, 59, 59, 59),
                                 child: Row(children: [
                                   for (var iconItem in iconList)
-                                    iconPanels(iconHeight, iconWidth,
-                                        musicplayer, context, iconItem),
+                                    iconPanels(
+                                        iconHeight,
+                                        iconWidth,
+                                        musicplayer,
+                                        context,
+                                        iconItem,
+                                        BattlePage()),
                                 ])),
                           ]),
                       SizedBox(width: width / 10),
@@ -95,19 +100,28 @@ class _MainPageWidgetState extends State<MainPageWidget> {
                   ),
                 ),
                 Expanded(
-                    flex: 4,
+                    flex: 2,
                     child: Row(
                       children: <Widget>[
                         Expanded(flex: 5, child: Container()),
-                        mainPanels(height, width, musicplayer, context,
+                        mainPanels(height / 3, width, musicplayer, context,
                             'quickGame', 'Quick Game', QuickGamePage()),
                         Padding(padding: EdgeInsets.all(2)),
-                        mainPanels(height, width, musicplayer, context,
+                        mainPanels(height / 3, width, musicplayer, context,
                             'battle', 'Battle', BattlePage()),
                         Expanded(flex: 1, child: Container()),
                       ],
                     )),
-                Expanded(flex: 4, child: Container())
+                Padding(padding: EdgeInsets.all(10)),
+                Expanded(
+                    flex: 1,
+                    child: Row(
+                      children: <Widget>[
+                        Expanded(flex: 5, child: Container()),
+                        Padding(padding: EdgeInsets.all(2)),
+                        Expanded(flex: 1, child: Container()),
+                      ],
+                    )),
               ],
             ),
           )),

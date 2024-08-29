@@ -79,6 +79,8 @@ Widget showUserExp(level, exp, slideOne, function, totalExp, expAward, width,
         final int userlevel = userData['level'];
         final int userCurrentExp = userData['exp'];
         final int totalExp = userExpTable.getExp(userlevel);
+        List<String> itemList = ['icon', 'gachaCoin'];
+
         userExpClass.checkOut(
             userlevel, userCurrentExp, expAward, gachaCoin, coin);
 
@@ -117,7 +119,8 @@ Widget showUserExp(level, exp, slideOne, function, totalExp, expAward, width,
                                   child: Container(
                                     width: width / 3,
                                     height: height / 3,
-                                    child: obtainItemList(height, gachaCoin),
+                                    child: obtainItemList(
+                                        height, gachaCoin, coin, itemList),
 
                                     // To Do List
                                   )),
@@ -187,29 +190,47 @@ Widget levelBar(userlevel, userCurrentExp, totalExp, expAward, width, height) {
   ]);
 }
 
-Widget obtainItemList(height, gachaCoin) {
+Widget obtainItemList(height, gachaCoin, coin, itemList) {
+  var text = '';
   return Row(
     crossAxisAlignment: CrossAxisAlignment.start,
     mainAxisAlignment: MainAxisAlignment.start,
     children: [
-      Container(
-          width: 70,
-          height: 70,
-          decoration: BoxDecoration(
-              shape: BoxShape.rectangle,
-              border: Border.all(
-                  color: const Color.fromARGB(243, 246, 246, 246), width: 3),
-              image: DecorationImage(
-                image: AssetImage("assets/img/resultPage/coin.jpg"),
-                fit: BoxFit.cover,
-              )),
-          child: Padding(
-            padding: EdgeInsets.all(height / 80),
-            child: Text(
-              '${gachaCoin}',
-              style: TextStyle(color: Colors.white, fontSize: height / 25),
-            ),
-          ))
+      for (var item in itemList)
+        showItems(
+          height,
+          item,
+          text,
+          gachaCoin,
+          coin,
+        )
     ],
   );
+}
+
+Widget showItems(
+  height,
+  itemName,
+  text,
+  gachaCoin,
+  coin,
+) {
+  return Container(
+      width: 70,
+      height: 70,
+      decoration: BoxDecoration(
+          shape: BoxShape.rectangle,
+          border: Border.all(
+              color: const Color.fromARGB(243, 246, 246, 246), width: 3),
+          image: DecorationImage(
+            image: AssetImage("assets/img/mainPage/${itemName}.png"),
+            fit: BoxFit.cover,
+          )),
+      child: Padding(
+        padding: EdgeInsets.all(height / 80),
+        child: Text(
+          (itemName == 'coin') ? coin.toString() : gachaCoin.toString(),
+          style: TextStyle(color: Colors.white, fontSize: height / 25),
+        ),
+      ));
 }

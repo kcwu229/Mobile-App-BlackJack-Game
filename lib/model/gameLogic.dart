@@ -69,7 +69,6 @@ class InitalGameState {
   void hit(Player player) {
     var newCard = deck.drawCard();
     (player.isPlayer == false) ? newCard.showFace = false : '';
-    print('Done');
     player.inHand.add(newCard);
     player.score =
         calculateScore(player.inHand, player, countAce(player.inHand));
