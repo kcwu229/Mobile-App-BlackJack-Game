@@ -3,8 +3,9 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_blackjack/model/cardBack.dart';
+import 'package:flutter_blackjack/model/cardUI.dart';
 import 'package:flutter_blackjack/model/deck.dart';
+import 'package:flutter_blackjack/model/player.dart';
 import 'package:flutter_blackjack/model/suit.dart';
 import 'package:flutter_blackjack/pages/number.dart';
 
@@ -12,12 +13,12 @@ class MyCard extends StatelessWidget {
 // Basic setting
   final suit;
   final rank;
-  final showBack;
+  bool showFace = true;
 
   String get Rank => rank;
-  List get getCardInfo => [suit, rank, showBack];
+  List get getCardInfo => [suit, rank];
 
-  MyCard({this.suit, this.rank, this.showBack});
+  MyCard({this.suit, this.rank});
 
   int compareTo(MyCard other) {
     final rankValues = [
@@ -42,6 +43,7 @@ class MyCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // UI of the card displayed
     return Container(
         decoration: BoxDecoration(
             color: Colors.white,
@@ -49,42 +51,12 @@ class MyCard extends StatelessWidget {
             border: Border.all(color: Colors.black, width: 1)),
         height: 90,
         width: 65,
-        child: ClipRRect(
-          child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              // rank
-              children: [
-                Padding(
-                    padding: EdgeInsets.fromLTRB(5, 5, 5, 5),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Row(children: [
-                          Text(
-                            '$rank',
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold, fontSize: 16),
-                          ),
-                        ]),
-                        suitMap(suit),
-                        Transform.rotate(
-                          angle: pi,
-                          child: Row(children: [
-                            Text(
-                              '$rank',
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold, fontSize: 16),
-                            ),
-                          ]),
-                        ),
-                      ],
-                    ))
-              ]),
-        ));
+        child: cardFront(rank, suit));
   }
 }
 
-Widget displayCard(List<MyCard> cards) {
+// card displayed On desk one by one
+Widget displayCard(List<MyCard> cards, player) {
   return Column(mainAxisAlignment: MainAxisAlignment.center, children: [
     Stack(alignment: Alignment.center, children: [
       for (int i = 0; i < cards.length; i++)
@@ -92,7 +64,7 @@ Widget displayCard(List<MyCard> cards) {
             transform: Matrix4.identity()
               ..translate(28.0 * (i), 0.0 * (i), 0.0 * (i)),
             child: Container(
-              child: cards[i],
+              child: (cards[i].showFace) ? cards[i] : cardBack(),
             )),
     ])
   ]);

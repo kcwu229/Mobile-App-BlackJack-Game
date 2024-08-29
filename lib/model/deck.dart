@@ -47,7 +47,6 @@ class Deck {
     if (deck.isEmpty) {
       throw Exception('The deck is empty !');
     }
-
     MyCard drawnCard = deck.removeAt(0);
     return drawnCard;
   }
