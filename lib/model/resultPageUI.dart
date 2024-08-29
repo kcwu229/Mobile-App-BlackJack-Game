@@ -79,7 +79,7 @@ Widget showUserExp(level, exp, slideOne, function, totalExp, expAward, width,
         final int userlevel = userData['level'];
         final int userCurrentExp = userData['exp'];
         final int totalExp = userExpTable.getExp(userlevel);
-        List<String> itemList = ['icon', 'gachaCoin'];
+        List<String> itemList = ['coin', 'gachaCoin'];
 
         userExpClass.checkOut(
             userlevel, userCurrentExp, expAward, gachaCoin, coin);
@@ -215,22 +215,25 @@ Widget showItems(
   gachaCoin,
   coin,
 ) {
-  return Container(
-      width: 70,
-      height: 70,
-      decoration: BoxDecoration(
-          shape: BoxShape.rectangle,
-          border: Border.all(
-              color: const Color.fromARGB(243, 246, 246, 246), width: 3),
-          image: DecorationImage(
-            image: AssetImage("assets/img/mainPage/${itemName}.png"),
-            fit: BoxFit.cover,
-          )),
-      child: Padding(
-        padding: EdgeInsets.all(height / 80),
+  return Padding(
+      padding: EdgeInsets.all(height / 80),
+      child: Container(
+        width: 70,
+        height: 70,
+        decoration: BoxDecoration(
+            shape: BoxShape.rectangle,
+            border: Border.all(
+                color: const Color.fromARGB(243, 246, 246, 246), width: 3),
+            image: DecorationImage(
+              image: AssetImage("assets/img/mainPage/${itemName}.png"),
+              fit: BoxFit.cover,
+            )),
         child: Text(
           (itemName == 'coin') ? coin.toString() : gachaCoin.toString(),
-          style: TextStyle(color: Colors.white, fontSize: height / 25),
+          style: TextStyle(
+              color: Colors.white,
+              fontSize: height / 25,
+              fontWeight: FontWeight.bold),
         ),
       ));
 }
