@@ -2,10 +2,12 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-Future<void> saveUserData(level, exp) async {
+Future<void> saveUserData(level, exp, gachaCoin, coin) async {
   final prefs = await SharedPreferences.getInstance();
   await prefs.setInt('level', level);
   await prefs.setInt('exp', exp);
+  await prefs.setInt('gachaCoin', gachaCoin);
+  await prefs.setInt('coin', coin);
 }
 
 // TO DO: add read level, exp data
@@ -13,7 +15,9 @@ Future<Map<String, dynamic>> loadUserData() async {
   final prefs = await SharedPreferences.getInstance();
   final level = prefs.getInt('level') ?? 1;
   final exp = prefs.getInt('exp') ?? 0;
-  return {'level': level, 'exp': exp};
+  final gachaCoin = prefs.getInt('gachaCoin') ?? 0;
+  final coin = prefs.getInt('coin') ?? 0;
+  return {'level': level, 'exp': exp, 'gachaCoin': gachaCoin, 'coin': coin};
 }
 
 class UserExp {
@@ -124,16 +128,20 @@ class UserExp {
     return experienceTable[level] ?? 0;
   }
 
-  Future<void> levelUp(level, exp, expGained) async {
+  Future<void> checkOut(
+      level, exp, expGained, int gachaCoinReward, int coinReward) async {
     //var a = await loadUserData();
-    //print('In result page, Current exp is :   ${a['exp']}');
+    final prefs = await SharedPreferences.getInstance();
+    int gachaCoin = prefs.getInt('gachaCoin') ?? 0;
+    gachaCoin += gachaCoinReward;
+    int coin = prefs.getInt('coin') ?? 0;
+    coin += coinReward;
     int requiredExp = getExp(level);
-    print('Required exp is ${requiredExp}');
     exp = exp + expGained;
     if (exp >= requiredExp) {
       level += 1;
       exp -= requiredExp;
     }
-    await saveUserData(level, exp);
+    await saveUserData(level, exp, gachaCoin, coin);
   }
 }

@@ -5,6 +5,7 @@ import 'package:flutter_blackjack/model/musicPlayer.dart';
 import 'package:flutter_blackjack/model/userData.dart';
 import 'package:flutter_blackjack/pages/bettingPage.dart';
 import 'package:flutter_blackjack/pages/settingPage.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 // shift to the main page
 
@@ -41,6 +42,14 @@ class _MainPageWidgetState extends State<MainPageWidget> {
     double width = mediaQuery.size.width;
     double iconHeight = height / 12;
     double iconWidth = width / 25;
+    final prefs = SharedPreferences.getInstance();
+    List<IconData> iconList = [
+      Icons.email_rounded,
+      Icons.settings,
+      Icons.facebook,
+      Icons.menu
+    ];
+
     return Scaffold(
       body: PopScope(
           canPop: false,
@@ -69,82 +78,19 @@ class _MainPageWidgetState extends State<MainPageWidget> {
                           children: [
                             userInfo(width / 4.5, height / 20, height / 30),
                             Container(
-                                color: const Color.fromARGB(104, 158, 158, 158),
+                                color: const Color.fromARGB(154, 59, 59, 59),
                                 child: Row(children: [
-                                  SizedBox(
-                                      height: iconHeight,
-                                      width: iconWidth,
-                                      child: IconButton(
-                                          icon: Icon(
-                                            Icons.email_rounded,
-                                            color: Colors.white,
-                                          ),
-                                          onPressed: () {
-                                            musicplayer.stopAudio();
-                                            Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      BattlePage()),
-                                            );
-                                            //
-                                          })),
-                                  SizedBox(
-                                      height: iconHeight,
-                                      width: iconWidth,
-                                      child: IconButton(
-                                          icon: Icon(
-                                            Icons.settings,
-                                            color: Colors.white,
-                                          ),
-                                          onPressed: () {
-                                            musicplayer.stopAudio();
-                                            Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      BattlePage()),
-                                            );
-                                            //
-                                          })),
-                                  SizedBox(
-                                      height: iconHeight,
-                                      width: iconWidth,
-                                      child: IconButton(
-                                          icon: Icon(
-                                            Icons.facebook,
-                                            color: Colors.white,
-                                          ),
-                                          onPressed: () {
-                                            musicplayer.stopAudio();
-                                            Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      BattlePage()),
-                                            );
-                                            //
-                                          })),
-                                  SizedBox(
-                                      height: iconHeight,
-                                      width: iconWidth,
-                                      child: IconButton(
-                                          icon: Icon(
-                                            Icons.menu,
-                                            color: Colors.white,
-                                          ),
-                                          onPressed: () {
-                                            musicplayer.stopAudio();
-                                            Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      BattlePage()),
-                                            );
-                                            //
-                                          }))
+                                  for (var iconItem in iconList)
+                                    iconPanels(iconHeight, iconWidth,
+                                        musicplayer, context, iconItem),
                                 ])),
-                          ])
+                          ]),
+                      SizedBox(width: width / 10),
+                      coinField(width / 5, height / 7, 'coin', 'coin',
+                          musicplayer, context),
+                      SizedBox(width: width / 40),
+                      coinField(width / 5, height / 7, 'gachaCoin', 'gachaCoin',
+                          musicplayer, context),
                     ],
                   ),
                 ),
@@ -153,60 +99,11 @@ class _MainPageWidgetState extends State<MainPageWidget> {
                     child: Row(
                       children: <Widget>[
                         Expanded(flex: 5, child: Container()),
-                        Expanded(
-                            flex: 2,
-                            child: InkWell(
-                              onTap: () {
-                                musicplayer.stopAudio();
-                                Navigator.of(context).push(MaterialPageRoute(
-                                    builder: (context) => QuickGamePage()));
-                              },
-                              child: Stack(children: [
-                                Container(
-                                  decoration: BoxDecoration(
-                                      border: Border.all(
-                                          color: Colors.white, width: 2),
-                                      image: DecorationImage(
-                                          image: AssetImage(
-                                              "assets/img/mainPage/quickGame.png"),
-                                          fit: BoxFit.cover)),
-                                ),
-                                mainPagePanel(
-                                    height / 3.3, width / 30, 'Quick Game')
-                              ]),
-                            )),
+                        mainPanels(height, width, musicplayer, context,
+                            'quickGame', 'Quick Game', QuickGamePage()),
                         Padding(padding: EdgeInsets.all(2)),
-                        Expanded(
-                            flex: 2,
-                            child: Column(
-                              children: <Widget>[
-                                Expanded(
-                                    flex: 6,
-                                    child: InkWell(
-                                      onTap: () {
-                                        musicplayer.stopAudio();
-                                        Navigator.of(context).push(
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    BattlePage()));
-                                      },
-                                      child: Stack(children: [
-                                        Container(
-                                          decoration: BoxDecoration(
-                                              border: Border.all(
-                                                  color: Colors.white,
-                                                  width: 2),
-                                              image: DecorationImage(
-                                                  image: AssetImage(
-                                                      'assets/img/mainPage/battle.png'),
-                                                  fit: BoxFit.cover)),
-                                        ),
-                                        mainPagePanel(
-                                            height / 3.2, width / 15, 'Battle')
-                                      ]),
-                                    ))
-                              ],
-                            )),
+                        mainPanels(height, width, musicplayer, context,
+                            'battle', 'Battle', BattlePage()),
                         Expanded(flex: 1, child: Container()),
                       ],
                     )),

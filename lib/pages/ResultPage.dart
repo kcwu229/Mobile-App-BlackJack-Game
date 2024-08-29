@@ -22,6 +22,8 @@ class _ResultPageState extends State<ResultPage>
   final int level = 0;
   final int exp = 0;
   int expAward = 50;
+  int gachaCoin = 1;
+  int coin = 1000;
   UserExp userExp = new UserExp();
 
   @override
@@ -143,8 +145,17 @@ class _ResultPageState extends State<ResultPage>
                                 )
                               ],
                             )
-                          : showUserExp(level, exp, slideOne, goMainPage,
-                              totalExp, expAward, width, height),
+                          : showUserExp(
+                              level,
+                              exp,
+                              slideOne,
+                              goMainPage,
+                              totalExp,
+                              expAward,
+                              width,
+                              height,
+                              gachaCoin,
+                              coin),
                     )))));
   }
 }

@@ -67,7 +67,7 @@ Widget playerRegion(player, chips, x, y, z, width, height
             displayIcon(player, width, height),
             displayWinIcon(player),
           ]),
-          displayCard(player.inHand),
+          displayCard(player.inHand, player),
         ]),
         Row(children: [
           chipArea(chips, width, height),
@@ -101,7 +101,7 @@ Widget dealerArea(dealer, width, height, deck) {
             SizedBox(
               width: width / 5,
             ),
-            displayCard(dealer.inHand),
+            displayCard(dealer.inHand, dealer),
             statusAreaDealer(dealer, width, height),
             SizedBox(
               width: width / 3,

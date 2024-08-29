@@ -67,7 +67,10 @@ class InitalGameState {
 
 // apply on cpu and dealer only
   void hit(Player player) {
-    player.inHand.add(deck.drawCard());
+    var newCard = deck.drawCard();
+    (player.isPlayer == false) ? newCard.showFace = false : '';
+    print('Done');
+    player.inHand.add(newCard);
     player.score =
         calculateScore(player.inHand, player, countAce(player.inHand));
     player.myTurn = false;

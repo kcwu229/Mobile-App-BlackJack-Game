@@ -64,8 +64,8 @@ Widget glowingEffect(width, height) {
   );
 }
 
-Widget showUserExp(
-    level, exp, slideOne, function, totalExp, expAward, width, height) {
+Widget showUserExp(level, exp, slideOne, function, totalExp, expAward, width,
+    height, gachaCoin, coin) {
   // Add a state variable to keep track of the user's level and experience
 
   UserExp userExpClass = new UserExp();
@@ -79,7 +79,8 @@ Widget showUserExp(
         final int userlevel = userData['level'];
         final int userCurrentExp = userData['exp'];
         final int totalExp = userExpTable.getExp(userlevel);
-        userExpClass.levelUp(userlevel, userCurrentExp, expAward);
+        userExpClass.checkOut(
+            userlevel, userCurrentExp, expAward, gachaCoin, coin);
 
         return Padding(
             padding: EdgeInsets.all(height / 80),
@@ -116,7 +117,7 @@ Widget showUserExp(
                                   child: Container(
                                     width: width / 3,
                                     height: height / 3,
-                                    child: obtainItemList(height),
+                                    child: obtainItemList(height, gachaCoin),
 
                                     // To Do List
                                   )),
@@ -186,7 +187,7 @@ Widget levelBar(userlevel, userCurrentExp, totalExp, expAward, width, height) {
   ]);
 }
 
-Widget obtainItemList(height) {
+Widget obtainItemList(height, gachaCoin) {
   return Row(
     crossAxisAlignment: CrossAxisAlignment.start,
     mainAxisAlignment: MainAxisAlignment.start,
@@ -205,7 +206,7 @@ Widget obtainItemList(height) {
           child: Padding(
             padding: EdgeInsets.all(height / 80),
             child: Text(
-              '1',
+              '${gachaCoin}',
               style: TextStyle(color: Colors.white, fontSize: height / 25),
             ),
           ))
