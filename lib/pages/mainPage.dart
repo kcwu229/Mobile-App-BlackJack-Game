@@ -1,10 +1,17 @@
+import 'dart:convert';
+import 'dart:io';
+import 'dart:typed_data';
+
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_blackjack/model/dialog.dart';
 import 'package:flutter_blackjack/model/mainPageUI.dart';
 import 'package:flutter_blackjack/model/musicPlayer.dart';
 import 'package:flutter_blackjack/model/userData.dart';
 import 'package:flutter_blackjack/pages/bettingPage.dart';
 import 'package:flutter_blackjack/pages/settingPage.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 // shift to the main page
@@ -15,6 +22,7 @@ class MainPageWidget extends StatefulWidget {
 }
 
 class _MainPageWidgetState extends State<MainPageWidget> {
+  List<String> imagePaths = [];
   AudioPlayer audioPlayer = AudioPlayer();
   Musicplayer musicplayer = new Musicplayer();
   int userLevel = 0;
@@ -25,14 +33,34 @@ class _MainPageWidgetState extends State<MainPageWidget> {
     Icons.facebook,
     Icons.shopify,
   ];
+  bool changedBG = false;
+  String folderPath = 'assets/img/background';
 
   @override
   void initState() {
     super.initState();
-    musicplayer.playAudio('music/mainPage.mp3');
 
+    musicplayer.playAudio('music/mainPage.mp3');
     // read the User Data
     loadUserData();
+    retrieveImageList();
+  }
+
+  // STOP HERE
+  Future _initImages() async {
+    // >> To get paths you need these 2 lines
+    final manifestContent = await rootBundle.loadString('AssetManifest.json');
+
+    final Map<String, dynamic> manifestMap = json.decode(manifestContent);
+    // >> To get paths you need these 2 lines
+
+    imagePaths = manifestMap.keys
+        .where((String key) => key.contains('assets/img/background'))
+        .toList();
+  }
+
+  void retrieveImageList() {
+    _initImages();
   }
 
   @override
@@ -56,9 +84,11 @@ class _MainPageWidgetState extends State<MainPageWidget> {
           child: Container(
             width: width,
             height: height,
-            decoration: const BoxDecoration(
+            decoration: BoxDecoration(
                 image: DecorationImage(
-              image: AssetImage("assets/img/mainPage/mainPage.gif"),
+              image: AssetImage(changedBG
+                  ? "assets/img/background/mainPage.gif"
+                  : 'assets/img/background/summer.jpg'),
               fit: BoxFit.cover,
             )),
             child: Column(
@@ -117,9 +147,24 @@ class _MainPageWidgetState extends State<MainPageWidget> {
                     flex: 1,
                     child: Row(
                       children: <Widget>[
-                        Expanded(flex: 5, child: Container()),
-                        Padding(padding: EdgeInsets.all(2)),
                         Expanded(flex: 1, child: Container()),
+                        Expanded(
+                            flex: 1,
+                            child: SizedBox(
+                                height: iconHeight * 2,
+                                width: iconWidth * 2,
+                                child: IconButton(
+                                  icon: Icon(
+                                    Icons.change_circle_outlined,
+                                    size: iconHeight,
+                                    color: Colors.white,
+                                  ),
+                                  onPressed: () async {
+                                    showDialogWindow(
+                                        context, width, height, imagePaths);
+                                  },
+                                ))),
+                        Expanded(flex: 8, child: Container()),
                       ],
                     )),
               ],

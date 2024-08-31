@@ -147,24 +147,6 @@ class _SecondScreenState extends State<SecondScreen> {
   late Player player = gs.getPlayer('player');
 
   // add dialog
-  saySomething(text, distanceConfig) {
-    showGeneralDialog(
-      context: context,
-      pageBuilder: (context, animation, secondaryAnimation) {
-        return dialogConfig(text, distanceConfig);
-      },
-      barrierDismissible: false,
-      barrierColor: Colors.transparent,
-      transitionDuration: Duration(milliseconds: 500),
-      transitionBuilder: (context, animation, secondaryAnimation, child) {
-        return FadeTransition(
-          opacity: animation,
-          child: child,
-        );
-      },
-    );
-    Navigator.of(context).pop();
-  }
 
   void hitActionCallback() {
     waitForHitAction();
