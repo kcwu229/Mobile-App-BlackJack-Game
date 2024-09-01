@@ -9,9 +9,8 @@ showDialogWindow(BuildContext context, double width, double height,
   final imageHeight = height / 10;
   final imageWidth = width / 8;
 
-  int amountPerRow = 4;
+  int amountPerRow = 3;
   int currentIndex = 0;
-  PageController pageController = PageController(initialPage: currentIndex);
 
   void nextImage() {
     if (currentIndex + amountPerRow < imageFiles.length) {
@@ -35,10 +34,10 @@ showDialogWindow(BuildContext context, double width, double height,
     }
   }
 
-  showDialog(
+  showGeneralDialog(
     context: context,
-    barrierDismissible: true,
-    builder: (BuildContext context) {
+    barrierDismissible: false,
+    pageBuilder: (context, animation1, animation2) {
       return Dialog(
         insetPadding: EdgeInsets.zero,
         child: ValueListenableBuilder<String>(
@@ -85,7 +84,7 @@ showDialogWindow(BuildContext context, double width, double height,
                         ),
                         for (var i = 0; i < amountPerRow; i++)
                           Padding(
-                            padding: EdgeInsets.all(width / 120),
+                            padding: EdgeInsets.all(width / 130),
                             child: GestureDetector(
                               onTap: () {
                                 selectedImage.value =
@@ -114,7 +113,7 @@ showDialogWindow(BuildContext context, double width, double height,
                                                 imageFiles[currentIndex + i])
                                             ? Border.all(
                                                 width: 6, color: Colors.orange)
-                                            : Border.all(),
+                                            : null,
                                       ),
                                     ),
                                   );
@@ -143,6 +142,7 @@ showDialogWindow(BuildContext context, double width, double height,
                             );
                           },
                           child: Container(
+                            alignment: Alignment.center,
                             width: width / 10,
                             height: height / 10,
                             color: Colors.orange,
@@ -150,7 +150,7 @@ showDialogWindow(BuildContext context, double width, double height,
                               'Apply',
                               textAlign: TextAlign.center,
                               style: TextStyle(
-                                fontSize: width / 38,
+                                fontSize: width / 50,
                                 fontWeight: FontWeight.bold,
                                 color: Colors.white,
                               ),
