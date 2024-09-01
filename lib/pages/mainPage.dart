@@ -32,6 +32,9 @@ class _MainPageWidgetState extends State<MainPageWidget> {
   String folderPath = 'assets/img/background';
   String BGFileName = '';
 
+  // to-do : hide item to show BG only
+  bool hideItem = false;
+
   @override
   void initState() {
     super.initState();
