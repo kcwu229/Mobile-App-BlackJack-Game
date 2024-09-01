@@ -6,10 +6,10 @@ import 'package:flutter_blackjack/pages/mainPage.dart';
 showDialogWindow(BuildContext context, double width, double height,
     List<String> imageFiles) {
   ValueNotifier<String> selectedImage = ValueNotifier<String>(imageFiles[0]);
-  final imageHeight = height / 10;
-  final imageWidth = width / 8;
+  final imageHeight = height / 12;
+  final imageWidth = width / 12;
 
-  int amountPerRow = 3;
+  int amountPerRow = 5;
   int currentIndex = 0;
 
   void nextImage() {
@@ -147,7 +147,7 @@ showDialogWindow(BuildContext context, double width, double height,
                             height: height / 10,
                             color: Colors.orange,
                             child: Text(
-                              'Apply',
+                              'Set',
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                 fontSize: width / 50,
