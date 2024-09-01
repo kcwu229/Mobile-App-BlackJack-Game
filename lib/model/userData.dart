@@ -19,7 +19,6 @@ Future<Map<String, dynamic>> loadBG() async {
   final prefs = await SharedPreferences.getInstance();
   final appliedBG =
       prefs.getString('appliedBG') ?? 'assets/img/background/mainPage.gif';
-  print('From function loadBG in mainPage, now appliedBG is ${appliedBG}');
   return {'appliedBG': appliedBG};
 }
 
