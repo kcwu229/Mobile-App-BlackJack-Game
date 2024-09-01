@@ -3,7 +3,9 @@
 
 <p>Here is the demo video. Other features are still in progresssing</p>
 
-https://github.com/user-attachments/assets/b27d5bcb-3fd7-409e-b47d-4046769e64ef
+https://github.com/user-attachments/assets/0fd5b047-dfc4-40dc-ba32-e8dc7ff93b98
+
+
 
 
 
