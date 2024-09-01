@@ -116,9 +116,8 @@ Widget dealerArea(dealer, width, height, deck) {
   //showScore(dealer.score, dealer.showScore)
 }
 
-Widget dialogConfig(text, distanceConfig) {
+Widget dialogConfig(text) {
   return Align(
-    alignment: FractionalOffset(distanceConfig[0], distanceConfig[1]),
     child: Transform(
       transform: Matrix4.identity()..translate(50.0, 70.0, 0.0),
       child: Card(

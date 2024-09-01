@@ -1,13 +1,26 @@
 // TO DO: add write level, exp data
-import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-Future<void> saveUserData(level, exp, gachaCoin, coin) async {
+Future saveUserData(level, exp, gachaCoin, coin) async {
   final prefs = await SharedPreferences.getInstance();
   await prefs.setInt('level', level);
   await prefs.setInt('exp', exp);
   await prefs.setInt('gachaCoin', gachaCoin);
   await prefs.setInt('coin', coin);
+  //await prefs.setString('appliedBG', appliedBG);
+}
+
+Future<void> saveBG(appliedBG) async {
+  final prefs = await SharedPreferences.getInstance();
+  await prefs.setString('appliedBG', appliedBG);
+}
+
+Future<Map<String, dynamic>> loadBG() async {
+  final prefs = await SharedPreferences.getInstance();
+  final appliedBG =
+      prefs.getString('appliedBG') ?? 'assets/img/background/mainPage.gif';
+  print('From function loadBG in mainPage, now appliedBG is ${appliedBG}');
+  return {'appliedBG': appliedBG};
 }
 
 // TO DO: add read level, exp data

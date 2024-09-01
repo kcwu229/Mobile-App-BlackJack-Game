@@ -69,7 +69,7 @@ class _MyHomePageState extends State<MyHomePage> {
             width: MediaQuery.of(context).size.width,
             decoration: const BoxDecoration(
                 image: DecorationImage(
-              image: AssetImage("assets/img/loginPage/login_1.jpg"),
+              image: AssetImage("assets/img/startGame.jpg"),
               fit: BoxFit.cover,
             )),
             child: Column(
