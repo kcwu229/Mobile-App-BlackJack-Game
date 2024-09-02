@@ -8,14 +8,14 @@ Widget showPlayerUI(winnerName, width, height) {
   // adding exp and level up
 
   return Padding(
-      padding: EdgeInsets.all(height / 80),
+      padding: EdgeInsets.all(height / 120),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Expanded(
               flex: 9,
               child: Transform.rotate(
-                  angle: 5 * 3.14159 / 180,
+                  angle: 0 * 3.14159 / 180,
                   child: Container(
                     decoration: BoxDecoration(
                         border: Border.all(color: Colors.white, width: 3),
@@ -25,8 +25,8 @@ Widget showPlayerUI(winnerName, width, height) {
                               "assets/img/resultPage/${winnerName}Won.jpg"),
                           fit: BoxFit.cover,
                         )),
-                    height: height / 1.4,
-                    width: width / 8,
+                    height: height / 1.3,
+                    width: width / 6.2,
                   ))),
           Expanded(
             flex: 1,
@@ -36,7 +36,7 @@ Widget showPlayerUI(winnerName, width, height) {
                   alignment: Alignment.center,
                   color: Colors.white,
                   height: height / 4,
-                  width: width / 8,
+                  width: width / 6.6,
                   child: Text(
                     '${winnerName}',
                     style: TextStyle(
@@ -99,7 +99,7 @@ Widget showUserExp(level, exp, slideOne, function, totalExp, expAward, width,
                                   shape: BoxShape.rectangle,
                                   image: DecorationImage(
                                     image: AssetImage(
-                                        "assets/img/resultPage/playerFullBody.png"),
+                                        "assets/img/resultPage/playerWon.jpg"),
                                     fit: BoxFit.cover,
                                   )))),
                       Expanded(flex: 1, child: Container()),
