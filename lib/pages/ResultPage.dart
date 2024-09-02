@@ -89,12 +89,14 @@ class _ResultPageState extends State<ResultPage>
                           ? Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: <Widget>[
-                                Expanded(flex: 1, child: Container()),
+                                SizedBox(
+                                  height: height / 60,
+                                ),
                                 Expanded(
                                     flex: 2,
                                     child: glowingEffect(width, height)),
                                 Expanded(
-                                    flex: 5,
+                                    flex: 7,
                                     child: Row(
                                         mainAxisAlignment:
                                             MainAxisAlignment.center,
@@ -105,10 +107,6 @@ class _ResultPageState extends State<ResultPage>
                                                 child: showPlayerUI(winner.name,
                                                     width, height)),
                                         ])),
-                                Expanded(
-                                  flex: 1,
-                                  child: Container(),
-                                ),
                                 Expanded(
                                   flex: 1,
                                   child: InkWell(
