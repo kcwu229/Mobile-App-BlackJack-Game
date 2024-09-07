@@ -6,7 +6,7 @@ class BattlePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-          child: SizedBox(
+          child: Container(
               child: RawMaterialButton(
         shape: CircleBorder(),
         child: Container(
@@ -18,7 +18,6 @@ class BattlePage extends StatelessWidget {
         ),
         onPressed: () {
           // Navigate to the new page
-          //zzzzzzzz
           Navigator.push(
             context,
             MaterialPageRoute(builder: (context) => MainPageWidget()),
