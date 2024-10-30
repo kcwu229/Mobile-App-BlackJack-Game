@@ -3,7 +3,14 @@
 
 <p>Here is the demo video.</p>
 
-https://github.com/user-attachments/assets/3dc09410-afed-45e4-aa24-a7e8b053671c
+
+
+
+https://github.com/user-attachments/assets/92ea746e-195c-4b93-92b7-8877d66552b0
+
+
+
+
 
 
 <p>Recently, I am now trying to update my previous projects with newy learnt techniques. At the same time, I am interested in developing an mobile application. Hence, I try to combine them together, and create this project.</p>
