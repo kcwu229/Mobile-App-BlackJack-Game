@@ -2,8 +2,8 @@
 
 
 <p>Here is the demo video.</p>
+https://github.com/user-attachments/assets/d1e06622-7e74-4696-830d-7ba4bafbb49c
 
-https://github.com/user-attachments/assets/204ab5fa-141c-4139-9106-23c91f235736
 
 
 <p>Recently, I am now trying to update my previous projects with newy learnt techniques. At the same time, I am interested in developing an mobile application. Hence, I try to combine them together, and create this project.</p>
