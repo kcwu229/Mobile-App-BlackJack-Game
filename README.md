@@ -20,13 +20,13 @@ For this project, I am trying to make some enhancement on the previous experienc
 <img width="779" alt="Screenshot 2024-09-02 at 8 09 41 PM" src="https://github.com/user-attachments/assets/20f68a56-5e94-4b91-a5f3-f69d98b988d7">
 
 <p>Customized your favorite background</p>
-<img width="779" alt="Screenshot 2024-09-02 at 8 11 46 PM" src="https://github.com/user-attachments/assets/17d5604e-1a35-4aa0-beb3-0badc71e6582">
+<img width="779" alt="Screenshot 2024-10-31 at 2 48 41 AM" src="https://github.com/user-attachments/assets/d55d7017-5a60-43f9-b27a-1541253d2805">
 
-
-<img width="779" alt="Screenshot 2024-09-02 at 8 12 41 PM" src="https://github.com/user-attachments/assets/47ba7d94-f6ec-46c1-8351-15c960792703">
+<img width="779" alt="image" src="https://github.com/user-attachments/assets/08758eea-625a-488e-9168-480fbaac70be">
 
 
 <p>The winner is : !!!</p>
-<img width="779" alt="Screenshot 2024-09-02 at 8 08 17 PM" src="https://github.com/user-attachments/assets/a664c433-3ea7-40e0-b803-d8c46dc7daa6">
+<img width="779" alt="image" src="https://github.com/user-attachments/assets/955cc3b2-c922-42f7-9f2a-86ecf592e0e3">
+
 
 <p>We are looking forward to your paticipation :)</p>
